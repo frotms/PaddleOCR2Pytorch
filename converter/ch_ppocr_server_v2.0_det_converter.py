@@ -63,19 +63,19 @@ if __name__ == '__main__':
     converter = ServerV20DetConverter(cfg, paddle_pretrained_model_path)
     print('todo')
 
-    image = cv2.imread('6.jpg')
-    image = cv2.resize(image, (320, 448))
-    mean = np.array([0.485, 0.456, 0.406])
-    std = np.array([0.229, 0.224, 0.225])
-    scale = 1. / 255
-    norm_img = (image * scale - mean) / std
-    transpose_img = norm_img.transpose(2, 0, 1)
-    transpose_img = np.expand_dims(transpose_img, 0).astype(np.float32)
-    inp = torch.Tensor(transpose_img)
+    # image = cv2.imread('6.jpg')
+    # image = cv2.resize(image, (320, 448))
+    # mean = np.array([0.485, 0.456, 0.406])
+    # std = np.array([0.229, 0.224, 0.225])
+    # scale = 1. / 255
+    # norm_img = (image * scale - mean) / std
+    # transpose_img = norm_img.transpose(2, 0, 1)
+    # transpose_img = np.expand_dims(transpose_img, 0).astype(np.float32)
+    # inp = torch.Tensor(transpose_img)
 
-    out = converter.net(inp)
-    out = out['maps'].data.numpy()
-    print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
+    # out = converter.net(inp)
+    # out = out['maps'].data.numpy()
+    # print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
 
     # save
     converter.save_pytorch_weights('ch_ptocr_server_v2.0_det_infer.pth')

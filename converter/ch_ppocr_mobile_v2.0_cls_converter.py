@@ -66,24 +66,24 @@ if __name__ == '__main__':
     converter = MobileV20DetConverter(cfg, paddle_pretrained_model_path)
     print('todo')
 
-    image = cv2.imread('images/Snipaste.jpg')
-    image = cv2.resize(image, (192, 48))
-    mean = 0.5
-    std = 0.5
-    scale = 1. / 255
-    norm_img = (image * scale - mean) / std
-    transpose_img = norm_img.transpose(2, 0, 1)
-    transpose_img = np.expand_dims(transpose_img, 0)
-    inputs = transpose_img.astype(np.float32)
+    # image = cv2.imread('images/Snipaste.jpg')
+    # image = cv2.resize(image, (192, 48))
+    # mean = 0.5
+    # std = 0.5
+    # scale = 1. / 255
+    # norm_img = (image * scale - mean) / std
+    # transpose_img = norm_img.transpose(2, 0, 1)
+    # transpose_img = np.expand_dims(transpose_img, 0)
+    # inputs = transpose_img.astype(np.float32)
 
-    print(np.sum(inputs), np.mean(inputs), np.max(inputs), np.min(inputs))
-    print('done')
+    # print(np.sum(inputs), np.mean(inputs), np.max(inputs), np.min(inputs))
+    # print('done')
 
-    inp = torch.Tensor(inputs)
+    # inp = torch.Tensor(inputs)
 
-    out = converter.net(inp)
-    print('out:')
-    print(out.data.numpy())
+    # out = converter.net(inp)
+    # print('out:')
+    # print(out.data.numpy())
 
     # save
     converter.save_pytorch_weights('ch_ptocr_mobile_v2.0_cls_infer.pth')

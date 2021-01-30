@@ -75,24 +75,24 @@ if __name__ == '__main__':
 
     print('todo')
 
-    image = cv2.imread('images/Snipaste.jpg')
-    image = cv2.resize(image, (320, 32))
-    mean = 0.5
-    std = 0.5
-    scale = 1. / 255
-    norm_img = (image * scale - mean) / std
-    transpose_img = norm_img.transpose(2, 0, 1)
-    transpose_img = np.expand_dims(transpose_img, 0).astype(np.float32)
-    inp = torch.Tensor(transpose_img)
-    print('inp:', np.sum(transpose_img), np.mean(transpose_img), np.max(transpose_img), np.min(transpose_img))
+    # image = cv2.imread('images/Snipaste.jpg')
+    # image = cv2.resize(image, (320, 32))
+    # mean = 0.5
+    # std = 0.5
+    # scale = 1. / 255
+    # norm_img = (image * scale - mean) / std
+    # transpose_img = norm_img.transpose(2, 0, 1)
+    # transpose_img = np.expand_dims(transpose_img, 0).astype(np.float32)
+    # inp = torch.Tensor(transpose_img)
+    # print('inp:', np.sum(transpose_img), np.mean(transpose_img), np.max(transpose_img), np.min(transpose_img))
 
     # np.random.seed(666)
     # inputs = np.random.randn(1,3,640,640).astype(np.float32)
     # inp = torch.Tensor(inputs)
 
-    out = converter.net(inp)
-    out = out.data.numpy()
-    print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
+    # out = converter.net(inp)
+    # out = out.data.numpy()
+    # print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
     # print(out['maps'].data.numpy())
 
     # save
