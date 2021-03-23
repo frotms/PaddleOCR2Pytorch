@@ -148,4 +148,4 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 - [Paddle](https://github.com/PaddlePaddle)
 - [Pytorch](https://pytorch.org/)
 - [https://github.com/frotms/image_classification_pytorch](https://github.com/frotms/image_classification_pytorch)
-- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0-rc1-0/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0-rc1-0/doc/doc_ch/models_list.md)
+- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md)
