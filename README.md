@@ -2,7 +2,7 @@
 
 ## 简介
 
-**”真·白嫖“**[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+**”白嫖“**[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
 
 ## 注意
 
@@ -140,6 +140,11 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 ```
 
 ## [FAQ](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0-rc1-0/doc/doc_ch/FAQ.md)
+
+## TODO
+
+- [ ] 其他语言识别模型
+- [ ] 其他文本检测模型
 
 ## 参考
 
