@@ -20,17 +20,13 @@ from tools.infer.pytorchocr_utility import draw_ocr_box_txt
 
 
 class TextSystem(object):
-    def __init__(self, config):
-        OCR_CFG = utility.get_default_config()
-        OCR_CFG.update(config)
-        self.cfg = OCR_CFG
-
-        self.text_detector = predict_det.TextDetector(OCR_CFG)
-        self.text_recognizer = predict_rec.TextRecognizer(OCR_CFG)
-        self.use_angle_cls = OCR_CFG['use_angle_cls']
-        self.drop_score = OCR_CFG['drop_score']
+    def __init__(self, args, **kwargs):
+        self.text_detector = predict_det.TextDetector(args, **kwargs)
+        self.text_recognizer = predict_rec.TextRecognizer(args, **kwargs)
+        self.use_angle_cls = args.use_angle_cls
+        self.drop_score = args.drop_score
         if self.use_angle_cls:
-            self.text_classifier = predict_cls.TextClassifier(OCR_CFG)
+            self.text_classifier = predict_cls.TextClassifier(args, **kwargs)
 
 
     def get_rotate_crop_image(self, img, points):
@@ -127,14 +123,12 @@ def sorted_boxes(dt_boxes):
     return _boxes
 
 
-def main(config, image_dir):
-    image_file_list = get_image_file_list(image_dir)
-    text_sys = TextSystem(config)
-    OCR_CFG = utility.get_default_config()
-    OCR_CFG.update(config)
+def main(args):
+    image_file_list = get_image_file_list(args.image_dir)
+    text_sys = TextSystem(args)
     is_visualize = True
-    font_path = OCR_CFG['vis_font_path']
-    drop_score = OCR_CFG['drop_score']
+    font_path = args.vis_font_path
+    drop_score = args.drop_score
     for image_file in image_file_list:
         img, flag = check_and_read_gif(image_file)
         if not flag:
@@ -174,34 +168,4 @@ def main(config, image_dir):
 
 
 if __name__ == '__main__':
-    import argparse, json, textwrap, sys, os
-
-    DEFAULT_DET_MODEL_PATH = './ch_ptocr_mobile_v2.0_det_infer.pth'
-    DEFAULT_REC_MODEL_PATH = './ch_ptocr_mobile_v2.0_rec_infer.pth'
-    DEFAULT_CLS_MODEL_PATH = './ch_ptocr_mobile_v2.0_cls_infer.pth'
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', "--image_dir", type=str, help='Assign the image directory')
-    parser.add_argument("--det_model_path", type=str, help='Assign the detection model path',
-                        default=DEFAULT_DET_MODEL_PATH)
-    parser.add_argument("--rec_model_path", type=str, help='Assign the recognition model path',
-                        default=DEFAULT_REC_MODEL_PATH)
-    parser.add_argument("--cls_model_path", type=str, help='Assign the classification model path',
-                        default=DEFAULT_CLS_MODEL_PATH)
-    parser.add_argument("--use_angle_cls", action='store_true', help='Assign if use_angle_cls')
-    args = parser.parse_args()
-
-    param_dict = {}
-    param_dict['det_model_path'] = args.det_model_path
-    param_dict['det_limit_side_len'] = 960
-    param_dict['det_db_thresh'] = 0.3
-    param_dict['det_db_box_thresh'] = 0.5
-    param_dict['det_db_unclip_ratio'] = 1.6
-
-    param_dict['rec_model_path'] = args.rec_model_path
-    param_dict['drop_score'] = 0.5
-
-    param_dict['use_angle_cls'] = args.use_angle_cls
-    param_dict['cls_model_path'] = args.cls_model_path
-    param_dict['cls_thresh'] = 0.9
-
-    main(param_dict, args.image_dir)
+    main(utility.parse_args())

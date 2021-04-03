@@ -18,27 +18,27 @@ from pytorchocr.utils.utility import get_image_file_list, check_and_read_gif
 
 
 class TextClassifier(BaseOCRV20):
-    def __init__(self, config):
-        OCR_CFG = utility.get_default_config()
-        OCR_CFG.update(config)
-        self.cfg = OCR_CFG
-
-        use_gpu = OCR_CFG['use_gpu']
-        self.use_gpu = torch.cuda.is_available() and use_gpu
-
-        self.weights_path = OCR_CFG['cls_model_path']
-        network_config = utility.AnalysisConfig(self.weights_path)
-        super(TextClassifier, self).__init__(network_config)
-
-        self.cls_image_shape = [int(v) for v in OCR_CFG['cls_image_shape'].split(",")]
-        self.cls_batch_num = OCR_CFG['cls_batch_num']
-        self.cls_thresh = OCR_CFG['cls_thresh']
-        self.use_zero_copy_run = OCR_CFG['use_zero_copy_run']
+    def __init__(self, args, **kwargs):
+        self.cls_image_shape = [int(v) for v in args.cls_image_shape.split(",")]
+        self.cls_batch_num = args.cls_batch_num
+        self.cls_thresh = args.cls_thresh
         postprocess_params = {
             'name': 'ClsPostProcess',
-            "label_list": OCR_CFG['label_list'],
+            "label_list": args.label_list,
         }
         self.postprocess_op = build_post_process(postprocess_params)
+
+        use_gpu = args.use_gpu
+        self.use_gpu = torch.cuda.is_available() and use_gpu
+
+        self.weights_path = args.cls_model_path
+        network_config = utility.AnalysisConfig(self.weights_path)
+        super(TextClassifier, self).__init__(network_config, **kwargs)
+
+        self.cls_image_shape = [int(v) for v in args.cls_image_shape.split(",")]
+
+        self.limited_max_width = args.limited_max_width
+        self.limited_min_width = args.limited_min_width
 
         self.load_pytorch_weights(self.weights_path)
         self.net.eval()
@@ -50,7 +50,10 @@ class TextClassifier(BaseOCRV20):
         h = img.shape[0]
         w = img.shape[1]
         ratio = w / float(h)
-        if math.ceil(imgH * ratio) > imgW:
+        imgW = max(min(imgW, self.limited_max_width), self.limited_min_width)
+        ratio_imgH = math.ceil(imgH * ratio)
+        ratio_imgH = max(ratio_imgH, self.limited_min_width)
+        if ratio_imgH > imgW:
             resized_w = imgW
         else:
             resized_w = int(math.ceil(imgH * ratio))
@@ -114,9 +117,9 @@ class TextClassifier(BaseOCRV20):
         return img_list, cls_res, elapse
 
 
-def main(config, image_dir):
-    image_file_list = get_image_file_list(image_dir)
-    text_classifier = TextClassifier(config)
+def main(args):
+    image_file_list = get_image_file_list(args.image_dir)
+    text_classifier = TextClassifier(args)
     valid_image_file_list = []
     img_list = []
     for image_file in image_file_list:
@@ -146,15 +149,4 @@ def main(config, image_dir):
 
 
 if __name__ == '__main__':
-    import argparse, json, textwrap, sys, os
-
-    DEFAULT_MODEL_PATH = './ch_ptocr_mobile_v2.0_cls_infer.pth'
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', "--image_dir", type=str, help='Assign the image directory')
-    parser.add_argument('-m', "--model_path", type=str, help='Assign the model path', default=DEFAULT_MODEL_PATH)
-    args = parser.parse_args()
-
-    param_dict = {}
-    param_dict['cls_model_path'] = args.model_path
-    param_dict['cls_thresh'] = 0.9
-    main(param_dict, args.image_dir)
+    main(utility.parse_args())

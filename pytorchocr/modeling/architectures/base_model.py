@@ -10,7 +10,7 @@ from pytorchocr.modeling.necks import build_neck
 from pytorchocr.modeling.heads import build_head
 
 class BaseModel(nn.Module):
-    def __init__(self, config):
+    def __init__(self, config, **kwargs):
         """
         the module for OCR.
         args:
@@ -52,7 +52,7 @@ class BaseModel(nn.Module):
 
         # # build head, head is need for det, rec and cls
         config["Head"]['in_channels'] = in_channels
-        self.head = build_head(config["Head"])
+        self.head = build_head(config["Head"], **kwargs)
 
         self._initialize_weights()
 
