@@ -19,26 +19,11 @@ from pytorchocr.postprocess import build_post_process
 
 
 class TextDetector(BaseOCRV20):
-    def __init__(self, config):
-        OCR_CFG = utility.get_default_config()
-        OCR_CFG.update(config)
-        self.config = copy.deepcopy(OCR_CFG)
-
-        use_gpu = OCR_CFG['use_gpu']
-        self.use_gpu = torch.cuda.is_available() and use_gpu
-
-        self.weights_path = OCR_CFG['det_model_path']
-        network_config = utility.AnalysisConfig(self.weights_path)
-        super(TextDetector, self).__init__(network_config)
-
-        self.det_algorithm = OCR_CFG['det_algorithm']
-        self.use_zero_copy_run = OCR_CFG['use_zero_copy_run']
-
+    def __init__(self, args, **kwargs):
+        self.args = args
+        self.det_algorithm = args.det_algorithm
         pre_process_list = [{
-            'DetResizeForTest': {
-                'limit_side_len': OCR_CFG['det_limit_side_len'],
-                'limit_type': OCR_CFG['det_limit_type']
-            }
+            'DetResizeForTest': None
         }, {
             'NormalizeImage': {
                 'std': [0.229, 0.224, 0.225],
@@ -53,28 +38,29 @@ class TextDetector(BaseOCRV20):
                 'keep_keys': ['image', 'shape']
             }
         }]
-
         postprocess_params = {}
         if self.det_algorithm == "DB":
             postprocess_params['name'] = 'DBPostProcess'
-            postprocess_params["thresh"] = OCR_CFG['det_db_thresh']
-            postprocess_params["box_thresh"] = OCR_CFG['det_db_box_thresh']
+            postprocess_params["thresh"] = args.det_db_thresh
+            postprocess_params["box_thresh"] = args.det_db_box_thresh
             postprocess_params["max_candidates"] = 1000
-            postprocess_params["unclip_ratio"] = OCR_CFG['det_db_unclip_ratio']
-            postprocess_params["use_dilation"] = True
+            postprocess_params["unclip_ratio"] = args.det_db_unclip_ratio
+            postprocess_params["use_dilation"] = args.use_dilation
         elif self.det_algorithm == "EAST":
             postprocess_params['name'] = 'EASTPostProcess'
-            postprocess_params["score_thresh"] = OCR_CFG['det_east_score_thresh']
-            postprocess_params["cover_thresh"] = OCR_CFG['det_east_cover_thresh']
-            postprocess_params["nms_thresh"] = OCR_CFG['det_east_nms_thresh']
+            postprocess_params["score_thresh"] = args.det_east_score_thresh
+            postprocess_params["cover_thresh"] = args.det_east_cover_thresh
+            postprocess_params["nms_thresh"] = args.det_east_nms_thresh
         elif self.det_algorithm == "SAST":
             pre_process_list[0] = {
-                'DetResizeForTest': {'resize_long': OCR_CFG['det_limit_side_len']}
+                'DetResizeForTest': {
+                    'resize_long': args.det_limit_side_len
+                }
             }
             postprocess_params['name'] = 'SASTPostProcess'
-            postprocess_params["score_thresh"] = OCR_CFG['det_sast_score_thresh']
-            postprocess_params["nms_thresh"] = OCR_CFG['det_sast_nms_thresh']
-            self.det_sast_polygon = OCR_CFG['det_sast_polygon']
+            postprocess_params["score_thresh"] = args.det_sast_score_thresh
+            postprocess_params["nms_thresh"] = args.det_sast_nms_thresh
+            self.det_sast_polygon = args.det_sast_polygon
             if self.det_sast_polygon:
                 postprocess_params["sample_pts_num"] = 6
                 postprocess_params["expand_scale"] = 1.2
@@ -89,6 +75,13 @@ class TextDetector(BaseOCRV20):
 
         self.preprocess_op = create_operators(pre_process_list)
         self.postprocess_op = build_post_process(postprocess_params)
+
+        use_gpu = args.use_gpu
+        self.use_gpu = torch.cuda.is_available() and use_gpu
+
+        self.weights_path = args.det_model_path
+        network_config = utility.AnalysisConfig(self.weights_path)
+        super(TextDetector, self).__init__(network_config, **kwargs)
 
         self.load_pytorch_weights(self.weights_path)
         self.net.eval()
@@ -163,6 +156,13 @@ class TextDetector(BaseOCRV20):
         img = img.copy()
         starttime = time.time()
 
+        # self.input_tensor.copy_from_cpu(img)
+        # self.predictor.run()
+        # outputs = []
+        # for output_tensor in self.output_tensors:
+        #     output = output_tensor.copy_to_cpu()
+        #     outputs.append(output)
+
         with torch.no_grad():
             inp = torch.Tensor(img)
             if self.use_gpu:
@@ -171,11 +171,15 @@ class TextDetector(BaseOCRV20):
 
         preds = {}
         if self.det_algorithm == "EAST":
-            raise NotImplementedError
+            preds['f_geo'] = outputs[0]
+            preds['f_score'] = outputs[1]
         elif self.det_algorithm == 'SAST':
-            raise NotImplementedError
+            preds['f_border'] = outputs[0]
+            preds['f_score'] = outputs[1]
+            preds['f_tco'] = outputs[2]
+            preds['f_tvo'] = outputs[3]
         elif self.det_algorithm == 'DB':
-
+            # preds['maps'] = outputs[0]
             preds['maps'] = outputs['maps'].cpu().numpy()
         else:
             raise NotImplementedError
@@ -192,21 +196,9 @@ class TextDetector(BaseOCRV20):
 
 
 if __name__ == "__main__":
-    import argparse, json, textwrap, sys, os
-    DEFAULT_MODEL_PATH = './ch_ptocr_server_v2.0_det_infer.pth'
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', "--image_dir", type=str, help='Assign the image directory')
-    parser.add_argument('-m', "--model_path", type=str, help='Assign the model path', default=DEFAULT_MODEL_PATH)
-    args = parser.parse_args()
-
+    args = utility.parse_args()
     image_file_list = get_image_file_list(args.image_dir)
-    param_dict = {}
-    param_dict['det_model_path'] = args.model_path
-    param_dict['det_limit_side_len'] = 960
-    param_dict['det_db_thresh'] = 0.3
-    param_dict['det_db_box_thresh'] = 0.5
-    param_dict['det_db_unclip_ratio'] = 1.6
-    text_detector = TextDetector(param_dict)
+    text_detector = TextDetector(args)
     count = 0
     total_time = 0
     draw_img_save = "./inference_results"

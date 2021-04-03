@@ -8,14 +8,14 @@ import torch
 from pytorchocr.modeling.architectures.base_model import BaseModel
 
 class BaseOCRV20:
-    def __init__(self, config):
+    def __init__(self, config, **kwargs):
         self.config = config
-        self.build_net()
+        self.build_net(**kwargs)
         self.net.eval()
 
 
-    def build_net(self):
-        self.net = BaseModel(self.config)
+    def build_net(self, **kwargs):
+        self.net = BaseModel(self.config, **kwargs)
 
 
     def load_paddle_weights(self, weights_path):
@@ -37,6 +37,8 @@ class BaseOCRV20:
                 ppname = name.replace('running_var', '_variance')
             elif name.endswith('bias') or name.endswith('weight'):
                 ppname = name
+            elif 'lstm' in name:
+                ppname = name
 
             else:
                 print('Redundance:')
@@ -54,6 +56,19 @@ class BaseOCRV20:
 
         print('model is loaded: {}'.format(weights_path))
 
+    def read_pytorch_weights(self, weights_path):
+        if not os.path.exists(weights_path):
+            raise FileNotFoundError('{} is not existed.'.format(weights_path))
+        weights = torch.load(weights_path)
+        return weights
+
+    def get_out_channels(self, weights):
+        out_channels = list(weights.values())[-1].numpy().shape[0]
+        return out_channels
+
+    def load_state_dict(self, weights):
+        self.net.load_state_dict(weights)
+        print('weighs is loaded.')
 
     def load_pytorch_weights(self, weights_path):
         self.net.load_state_dict(torch.load(weights_path))
@@ -70,6 +85,11 @@ class BaseOCRV20:
         for k,v in self.net.state_dict().items():
             print('{}----{}'.format(k,type(v)))
 
+    def read_paddle_weights(self, weights_path):
+        import paddle.fluid as fluid
+        with fluid.dygraph.guard():
+            para_state_dict, opti_state_dict = fluid.load_dygraph(weights_path)
+        return para_state_dict, opti_state_dict
 
     def print_paddle_state_dict(self, weights_path):
         import paddle.fluid as fluid
