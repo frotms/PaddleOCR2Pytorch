@@ -4,17 +4,17 @@
 We first introduce how to convert a `paddle` trained model into a `pytorch` model, and then we will introduce text detection, text recognition, angle class, and the concatenation of them based on inference model.
 
 - [CONVERT PADDLE-OCR MODEL TO PYTORCH MODEL](#CONVERT)
-    - [CHINESE AND ENGLISH GENERAL OCR MODELS](#CHINESE AND ENGLISH GENERAL OCR MODELS)
-    - [MULTILINGUAL MODELS](#MULTILINGUAL MODELS)
+    - [CHINESE AND ENGLISH GENERAL OCR MODELS](#GENERAL)
+    - [MULTILINGUAL MODELS](#MULTILINGUAL)
 
 
-- [INFERENCE IN PYTORCH](#INFERENCE IN PYTORCH)
-    - [TEXT DETECTION MODEL INFERENCE](#TEXT DETECTION MODEL INFERENCE)
-    - [TEXT RECOGNITION MODEL INFERENCE](#TEXT RECOGNITION MODEL INFERENCE)
-    - [TEXT DIRECTION CLASSIFICATION MODEL IN INFERENCE](#TEXT DIRECTION CLASSIFICATION MODEL IN INFERENCE)
+- [INFERENCE IN PYTORCH](#INFERENCE)
+    - [TEXT DETECTION MODEL INFERENCE](#DETECTION)
+    - [TEXT RECOGNITION MODEL INFERENCE](#RECOGNITION)
+    - [TEXT DIRECTION CLASSIFICATION MODEL IN INFERENCE](#CLASSIFICATION)
     - [TEXT DETECTION ANGLE CLASSIFICATION AND RECOGNITION INFERENCE CONCATENATION](#CONCATENATION)
-    - [OTHER MODEL INFERENCE](#OTHER MODEL INFERENCE)
-    - [PARSER LIST](#PARSER LIST)
+    - [OTHER MODEL INFERENCE](#OTHER)
+    - [PARSER LIST](#PARSER)
 
 - [References](#References)
 
@@ -26,7 +26,7 @@ The PyTorch models are converted from trained models in PaddleOCR.
 
 PaddleOCR models in BaiduPan: https://pan.baidu.com/s/1getAprT2l_JqwhjwML0g9g code：lmv7 
 
-<a name="CHINESE AND ENGLISH GENERAL OCR MODELS"></a>
+<a name="GENERAL"></a>
 
 ### CHINESE AND ENGLISH GENERAL OCR MODELS
 
@@ -42,7 +42,7 @@ python3 ./converter/ch_ppocr_server_v2.0_rec_converter.py --src_model_path paddl
 python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddle_ch_ppocr_mobile_v2.0_cls_train_dir
 ```
 
-<a name="MULTILINGUAL MODELS"></a>
+<a name="MULTILINGUAL"></a>
 
 ### MULTILINGUAL MODELS
 
@@ -50,7 +50,7 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 python3 ./converter/multilingual_mobile_v2.0_rec_converter.py --src_model_path paddle_multilingual_mobile_v2.0_rec_train_dir
 ```
 
-<a name="INFERENCE IN PYTORCH"></a>
+<a name="INFERENCE"></a>
 
 ## INFERENCE IN PYTORCH
 
@@ -58,7 +58,7 @@ PyTorch models in BaiduPan: https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg code
 
 You can also get the pytorch models with the converter by yourself. 
 
-<a name="TEXT DETECTION MODEL INFERENCE"></a>
+<a name="DETECTION"></a>
 
 ### TEXT DETECTION MODEL INFERENCE
 
@@ -66,7 +66,7 @@ You can also get the pytorch models with the converter by yourself.
 python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_det_pth_path.pth
 ```
 
-<a name="TEXT RECOGNITION MODEL INFERENCE"></a>
+<a name="RECOGNITION"></a>
 
 ### TEXT RECOGNITION MODEL INFERENCE
 
@@ -93,7 +93,7 @@ python3 ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/spanish/es_1.j
         ]
 ```
 
-<a name="TEXT DIRECTION CLASSIFICATION MODEL IN INFERENCE"></a>
+<a name="CLASSIFICATION"></a>
 
 ### TEXT DIRECTION CLASSIFICATION MODEL IN INFERENCE
 
@@ -119,13 +119,13 @@ After executing the command, the recognition result image is as follows:
 
 ![](../../doc/imgs_results/system_res_00018069.jpg)
 
-<a name="OTHER MODEL INFERENCE"></a>
+<a name="OTHER"></a>
 
 ### OTHER MODEL INFERENCE
 
 If you want to try other detection algorithms or recognition algorithms, please refer to the above text detection model inference and text recognition model inference, update the corresponding configuration and model.
 
-<a name="PARSER LIST"></a>
+<a name="PARSER"></a>
 
 ### PARSER LIST
 
