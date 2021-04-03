@@ -31,7 +31,7 @@ This repository aims to
     - Support Chinese, English, and digit recognition, vertical text recognition, and long text recognition
     - Support multi-language recognition: Korean, Japanese, German, French, etc.
 
-## [Model List]((./doc/doc_en/models_list_en.md)) (updating)
+## [Model List](./doc/doc_en/models_list_en.md) (updating)
 
 PyTorch models in BaiduPan：https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg code：6clx
 
