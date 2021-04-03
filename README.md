@@ -53,7 +53,7 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
 - [FAQ](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/FAQ_en.md)
 - [参考](#参考)
 
-<a name="PP-OCR"></a>
+<a name="PP-OCR Pipline"></a>
 
 ## PP-OCR Pipline
 <div align="center">

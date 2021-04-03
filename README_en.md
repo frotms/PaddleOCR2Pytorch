@@ -31,17 +31,17 @@ This repository aims to
     - Support Chinese, English, and digit recognition, vertical text recognition, and long text recognition
     - Support multi-language recognition: Korean, Japanese, German, French, etc.
 
-## [Model List]((./doc/doc_en/models_list.md)) (updating)
+## [Model List]((./doc/doc_en/models_list_en.md)) (updating)
 
 PyTorch models in BaiduPan：https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg code：6clx
 
 PaddleOCR models in BaiduPan：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0g9g code：lmv7 
 
-If you want to get more models including multilingual models，please refer to [PTOCR  series](./doc/doc_en/models_list.md).
+If you want to get more models including multilingual models，please refer to [PTOCR  series](./doc/doc_en/models_list_en.md).
 
 ## Tutorials
 - [Installation](./doc/doc_en/installation_en.md)
-- [Inferences](./doc/doc_en/inference.md)
+- [Inferences](./doc/doc_en/inference_en.md)
 - [PP-OCR Pipeline](#PP-OCR-Pipeline)
 - [Visualization](#Visualization)
 - [Reference documents](./doc/doc_en/reference_en.md)
