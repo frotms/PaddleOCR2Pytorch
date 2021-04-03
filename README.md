@@ -65,7 +65,7 @@ PP-OCR是一个实用的超轻量OCR系统。主要由DB文本检测[2]、检测
 
 <a name="效果展示"></a>
 
-## 效果展示 [more](./doc/doc_ch/visualization.md)
+## 效果展示
 - 中文模型
 <div align="center">
     <img src="./doc/imgs_results/ch_ptocr_mobile_v2.0/11.jpg" width="800">
