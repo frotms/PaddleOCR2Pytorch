@@ -47,13 +47,13 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
 ## 文档教程
 - [快速安装](./doc/doc_ch/installation.md)
 - [模型预测](./doc/doc_ch/inference.md)
-- [PP-OCR Pipline](#PP-OCR Pipline)
+- [Pipline](#Pipline)
 - [效果展示](#效果展示)
 - [参考文献](./doc/doc_ch/reference.md)
 - [FAQ](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/FAQ_en.md)
 - [参考](#参考)
 
-<a name="PP-OCR Pipline"></a>
+<a name="Pipline"></a>
 
 ## PP-OCR Pipline
 <div align="center">
