@@ -6,8 +6,8 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
 - [CONVERT PADDLE-OCR MODEL TO PYTORCH MODEL](#CONVERT)
     - [CHINESE AND ENGLISH GENERAL OCR MODELS](#GENERAL)
     - [MULTILINGUAL MODELS](#MULTILINGUAL)
-    - [OTHER DETECTION MODELS](#OTHER DETECTION MODELS)
-    - [OTHER RECOGNITION MODELS](#OTHER RECOGNITION MODELS)
+    - [OTHER DETECTION MODELS](#CVT_DETECTION)
+    - [OTHER RECOGNITION MODELS](#CVT_RECOGNITION)
 
 
 - [INFERENCE IN PYTORCH](#INFERENCE)
@@ -52,7 +52,7 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 python3 ./converter/multilingual_mobile_v2.0_rec_converter.py --src_model_path paddle_multilingual_mobile_v2.0_rec_train_dir
 ```
 
-<a name="OTHER DETECTION MODELS"></a>
+<a name="cvt_DETECTION"></a>
 
 ### OTHER DETECTION MODELS
 
@@ -76,7 +76,7 @@ python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_east.y
 python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_sast_totaltext.yml --src_model_path your_ppocr_det_r50_vd_sast_totaltext_v2.0_train_dir
 ```
 
-<a name="OTHER RECOGNITION MODELS"></a>
+<a name="CVT_RECOGNITION"></a>
 
 ### OTHER RECOGNITION MODELS
 
@@ -165,7 +165,7 @@ After executing the command, the recognition result image is as follows:
 
 ![](../../doc/imgs_results/system_res_00018069.jpg)
 
-<a name="OTHER MODEL INFERENCE"></a>
+<a name="OTHER"></a>
 
 ### OTHER MODEL INFERENCE
 
