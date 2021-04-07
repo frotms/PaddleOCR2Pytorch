@@ -74,15 +74,33 @@ def parse_args():
     parser.add_argument("--enable_mkldnn", type=str2bool, default=False)
     parser.add_argument("--use_pdserving", type=str2bool, default=False)
 
+    # params .yaml
+    parser.add_argument("--det_yaml_path", type=str, default=None)
+    parser.add_argument("--rec_yaml_path", type=str, default=None)
+    parser.add_argument("--cls_yaml_path", type=str, default=None)
+
     return parser.parse_args()
 
 def get_default_config(args):
     return vars(args)
 
 
-def AnalysisConfig(weights_path):
+def read_network_config_from_yaml(yaml_path):
+    if not os.path.exists(yaml_path):
+        raise FileNotFoundError('{} is not existed.'.format(yaml_path))
+    import yaml
+    with open(yaml_path, encoding='utf-8') as f:
+        res = yaml.safe_load(f)
+    if res.get('Architecture') is None:
+        raise ValueError('{} has no Architecture'.format(yaml_path))
+    return res['Architecture']
+
+def AnalysisConfig(weights_path, yaml_path=None):
     if not os.path.exists(os.path.abspath(weights_path)):
         raise FileNotFoundError('{} is not found.'.format(weights_path))
+
+    if yaml_path is not None:
+        return read_network_config_from_yaml(yaml_path)
 
     weights_basename = os.path.basename(weights_path)
     weights_name = weights_basename.lower()

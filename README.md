@@ -13,8 +13,7 @@
 
 ## TODO
 
-- [ ] 其他文本识别模型
-- [ ] 其他文本检测模型
+- [ ] 其他文本识别模型: STARNET, RARE, SRN
 
 ## 注意
 
@@ -22,6 +21,7 @@
 
 **近期更新**
 
+- 2021.4.8 更新DB, SAST, EAST, ROSETTA, CRNN
 - 2021.4.3 更新多语言识别模型，目前支持语种超过27种，[多语言模型下载](./doc/doc_ch/models_list.md)，包括中文简体、中文繁体、英文、法文、德文、韩文、日文、意大利文、西班牙文、葡萄牙文、俄罗斯文、阿拉伯文等，后续计划可以参考[多语言研发计划](https://github.com/PaddlePaddle/PaddleOCR/issues/1048)
 - 2021.1.10 白嫖中英文通用OCR模型
 
@@ -42,7 +42,7 @@ PyTorch模型下载链接：https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg 提�
 
 PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0g9g 提取码：lmv7 
 
-更多模型下载（包括多语言），可以参考[PP-OCR v2.0 系列模型下载](./doc/doc_ch/models_list.md)
+更多模型下载（包括多语言），可以参考[PT-OCR v2.0 系列模型下载](./doc/doc_ch/models_list.md)
 
 ## 文档教程
 - [快速安装](./doc/doc_ch/installation.md)

@@ -63,6 +63,49 @@ class BottleneckBlock(nn.Module):
                  name=None):
         super(BottleneckBlock, self).__init__()
 
+        self.conv0 = ConvBNLayer(
+            in_channels=in_channels,
+            out_channels=out_channels,
+            kernel_size=1,
+            act='relu',
+            name=name + "_branch2a")
+        self.conv1 = ConvBNLayer(
+            in_channels=out_channels,
+            out_channels=out_channels,
+            kernel_size=3,
+            stride=stride,
+            act='relu',
+            name=name + "_branch2b")
+        self.conv2 = ConvBNLayer(
+            in_channels=out_channels,
+            out_channels=out_channels * 4,
+            kernel_size=1,
+            act=None,
+            name=name + "_branch2c")
+
+        if not shortcut:
+            self.short = ConvBNLayer(
+                in_channels=in_channels,
+                out_channels=out_channels * 4,
+                kernel_size=1,
+                stride=1,
+                is_vd_mode=False if if_first else True,
+                name=name + "_branch1")
+
+        self.shortcut = shortcut
+
+    def forward(self, inputs):
+        y = self.conv0(inputs)
+        conv1 = self.conv1(y)
+        conv2 = self.conv2(conv1)
+
+        if self.shortcut:
+            short = inputs
+        else:
+            short = self.short(inputs)
+        y = torch.add(short, conv2)
+        y = F.relu(y)
+        return y
 
 
 class BasicBlock(nn.Module):
@@ -183,18 +226,9 @@ class ResNet(nn.Module):
                             shortcut=shortcut,
                             if_first=block == i == 0,
                             name=conv_name)
-                    # bottleneck_block = self.add_sublayer(
-                    #     'bb_%d_%d' % (block, i),
-                    #     BottleneckBlock(
-                    #         in_channels=num_channels[block]
-                    #         if i == 0 else num_filters[block] * 4,
-                    #         out_channels=num_filters[block],
-                    #         stride=2 if i == 0 and block != 0 else 1,
-                    #         shortcut=shortcut,
-                    #         if_first=block == i == 0,
-                    #         name=conv_name))
+
                     shortcut = True
-                    block_list.add_module(bottleneck_block)
+                    block_list.add_module('bb_%d_%d' % (block, i), bottleneck_block)
                 self.out_channels.append(num_filters[block] * 4)
                 # self.stages.append(nn.Sequential(*block_list))
                 self.stages.append(block_list)
@@ -204,8 +238,7 @@ class ResNet(nn.Module):
                 block_list = nn.Sequential()
                 shortcut = False
                 for i in range(depth[block]):
-                    # conv_name = "res" + str(block + 2) + chr(97 + i)
-                    conv_name = 'bb_%d_%d' % (block, i)
+                    conv_name = "res" + str(block + 2) + chr(97 + i)
                     basic_block = BasicBlock(
                             in_channels=num_channels[block]
                             if i == 0 else num_filters[block],
@@ -215,18 +248,8 @@ class ResNet(nn.Module):
                             if_first=block == i == 0,
                             name=conv_name)
 
-                    # basic_block = self.add_sublayer(
-                    #     'bb_%d_%d' % (block, i),
-                    #     BasicBlock(
-                    #         in_channels=num_channels[block]
-                    #         if i == 0 else num_filters[block],
-                    #         out_channels=num_filters[block],
-                    #         stride=2 if i == 0 and block != 0 else 1,
-                    #         shortcut=shortcut,
-                    #         if_first=block == i == 0,
-                    #         name=conv_name))
                     shortcut = True
-                    block_list.add_module(conv_name, basic_block)
+                    block_list.add_module('bb_%d_%d' % (block, i), basic_block)
                     # block_list.append(basic_block)
                 self.out_channels.append(num_filters[block])
                 self.stages.append(block_list)

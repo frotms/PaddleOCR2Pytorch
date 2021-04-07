@@ -10,6 +10,7 @@ class ServerV20DetConverter(BaseOCRV20):
     def __init__(self, config, paddle_pretrained_model_path, **kwargs):
         super(ServerV20DetConverter, self).__init__(config, **kwargs)
         self.load_paddle_weights(paddle_pretrained_model_path)
+        self.net.eval()
 
 
     def load_paddle_weights(self, weights_path):
@@ -59,7 +60,7 @@ if __name__ == '__main__':
            'Backbone':{'name':'ResNet', 'layers':18, 'disable_se':True},
            'Neck':{'name':'DBFPN', 'out_channels':256},
            'Head':{'name':'DBHead', 'k':50}}
-    kwargs = {'out_channels': 6625}
+    kwargs = {}
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
     converter = ServerV20DetConverter(cfg, paddle_pretrained_model_path, **kwargs)
     print('todo')

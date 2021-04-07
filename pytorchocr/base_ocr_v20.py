@@ -76,7 +76,10 @@ class BaseOCRV20:
 
 
     def save_pytorch_weights(self, weights_path):
-        torch.save(self.net.state_dict(), weights_path)
+        try:
+            torch.save(self.net.state_dict(), weights_path, _use_new_zipfile_serialization=False)
+        except:
+            torch.save(self.net.state_dict(), weights_path) # _use_new_zipfile_serialization=False for torch>=1.6.0
         print('model is saved: {}'.format(weights_path))
 
 

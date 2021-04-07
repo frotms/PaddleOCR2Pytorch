@@ -33,7 +33,8 @@ class TextRecognizer(BaseOCRV20):
                 'name': 'SRNLabelDecode',
                 "character_type": args.rec_char_type,
                 "character_dict_path": args.rec_char_dict_path,
-                "use_space_char": args.use_space_char
+                "use_space_char": args.use_space_char,
+                "max_text_length":args.max_text_length
             }
         elif self.rec_algorithm == "RARE":
             postprocess_params = {
@@ -51,7 +52,8 @@ class TextRecognizer(BaseOCRV20):
         self.limited_min_width = args.limited_min_width
 
         self.weights_path = args.rec_model_path
-        network_config = utility.AnalysisConfig(self.weights_path)
+        self.yaml_path = args.rec_yaml_path
+        network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path)
         weights = self.read_pytorch_weights(self.weights_path)
         self.out_channels = self.get_out_channels(weights)
         # self.out_channels = self.get_out_channels_from_char_dict(args.rec_char_dict_path)
@@ -216,25 +218,30 @@ class TextRecognizer(BaseOCRV20):
                 #     gsrm_slf_attn_bias1_list)
                 # gsrm_slf_attn_bias2_list = np.concatenate(
                 #     gsrm_slf_attn_bias2_list)
+
+                # with torch.no_grad():
+                #     inp = torch.Tensor(norm_img_batch)
+                #     encoder_word_pos_inp = torch.Tensor(encoder_word_pos_list)
+                #     gsrm_word_pos_inp = torch.Tensor(gsrm_word_pos_list)
+                #     gsrm_slf_attn_bias1_inp = torch.Tensor(gsrm_slf_attn_bias1_list)
+                #     gsrm_slf_attn_bias2_inp = torch.Tensor(gsrm_slf_attn_bias2_list)
+                #     print(inp.shape)
+                #     print(encoder_word_pos_inp.shape)
+                #     print(gsrm_word_pos_inp.shape)
+                #     print(gsrm_slf_attn_bias1_inp.shape)
+                #     print(gsrm_slf_attn_bias2_inp.shape, ' <<<<<')
+                #     if self.use_gpu:
+                #         inp = inp.cuda()
+                #         encoder_word_pos_inp = encoder_word_pos_inp.cuda()
+                #         gsrm_word_pos_inp = gsrm_word_pos_inp.cuda()
+                #         gsrm_slf_attn_bias1_inp = gsrm_slf_attn_bias1_inp.cuda()
+                #         gsrm_slf_attn_bias2_inp = gsrm_slf_attn_bias2_inp.cuda()
                 #
-                # inputs = [
-                #     norm_img_batch,
-                #     encoder_word_pos_list,
-                #     gsrm_word_pos_list,
-                #     gsrm_slf_attn_bias1_list,
-                #     gsrm_slf_attn_bias2_list,
-                # ]
-                # input_names = self.predictor.get_input_names()
-                # for i in range(len(input_names)):
-                #     input_tensor = self.predictor.get_input_handle(input_names[
-                #                                                        i])
-                #     input_tensor.copy_from_cpu(inputs[i])
-                # self.predictor.run()
-                # outputs = []
-                # for output_tensor in self.output_tensors:
-                #     output = output_tensor.copy_to_cpu()
-                #     outputs.append(output)
-                # preds = {"predict": outputs[2]}
+                #
+                #     backbone_out = self.net.backbone(inp) # backbone_feat
+                #     prob_out = self.net.head(backbone_out, [encoder_word_pos_inp, gsrm_word_pos_inp, gsrm_slf_attn_bias1_inp, gsrm_slf_attn_bias2_inp])
+                # # preds = prob_out.cpu().numpy()
+                # preds = {"predict": prob_out[2]}
             else:
                 starttime = time.time()
                 # self.input_tensor.copy_from_cpu(norm_img_batch)
@@ -277,13 +284,14 @@ def main(args):
         img_list.append(img)
     try:
         rec_res, predict_time = text_recognizer(img_list)
-    except:
+    except Exception as e:
         print(
             "ERROR!!!! \n"
             "Please read the FAQ：https://github.com/PaddlePaddle/PaddleOCR#faq \n"
             "If your model has tps module:  "
             "TPS does not support variable shape.\n"
             "Please set --rec_image_shape='3,32,100' and --rec_char_type='en' ")
+        print(e)
         exit()
     for ino in range(len(img_list)):
         print("Predicts of {}:{}".format(valid_image_file_list[ino], rec_res[

@@ -80,7 +80,8 @@ class TextDetector(BaseOCRV20):
         self.use_gpu = torch.cuda.is_available() and use_gpu
 
         self.weights_path = args.det_model_path
-        network_config = utility.AnalysisConfig(self.weights_path)
+        self.yaml_path = args.det_yaml_path
+        network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path)
         super(TextDetector, self).__init__(network_config, **kwargs)
 
         self.load_pytorch_weights(self.weights_path)
@@ -171,13 +172,13 @@ class TextDetector(BaseOCRV20):
 
         preds = {}
         if self.det_algorithm == "EAST":
-            preds['f_geo'] = outputs[0]
-            preds['f_score'] = outputs[1]
+            preds['f_geo'] = outputs['f_geo']
+            preds['f_score'] = outputs['f_score']
         elif self.det_algorithm == 'SAST':
-            preds['f_border'] = outputs[0]
-            preds['f_score'] = outputs[1]
-            preds['f_tco'] = outputs[2]
-            preds['f_tvo'] = outputs[3]
+            preds['f_border'] = outputs['f_border']
+            preds['f_score'] = outputs['f_score']
+            preds['f_tco'] = outputs['f_tco']
+            preds['f_tvo'] = outputs['f_tvo']
         elif self.det_algorithm == 'DB':
             # preds['maps'] = outputs[0]
             preds['maps'] = outputs['maps'].cpu().numpy()

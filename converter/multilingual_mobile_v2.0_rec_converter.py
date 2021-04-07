@@ -7,16 +7,17 @@ import cv2
 import torch
 from pytorchocr.base_ocr_v20 import BaseOCRV20
 
-class ServerV20RecConverter(BaseOCRV20):
+class MultilingualV20RecConverter(BaseOCRV20):
     def __init__(self, config, paddle_pretrained_model_path, **kwargs):
         para_state_dict, opti_state_dict = self.read_paddle_weights(paddle_pretrained_model_path)
         out_channels = list(para_state_dict.values())[-1].shape[0]
         print('out_channels: ', out_channels)
         print(type(kwargs), kwargs)
         kwargs['out_channels'] = out_channels
-        super(ServerV20RecConverter, self).__init__(config, **kwargs)
+        super(MultilingualV20RecConverter, self).__init__(config, **kwargs)
         self.load_paddle_weights([para_state_dict, opti_state_dict])
         print('model is loaded: {}'.format(paddle_pretrained_model_path))
+        self.net.eval()
 
 
     def load_paddle_weights(self, paddle_weights):
@@ -74,7 +75,7 @@ if __name__ == '__main__':
            'Head':{'name':'CTCHead', 'fc_decay': 4e-05},
            }
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
-    converter = ServerV20RecConverter(cfg, paddle_pretrained_model_path)
+    converter = MultilingualV20RecConverter(cfg, paddle_pretrained_model_path)
 
     # image = cv2.imread('images/Snipaste.jpg')
     # image = cv2.resize(image, (320, 32))

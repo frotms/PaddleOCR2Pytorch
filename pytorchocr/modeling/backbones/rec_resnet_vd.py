@@ -214,16 +214,7 @@ class ResNet(nn.Module):
                         stride = (2, 1)
                     else:
                         stride = (1, 1)
-                    # bottleneck_block = self.add_sublayer(
-                    #     'bb_%d_%d' % (block, i),
-                    #     BottleneckBlock(
-                    #         in_channels=num_channels[block]
-                    #         if i == 0 else num_filters[block] * 4,
-                    #         out_channels=num_filters[block],
-                    #         stride=stride,
-                    #         shortcut=shortcut,
-                    #         if_first=block == i == 0,
-                    #         name=conv_name))
+
                     bottleneck_block = BottleneckBlock(in_channels=num_channels[block] if i == 0 else num_filters[block] * 4,
                                                        out_channels=num_filters[block],
                                                        stride=stride,
@@ -251,16 +242,6 @@ class ResNet(nn.Module):
                                              if_first=block == i == 0,
                                              name=conv_name)
 
-                    # basic_block = self.add_sublayer(
-                    #     'bb_%d_%d' % (block, i),
-                    #     BasicBlock(
-                    #         in_channels=num_channels[block]
-                    #         if i == 0 else num_filters[block],
-                    #         out_channels=num_filters[block],
-                    #         stride=stride,
-                    #         shortcut=shortcut,
-                    #         if_first=block == i == 0,
-                    #         name=conv_name))
                     shortcut = True
                     # self.block_list.append(basic_block)
                     self.block_list.add_module('bb_%d_%d' % (block, i), basic_block)
@@ -275,10 +256,5 @@ class ResNet(nn.Module):
         for block in self.block_list:
             y = block(y)
         y = self.out_pool(y)
-        # print('================')
-        # import numpy as np
-        # data = x.data.numpy()
-        # print(data.shape)
-        # print(np.sum(data), np.mean(data), np.max(data), np.min(data))
-        # exit()
+
         return y

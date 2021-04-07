@@ -4,7 +4,7 @@ import torch.nn as nn
 # import torch.nn.functional as F
 # from pytorchocr.modeling.common import Activation
 
-# from ppocr.modeling.transforms import build_transform
+# from pytorchocr.modeling.transforms import build_transform
 from pytorchocr.modeling.backbones import build_backbone
 from pytorchocr.modeling.necks import build_neck
 from pytorchocr.modeling.heads import build_head

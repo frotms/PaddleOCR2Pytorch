@@ -18,8 +18,8 @@ __all__ = ['build_head']
 def build_head(config, **kwargs):
     # det head
     from .det_db_head import DBHead
-    # from .det_east_head import EASTHead
-    # from .det_sast_head import SASTHead
+    from .det_east_head import EASTHead
+    from .det_sast_head import SASTHead
 
     # rec head
     from .rec_ctc_head import CTCHead
@@ -29,8 +29,8 @@ def build_head(config, **kwargs):
     # cls head
     from .cls_head import ClsHead
     support_dict = [
-        'DBHead', 'EASTHead', 'SASTHead', 'CTCHead', 'ClsHead', 'AttentionHead',
-        'SRNHead'
+        'DBHead', 'EASTHead', 'SASTHead', 'CTCHead', 'ClsHead'#, 'AttentionHead',
+        #'SRNHead'
     ]
 
     module_name = config.pop('name')

@@ -11,6 +11,7 @@ class MobileV20DetConverter(BaseOCRV20):
     def __init__(self, config, paddle_pretrained_model_path, **kwargs):
         super(MobileV20DetConverter, self).__init__(config, **kwargs)
         self.load_paddle_weights(paddle_pretrained_model_path)
+        self.net.eval()
 
     def load_paddle_weights(self, weights_path):
         print('paddle weights loading...')

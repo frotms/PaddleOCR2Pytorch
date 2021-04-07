@@ -18,6 +18,7 @@ class ServerV20RecConverter(BaseOCRV20):
         # self.load_paddle_weights(paddle_pretrained_model_path)
         self.load_paddle_weights([para_state_dict, opti_state_dict])
         print('model is loaded: {}'.format(paddle_pretrained_model_path))
+        self.net.eval()
 
 
     def load_paddle_weights(self, paddle_weights):

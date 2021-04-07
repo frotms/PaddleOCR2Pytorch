@@ -32,7 +32,8 @@ class TextClassifier(BaseOCRV20):
         self.use_gpu = torch.cuda.is_available() and use_gpu
 
         self.weights_path = args.cls_model_path
-        network_config = utility.AnalysisConfig(self.weights_path)
+        self.yaml_path = args.cls_yaml_path
+        network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path)
         super(TextClassifier, self).__init__(network_config, **kwargs)
 
         self.cls_image_shape = [int(v) for v in args.cls_image_shape.split(",")]
