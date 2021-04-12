@@ -38,13 +38,13 @@ Architecture:
     name: TPS
     num_fiducial: 20
     loc_lr: 0.1
-    model_name: small
+    model_name: large
   Backbone:
     name: ResNet
     layers: 34
   Neck:
     name: SequenceEncoder
-    encoder_type: rnn
+    encoder_type: reshape
     hidden_size: 256
   Head:
     name: CTCHead
