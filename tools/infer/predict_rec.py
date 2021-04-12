@@ -70,9 +70,12 @@ class TextRecognizer(BaseOCRV20):
         assert imgC == img.shape[2]
         if self.character_type == "ch":
             imgW = int((32 * max_wh_ratio))
+        imgW = max(min(imgW, self.limited_max_width), self.limited_min_width)
         h, w = img.shape[:2]
         ratio = w / float(h)
-        if math.ceil(imgH * ratio) > imgW:
+        ratio_imgH = math.ceil(imgH * ratio)
+        ratio_imgH = max(ratio_imgH, self.limited_min_width)
+        if ratio_imgH > imgW:
             resized_w = imgW
         else:
             resized_w = int(math.ceil(imgH * ratio))
@@ -276,18 +279,17 @@ def main(args):
         valid_image_file_list.append(image_file)
         img_list.append(img)
 
-    rec_res, predict_time = text_recognizer(img_list)
-    # try:
-    #     rec_res, predict_time = text_recognizer(img_list)
-    # except Exception as e:
-    #     print(
-    #         "ERROR!!!! \n"
-    #         "Please read the FAQ：https://github.com/PaddlePaddle/PaddleOCR#faq \n"
-    #         "If your model has tps module:  "
-    #         "TPS does not support variable shape.\n"
-    #         "Please set --rec_image_shape='3,32,100' and --rec_char_type='en' ")
-    #     print(e)
-    #     exit()
+    try:
+        rec_res, predict_time = text_recognizer(img_list)
+    except Exception as e:
+        print(
+            "ERROR!!!! \n"
+            "Please read the FAQ：https://github.com/PaddlePaddle/PaddleOCR#faq \n"
+            "If your model has tps module:  "
+            "TPS does not support variable shape.\n"
+            "Please set --rec_image_shape='3,32,100' and --rec_char_type='en' ")
+        print(e)
+        exit()
     for ino in range(len(img_list)):
         print("Predicts of {}:{}".format(valid_image_file_list[ino], rec_res[
             ino]))
