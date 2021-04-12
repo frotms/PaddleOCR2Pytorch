@@ -4,7 +4,7 @@ import torch.nn as nn
 # import torch.nn.functional as F
 # from pytorchocr.modeling.common import Activation
 
-# from pytorchocr.modeling.transforms import build_transform
+from pytorchocr.modeling.transforms import build_transform
 from pytorchocr.modeling.backbones import build_backbone
 from pytorchocr.modeling.necks import build_neck
 from pytorchocr.modeling.heads import build_head
@@ -27,11 +27,11 @@ class BaseModel(nn.Module):
         if 'Transform' not in config or config['Transform'] is None:
             self.use_transform = False
         else:
-            # self.use_transform = True
-            # config['Transform']['in_channels'] = in_channels
-            # self.transform = build_transform(config['Transform'])
-            # in_channels = self.transform.out_channels
-            raise NotImplementedError
+            self.use_transform = True
+            config['Transform']['in_channels'] = in_channels
+            self.transform = build_transform(config['Transform'])
+            in_channels = self.transform.out_channels
+            # raise NotImplementedError
 
         # build backbone, backbone is need for del, rec and cls
         config["Backbone"]['in_channels'] = in_channels

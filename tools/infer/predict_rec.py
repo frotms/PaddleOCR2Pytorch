@@ -22,6 +22,7 @@ class TextRecognizer(BaseOCRV20):
         self.character_type = args.rec_char_type
         self.rec_batch_num = args.rec_batch_num
         self.rec_algorithm = args.rec_algorithm
+        self.max_text_length = args.max_text_length
         postprocess_params = {
             'name': 'CTCLabelDecode',
             "character_type": args.rec_char_type,
@@ -33,8 +34,7 @@ class TextRecognizer(BaseOCRV20):
                 'name': 'SRNLabelDecode',
                 "character_type": args.rec_char_type,
                 "character_dict_path": args.rec_char_dict_path,
-                "use_space_char": args.use_space_char,
-                "max_text_length":args.max_text_length
+                "use_space_char": args.use_space_char
             }
         elif self.rec_algorithm == "RARE":
             postprocess_params = {
@@ -65,18 +65,14 @@ class TextRecognizer(BaseOCRV20):
         if self.use_gpu:
             self.net.cuda()
 
-
     def resize_norm_img(self, img, max_wh_ratio):
         imgC, imgH, imgW = self.rec_image_shape
         assert imgC == img.shape[2]
         if self.character_type == "ch":
             imgW = int((32 * max_wh_ratio))
-        imgW = max(min(imgW, self.limited_max_width), self.limited_min_width)
         h, w = img.shape[:2]
         ratio = w / float(h)
-        ratio_imgH = math.ceil(imgH * ratio)
-        ratio_imgH = max(ratio_imgH, self.limited_min_width)
-        if ratio_imgH > imgW:
+        if math.ceil(imgH * ratio) > imgW:
             resized_w = imgW
         else:
             resized_w = int(math.ceil(imgH * ratio))
@@ -88,7 +84,6 @@ class TextRecognizer(BaseOCRV20):
         padding_im = np.zeros((imgC, imgH, imgW), dtype=np.float32)
         padding_im[:, :, 0:resized_w] = resized_image
         return padding_im
-
 
     def resize_norm_img_srn(self, img, image_shape):
         imgC, imgH, imgW = image_shape
@@ -115,8 +110,6 @@ class TextRecognizer(BaseOCRV20):
         c = 1
 
         return np.reshape(img_black, (c, row, col)).astype(np.float32)
-
-
 
     def srn_other_inputs(self, image_shape, num_heads, max_text_length):
 
@@ -148,7 +141,6 @@ class TextRecognizer(BaseOCRV20):
             encoder_word_pos, gsrm_word_pos, gsrm_slf_attn_bias1,
             gsrm_slf_attn_bias2
         ]
-
 
     def process_image_srn(self, img, image_shape, num_heads, max_text_length):
         norm_img = self.resize_norm_img_srn(img, image_shape)
@@ -195,8 +187,9 @@ class TextRecognizer(BaseOCRV20):
                     norm_img = norm_img[np.newaxis, :]
                     norm_img_batch.append(norm_img)
                 else:
-                    norm_img = self.process_image_srn(
-                        img_list[indices[ino]], self.rec_image_shape, 8, 25)
+                    norm_img = self.process_image_srn(img_list[indices[ino]],
+                                                      self.rec_image_shape, 8,
+                                                      self.max_text_length)
                     encoder_word_pos_list = []
                     gsrm_word_pos_list = []
                     gsrm_slf_attn_bias1_list = []
@@ -282,17 +275,19 @@ def main(args):
             continue
         valid_image_file_list.append(image_file)
         img_list.append(img)
-    try:
-        rec_res, predict_time = text_recognizer(img_list)
-    except Exception as e:
-        print(
-            "ERROR!!!! \n"
-            "Please read the FAQ：https://github.com/PaddlePaddle/PaddleOCR#faq \n"
-            "If your model has tps module:  "
-            "TPS does not support variable shape.\n"
-            "Please set --rec_image_shape='3,32,100' and --rec_char_type='en' ")
-        print(e)
-        exit()
+
+    rec_res, predict_time = text_recognizer(img_list)
+    # try:
+    #     rec_res, predict_time = text_recognizer(img_list)
+    # except Exception as e:
+    #     print(
+    #         "ERROR!!!! \n"
+    #         "Please read the FAQ：https://github.com/PaddlePaddle/PaddleOCR#faq \n"
+    #         "If your model has tps module:  "
+    #         "TPS does not support variable shape.\n"
+    #         "Please set --rec_image_shape='3,32,100' and --rec_char_type='en' ")
+    #     print(e)
+    #     exit()
     for ino in range(len(img_list)):
         print("Predicts of {}:{}".format(valid_image_file_list[ino], rec_res[
             ino]))

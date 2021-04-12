@@ -13,13 +13,15 @@ This repository aims to
 
 ## TODO
 
-- [ ] other text recognition models: STARNET, RARE, SRN
+- [ ] AAAI 2021 end-to-end algorithm PGNet
+- [ ] other text recognition models: RARE, SRN
 
 ## Notice
 
 `PytorchOCR` models are converted from `PaddleOCRv2.0`.
 
 **Recent updates**
+- 2021.4.12 update STARNET
 - 2021.4.8 update DB, SAST, EAST, ROSETTA, CRNN
 - 2021.4.3 update more than 25+ multilingual recognition models [models list](./doc/doc_en/models_list_en.md), including：English, Chinese, German, French, Japanese，Spanish，Portuguese Russia Arabic and so on.  Models for more languages will continue to be updated [Develop Plan](https://github.com/PaddlePaddle/PaddleOCR/issues/1048).
 - 2021.1.10 upload Chinese and English general OCR models.

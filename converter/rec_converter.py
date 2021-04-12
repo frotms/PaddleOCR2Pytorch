@@ -48,11 +48,16 @@ class RecV20RecConverter(BaseOCRV20):
             try:
                 if ppname.endswith('fc.weight'):
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
+                elif ppname.endswith('fc1.weight'): # for tps loc
+                    self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
+                elif ppname.endswith('fc2.weight'): # for tps loc
+                    self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
                 else:
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname]))
             except Exception as e:
                 print('pytorch: {}, {}'.format(k, v.size()))
-                print('paddle: {}, {}'.format(ppname, para_state_dict[ppname].shape))
+                print('paddle: {}'.format(ppname))
+                print('paddle: {}'.format(para_state_dict[ppname].shape))
                 raise e
 
 def read_network_config_from_yaml(yaml_path):

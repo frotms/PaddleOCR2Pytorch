@@ -16,7 +16,7 @@ __all__ = ['build_transform']
 
 
 def build_transform(config):
-    # from .tps import TPS
+    from .tps import TPS
 
     support_dict = ['TPS']
 
