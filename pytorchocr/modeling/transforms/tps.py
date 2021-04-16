@@ -88,7 +88,7 @@ class LocalizationNetwork(nn.Module):
                 pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
             in_channels = num_filters
             # self.block_list.append(pool)
-            self.block_list.add_module('extra_pool', pool)
+            self.block_list.add_module('{}_pool'.format(name), pool)
         name = "loc_fc1"
         stdv = 1.0 / math.sqrt(num_filters_list[-1] * 1.0)
         self.fc1 = nn.Linear(
