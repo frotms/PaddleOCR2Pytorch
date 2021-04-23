@@ -39,6 +39,8 @@ class RecV20RecConverter(BaseOCRV20):
                 ppname = name
             elif 'lstm' in name:
                 ppname = name
+            elif 'attention_cell' in name:
+                ppname = name
 
             else:
                 print('Redundance:')
@@ -52,6 +54,12 @@ class RecV20RecConverter(BaseOCRV20):
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
                 elif ppname.endswith('fc2.weight'): # for tps loc
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
+                elif ppname.endswith('.weight') \
+                    and len(para_state_dict[ppname].shape) == len(self.net.state_dict()[k].shape) == 2 \
+                        and para_state_dict[ppname].shape[0] == self.net.state_dict()[k].shape[1] \
+                            and para_state_dict[ppname].shape[1] == self.net.state_dict()[k].shape[0]: # for general fc
+                    self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
+
                 else:
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname]))
             except Exception as e:
@@ -95,7 +103,10 @@ if __name__ == '__main__':
         #        'Head':{'name':'CTCHead', 'fc_decay': 4e-05},
         #        }
     kwargs = {}
-    kwargs['out_channels'] = 37
+    if 'att' in yaml_path:
+        kwargs['out_channels'] = 37 + 1
+    else:
+        kwargs['out_channels'] = 37
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
     converter = RecV20RecConverter(cfg, paddle_pretrained_model_path, **kwargs)
 
