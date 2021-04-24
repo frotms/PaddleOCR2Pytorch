@@ -109,7 +109,7 @@ class AttentionLSTM(nn.Module):
         self.generator = nn.Linear(hidden_size, out_channels)
 
     def _char_to_onehot(self, input_char, onehot_dim):
-        input_ont_hot = F.one_hot(input_char, onehot_dim)
+        input_ont_hot = F.one_hot(input_char.type(torch.int64), onehot_dim)
         return input_ont_hot
 
     def forward(self, inputs, targets=None, batch_max_length=25):
