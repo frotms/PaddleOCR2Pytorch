@@ -13,7 +13,6 @@ This repository aims to
 
 ## TODO
 
-- [ ] AAAI 2021 end-to-end algorithm PGNet
 - [ ] other text recognition models: SRN
 
 ## Notice
@@ -22,6 +21,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2021.4.25 update AAAI 2021 end-to-end algorithm PGNet
 - 2021.4.24 update RARE
 - 2021.4.12 update STARNET
 - 2021.4.8 update DB, SAST, EAST, ROSETTA, CRNN

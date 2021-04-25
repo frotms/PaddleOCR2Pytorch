@@ -6,6 +6,7 @@
 - [一、PaddleOCR训练模型转PyTorch模型](#PaddleOCR训练模型转PyTorch模型)
     - [中英文通用OCR](#中英文通用OCR)
     - [多语言识别模型](#多语言识别模型)
+    - [端到端模型](#端到端模型)
     - [其他检测模型](#其他检测模型)
     - [其他识别模型](#其他识别模型)
 - [二、PyTorch推理](#PyTorch推理)
@@ -13,7 +14,8 @@
     - [文本识别模型推理](#文本识别模型推理)
     - [文本方向分类模型推理](#文本方向分类模型推理)
     - [文本检测、方向分类和文字识别串联推理](#文本检测、方向分类和文字识别串联推理)
-    - [其他模型推理](#其他模型推理) 
+    - [端到端模型推理](#端到端模型推理)
+    - [其他模型推理](#其他模型推理)
     - [参数列表](#参数列表)
 
 - [参考](#参考)
@@ -49,6 +51,15 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 
 ```bash
 python3 ./converter/multilingual_mobile_v2.0_rec_converter.py --src_model_path paddle_multilingual_mobile_v2.0_rec_train_dir
+```
+
+<a name="端到端模型"></a>
+
+### 端到端模型
+
+```bash
+# en_server_pgnetA
+python ./converter/e2e_converter.py --yaml_path ./configs/e2e/e2e_r50_vd_pg.yml --src_model_path your_ppocr_e2e_models_en_server_pgnetA_train_dir
 ```
 
 <a name="其他检测模型"></a>
@@ -176,6 +187,15 @@ python3 ./tools/infer/predict_system.py --image_dir ./doc/imgs --det_model_path 
 
 ![](../../doc/imgs_results/system_res_00018069.jpg)
 
+<a name="端到端模型推理"></a>
+
+### 端到端模型推理
+
+```bash
+# en_server_pgnetA
+python tools/infer/predict_e2e.py --e2e_model_path ./en_server_pgnetA_infer.pth --image_dir ./doc/imgs_en/img623.jpg --e2e_algorithm PGNet --e2e_pgnet_polygon True --e2e_char_dict_path ./pytorchocr/utils/ic15_dict.txt --e2e_yaml_path ./configs/e2e/e2e_r50_vd_pg.yml
+```
+
 <a name="其他模型推理"></a>
 
 ### 其他模型推理
@@ -302,11 +322,28 @@ def parse_args():
 
     parser.add_argument("--enable_mkldnn", type=str2bool, default=False)
     parser.add_argument("--use_pdserving", type=str2bool, default=False)
-    
+
+    # params for e2e
+    parser.add_argument("--e2e_algorithm", type=str, default='PGNet')
+    parser.add_argument("--e2e_model_path", type=str)
+    parser.add_argument("--e2e_limit_side_len", type=float, default=768)
+    parser.add_argument("--e2e_limit_type", type=str, default='max')
+
+    # PGNet parmas
+    parser.add_argument("--e2e_pgnet_score_thresh", type=float, default=0.5)
+    parser.add_argument(
+        "--e2e_char_dict_path", type=str,
+        default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                             'pytorchocr/utils/ic15_dict.txt'))
+    parser.add_argument("--e2e_pgnet_valid_set", type=str, default='totaltext')
+    parser.add_argument("--e2e_pgnet_polygon", type=bool, default=True)
+    parser.add_argument("--e2e_pgnet_mode", type=str, default='fast')
+
     # params .yaml
     parser.add_argument("--det_yaml_path", type=str, default=None)
     parser.add_argument("--rec_yaml_path", type=str, default=None)
     parser.add_argument("--cls_yaml_path", type=str, default=None)
+    parser.add_argument("--e2e_yaml_path", type=str, default=None)
 
     return parser.parse_args()
 ```

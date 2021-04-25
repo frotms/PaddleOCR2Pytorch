@@ -74,10 +74,27 @@ def parse_args():
     parser.add_argument("--enable_mkldnn", type=str2bool, default=False)
     parser.add_argument("--use_pdserving", type=str2bool, default=False)
 
+    # params for e2e
+    parser.add_argument("--e2e_algorithm", type=str, default='PGNet')
+    parser.add_argument("--e2e_model_path", type=str)
+    parser.add_argument("--e2e_limit_side_len", type=float, default=768)
+    parser.add_argument("--e2e_limit_type", type=str, default='max')
+
+    # PGNet parmas
+    parser.add_argument("--e2e_pgnet_score_thresh", type=float, default=0.5)
+    parser.add_argument(
+        "--e2e_char_dict_path", type=str,
+        default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                             'pytorchocr/utils/ic15_dict.txt'))
+    parser.add_argument("--e2e_pgnet_valid_set", type=str, default='totaltext')
+    parser.add_argument("--e2e_pgnet_polygon", type=bool, default=True)
+    parser.add_argument("--e2e_pgnet_mode", type=str, default='fast')
+
     # params .yaml
     parser.add_argument("--det_yaml_path", type=str, default=None)
     parser.add_argument("--rec_yaml_path", type=str, default=None)
     parser.add_argument("--cls_yaml_path", type=str, default=None)
+    parser.add_argument("--e2e_yaml_path", type=str, default=None)
 
     return parser.parse_args()
 
@@ -154,6 +171,62 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck':None,
                           'Head':{'name':'ClsHead', 'class_dim':2}}
 
+    elif weights_name == 'det_mv3_db_v2.0_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'DB',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV3', 'model_name': 'large'},
+                          'Neck': {'name': 'DBFPN', 'out_channels': 256},
+                          'Head': {'name': 'DBHead', 'k': 50}}
+
+    elif weights_name == 'det_r50_vd_db_v2.0_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'DB',
+                          'Transform': None,
+                          'Backbone': {'name': 'ResNet', 'layers': 50},
+                          'Neck': {'name': 'DBFPN', 'out_channels': 256},
+                          'Head': {'name': 'DBHead', 'k': 50}}
+
+    elif weights_name == 'det_mv3_east_v2.0_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'EAST',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV3', 'model_name': 'large'},
+                          'Neck': {'name': 'EASTFPN', 'model_name': 'small'},
+                          'Head': {'name': 'EASTHead', 'model_name': 'small'}}
+
+    elif weights_name == 'det_r50_vd_east_v2.0_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'EAST',
+                          'Transform': None,
+                          'Backbone': {'name': 'ResNet', 'layers': 50},
+                          'Neck': {'name': 'EASTFPN', 'model_name': 'large'},
+                          'Head': {'name': 'EASTHead', 'model_name': 'large'}}
+
+    elif weights_name == 'det_r50_vd_sast_icdar15_v2.0_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'SAST',
+                          'Transform': None,
+                          'Backbone': {'name': 'ResNet_SAST', 'layers': 50},
+                          'Neck': {'name': 'SASTFPN', 'with_cab': True},
+                          'Head': {'name': 'SASTHead'}}
+
+    elif weights_name == 'det_r50_vd_sast_totaltext_v2.0_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'SAST',
+                          'Transform': None,
+                          'Backbone': {'name': 'ResNet_SAST', 'layers': 50},
+                          'Neck': {'name': 'SASTFPN', 'with_cab': True},
+                          'Head': {'name': 'SASTHead'}}
+
+    elif weights_name == 'en_server_pgneta_infer.pth':
+        network_config = {'model_type': 'e2e',
+                          'algorithm': 'PGNet',
+                          'Transform': None,
+                          'Backbone': {'name': 'ResNet', 'layers': 50},
+                          'Neck': {'name': 'PGFPN'},
+                          'Head': {'name': 'PGHead'}}
+
     else:
         network_config = {'model_type': 'rec',
                           'algorithm': 'CRNN',
@@ -165,6 +238,22 @@ def AnalysisConfig(weights_path, yaml_path=None):
         # raise NotImplementedError
 
     return network_config
+
+
+def draw_e2e_res(dt_boxes, strs, img_path):
+    src_im = cv2.imread(img_path)
+    for box, str in zip(dt_boxes, strs):
+        box = box.astype(np.int32).reshape((-1, 1, 2))
+        cv2.polylines(src_im, [box], True, color=(255, 255, 0), thickness=2)
+        cv2.putText(
+            src_im,
+            str,
+            org=(int(box[0, 0, 0]), int(box[0, 0, 1])),
+            fontFace=cv2.FONT_HERSHEY_COMPLEX,
+            fontScale=0.7,
+            color=(0, 255, 0),
+            thickness=1)
+    return src_im
 
 
 def draw_text_det_res(dt_boxes, img_path):

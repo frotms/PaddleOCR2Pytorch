@@ -6,6 +6,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
 - [CONVERT PADDLE-OCR MODEL TO PYTORCH MODEL](#CONVERT)
     - [CHINESE AND ENGLISH GENERAL OCR MODELS](#GENERAL)
     - [MULTILINGUAL MODELS](#MULTILINGUAL)
+    - [END2END MODELS](#E2E_MODELS)
     - [OTHER DETECTION MODELS](#CVT_DETECTION)
     - [OTHER RECOGNITION MODELS](#CVT_RECOGNITION)
 
@@ -13,8 +14,9 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
 - [INFERENCE IN PYTORCH](#INFERENCE)
     - [TEXT DETECTION MODEL INFERENCE](#DETECTION)
     - [TEXT RECOGNITION MODEL INFERENCE](#RECOGNITION)
-    - [TEXT DIRECTION CLASSIFICATION MODEL IN INFERENCE](#CLASSIFICATION)
+    - [TEXT DIRECTION CLASSIFICATION MODEL INFERENCE](#CLASSIFICATION)
     - [TEXT DETECTION ANGLE CLASSIFICATION AND RECOGNITION INFERENCE CONCATENATION](#CONCATENATION)
+    - [END2END MODEL INFERENCE](#E2E_INFERENCE)
     - [OTHER MODEL INFERENCE](#OTHER)
     - [PARSER LIST](#PARSER)
 
@@ -50,6 +52,15 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 
 ```bash
 python3 ./converter/multilingual_mobile_v2.0_rec_converter.py --src_model_path paddle_multilingual_mobile_v2.0_rec_train_dir
+```
+
+<a name="E2E_MODELS"></a>
+
+### END2END MODELS
+
+```bash
+# en_server_pgnetA
+python ./converter/e2e_converter.py --yaml_path ./configs/e2e/e2e_r50_vd_pg.yml --src_model_path your_ppocr_e2e_models_en_server_pgnetA_train_dir
 ```
 
 <a name="cvt_DETECTION"></a>
@@ -177,6 +188,15 @@ After executing the command, the recognition result image is as follows:
 
 ![](../../doc/imgs_results/system_res_00018069.jpg)
 
+<a name="E2E_INFERENCE"></a>
+
+### END2END MODEL INFERENCE
+
+```bash
+# en_server_pgnetA
+python tools/infer/predict_e2e.py --e2e_model_path ./en_server_pgnetA_infer.pth --image_dir ./doc/imgs_en/img623.jpg --e2e_algorithm PGNet --e2e_pgnet_polygon True --e2e_char_dict_path ./pytorchocr/utils/ic15_dict.txt --e2e_yaml_path ./configs/e2e/e2e_r50_vd_pg.yml
+```
+
 <a name="OTHER"></a>
 
 ### OTHER MODEL INFERENCE
@@ -303,11 +323,28 @@ def parse_args():
 
     parser.add_argument("--enable_mkldnn", type=str2bool, default=False)
     parser.add_argument("--use_pdserving", type=str2bool, default=False)
-    
+
+    # params for e2e
+    parser.add_argument("--e2e_algorithm", type=str, default='PGNet')
+    parser.add_argument("--e2e_model_path", type=str)
+    parser.add_argument("--e2e_limit_side_len", type=float, default=768)
+    parser.add_argument("--e2e_limit_type", type=str, default='max')
+
+    # PGNet parmas
+    parser.add_argument("--e2e_pgnet_score_thresh", type=float, default=0.5)
+    parser.add_argument(
+        "--e2e_char_dict_path", type=str,
+        default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                             'pytorchocr/utils/ic15_dict.txt'))
+    parser.add_argument("--e2e_pgnet_valid_set", type=str, default='totaltext')
+    parser.add_argument("--e2e_pgnet_polygon", type=bool, default=True)
+    parser.add_argument("--e2e_pgnet_mode", type=str, default='fast')
+
     # params .yaml
     parser.add_argument("--det_yaml_path", type=str, default=None)
     parser.add_argument("--rec_yaml_path", type=str, default=None)
     parser.add_argument("--cls_yaml_path", type=str, default=None)
+    parser.add_argument("--e2e_yaml_path", type=str, default=None)
 
     return parser.parse_args()
 ```
