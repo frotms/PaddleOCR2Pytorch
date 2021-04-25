@@ -133,9 +133,9 @@ You can also get the pytorch models with the converter by yourself.
 python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_det_pth_path.pth
 ```
 
-![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_results/det_res_img_10_db.jpg)
+![](../../doc/imgs_results/det_res_img_10_db.jpg)
 
-![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_results/det_res_img623_sast.jpg)
+![](../../doc/imgs_results/det_res_img623_sast.jpg)
 
 <a name="RECOGNITION"></a>
 
@@ -147,7 +147,7 @@ python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_de
 python3 ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words --model_path your_rec_pth_path.pth
 ```
 
-![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_words/ch/word_4.jpg)
+![](../../doc/imgs_words/ch/word_4.jpg)
 
 ```
 Predicts of ./doc/imgs_words/ch/word_4.jpg:('实力活力', 0.98458153)
@@ -179,7 +179,7 @@ python3 ./tools/infer/predict_rec.py --rec_model_path your_japan_mobile_v2.0_rec
 
 refer to [paddleocr.py](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
 
-![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_words/korean/1.jpg)
+![](../../doc/imgs_words/korean/1.jpg)
 
 ```
 Predicts of ./doc/imgs_words/korean/1.jpg:('바탕으로', 0.9948904)
@@ -193,7 +193,7 @@ Predicts of ./doc/imgs_words/korean/1.jpg:('바탕으로', 0.9948904)
 python3 ./tools/infer/predict_cls.py --image_dir ./doc/imgs_words --model_path your_cls_pth_path.pth
 ```
 
-![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_words/ch/word_1.jpg)
+![](../../doc/imgs_words/ch/word_1.jpg)
 
 ```
 Predicts of ./doc/imgs_words/ch/word_4.jpg:['0', 0.9999982]
