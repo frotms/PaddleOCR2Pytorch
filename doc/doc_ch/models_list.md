@@ -18,7 +18,7 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 |训练模型、预训练模型|\*.pdparams、\*.pdopt、\*.states |训练过程中保存的模型的参数、优化器状态和训练中间信息，多用于模型指标评估和恢复训练|
 
 <a name="文本检测模型"></a>
-### 一、文本检测模型
+## 一、文本检测模型
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
@@ -30,7 +30,7 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 ### 二、文本识别模型
 
 <a name="中文识别模型"></a>
-#### 1. 中文识别模型
+### 1. 中文识别模型
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
@@ -40,14 +40,16 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 **说明：** `训练模型`是基于预训练模型在真实数据与竖排合成文本数据上finetune得到的模型，在真实应用场景中有着更好的表现，`预训练模型`则是直接基于全量真实数据与合成数据训练得到，更适合用于在自己的数据集上finetune。
 
 <a name="英文识别模型"></a>
-#### 2. 英文识别模型
+### 2. 英文识别模型
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
 |en_number_mobile_v2.0_rec|原始超轻量模型，支持英文、数字识别|2.56M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 
 <a name="多语言识别模型"></a>
-#### 3. 多语言识别模型（更多语言持续更新中...）
+### 3. 多语言识别模型（更多语言持续更新中...）
+
+#### [release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md#2-%E7%94%9F%E6%88%90%E6%84%8F%E5%A4%A7%E5%88%A9%E8%AF%AD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AE%AD%E7%BB%83%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%B0%E6%8D%AE)
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
@@ -77,9 +79,31 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 | kn_mobile_v2.0_rec |卡纳达文识别|2.63M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/kn_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/kn_mobile_v2.0_rec_train.tar) |
 | ta_mobile_v2.0_rec |泰米尔文识别|2.63M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_train.tar) |
 
+#### [release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_ch/models_list.md#2-%E7%94%9F%E6%88%90%E6%84%8F%E5%A4%A7%E5%88%A9%E8%AF%AD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AE%AD%E7%BB%83%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%B0%E6%8D%AE)
+
+| 模型名称                    | 模型简介     | 推理模型大小 | 下载地址                                                     |
+| --------------------------- | ------------ | ------------ | ------------------------------------------------------------ |
+| french_mobile_v2.0_rec      | 法文识别     | 2.65M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_train.tar) |
+| german_mobile_v2.0_rec      | 德文识别     | 2.65M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_train.tar) |
+| korean_mobile_v2.0_rec      | 韩文识别     | 3.9M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_train.tar) |
+| japan_mobile_v2.0_rec       | 日文识别     | 4.23M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_train.tar) |
+| chinese_cht_mobile_v2.0_rec | 中文繁体识别 | 5.63M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_train.tar) |
+| te_mobile_v2.0_rec          | 泰卢固文识别 | 2.63M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_train.tar) |
+| ka_mobile_v2.0_rec          | 卡纳达文识别 | 2.63M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ka_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ka_mobile_v2.0_rec_train.tar) |
+| ta_mobile_v2.0_rec          | 泰米尔文识别 | 2.63M        | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_train.tar) |
+| latin_mobile_v2.0_rec       | 拉丁文识别   | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/latin_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/latin_ppocr_mobile_v2.0_rec_train.tar) |
+| arabic_mobile_v2.0_rec      | 阿拉伯字母   | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_train.tar) |
+| cyrillic_mobile_v2.0_rec    | 斯拉夫字母   | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_train.tar) |
+| devanagari_mobile_v2.0_rec  | 梵文字母     | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_train.tar) |
+
+更多支持语种请参考: 
+
+- [多语言模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_ch/multi_languages.md)
+- [lang](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
 
 <a name="文本方向分类模型"></a>
-### 三、文本方向分类模型
+
+## 三、文本方向分类模型
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |

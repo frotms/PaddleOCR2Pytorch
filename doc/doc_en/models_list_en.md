@@ -18,7 +18,7 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 |trained model, pre-trained model|\*.pdparams、\*.pdopt、\*.states |The checkpoints model saved in the training process, which stores the parameters of the model, mostly used for model evaluation and continuous training.|
 
 <a name="Detection"></a>
-### 1. Text Detection Model
+## 1. Text Detection Model
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
@@ -27,10 +27,10 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 
 <a name="Recognition"></a>
 
-### 2. Text Recognition Model
+## 2. Text Recognition Model
 
 <a name="Chinese"></a>
-#### Chinese Recognition Model
+### Chinese Recognition Model
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
@@ -41,14 +41,16 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 
 <a name="English"></a>
 
-#### English Recognition Model
+### English Recognition Model
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
 |en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition|2.56M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 
 <a name="Multilingual"></a>
-#### Multilingual Recognition Model（Updating...）
+### Multilingual Recognition Model（Updating...）
+
+#### [release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/models_list_en.md#2-generate-italian-configuration-file-to-train-your-own-data)
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
@@ -78,9 +80,28 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 | kn_mobile_v2.0_rec |Lightweight model for Kannada recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/kn_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/kn_mobile_v2.0_rec_train.tar) |
 | ta_mobile_v2.0_rec |Lightweight model for Tamil recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_train.tar) |
 
+#### [release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/models_list_en.md#2-generate-italian-configuration-file-to-train-your-own-data)
+
+| model name                  | description                                   | model size | download                                                     |
+| --------------------------- | --------------------------------------------- | ---------- | ------------------------------------------------------------ |
+| french_mobile_v2.0_rec      | Lightweight model for French recognition      | 2.65M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_train.tar) |
+| german_mobile_v2.0_rec      | Lightweight model for German recognition      | 2.65M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_train.tar) |
+| korean_mobile_v2.0_rec      | Lightweight model for Korean recognition      | 3.9M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_train.tar) |
+| japan_mobile_v2.0_rec       | Lightweight model for Japanese recognition    | 4.23M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_train.tar) |
+| chinese_cht_mobile_v2.0_rec | Lightweight model for chinese cht recognition | 5.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_train.tar) |
+| te_mobile_v2.0_rec          | Lightweight model for Telugu recognition      | 2.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_train.tar) |
+| ka_mobile_v2.0_rec          | Lightweight model for Kannada recognition     | 2.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ka_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ka_mobile_v2.0_rec_train.tar) |
+| ta_mobile_v2.0_rec          | Lightweight model for Tamil recognition       | 2.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_train.tar) |
+| latin_mobile_v2.0_rec       | Lightweight model for latin recognition       | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/latin_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/latin_ppocr_mobile_v2.0_rec_train.tar) |
+| arabic_mobile_v2.0_rec      | Lightweight model for arabic recognition      | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_train.tar) |
+| cyrillic_mobile_v2.0_rec    | Lightweight model for cyrillic recognition    | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_train.tar) |
+| devanagari_mobile_v2.0_rec  | Lightweight model for devanagari recognition  | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_train.tar) |
+
+For more supported languages, please refer to : [Multi-language model](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/multi_languages_en.md)
 
 <a name="Angle"></a>
-### 3. Text Angle Classification Model
+
+## 3. Text Angle Classification Model
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |

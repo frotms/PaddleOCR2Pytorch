@@ -133,6 +133,10 @@ You can also get the pytorch models with the converter by yourself.
 python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_det_pth_path.pth
 ```
 
+![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_results/det_res_img_10_db.jpg)
+
+![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_results/det_res_img623_sast.jpg)
+
 <a name="RECOGNITION"></a>
 
 ### TEXT RECOGNITION MODEL INFERENCE
@@ -141,6 +145,12 @@ python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_de
 
 ```bash
 python3 ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words --model_path your_rec_pth_path.pth
+```
+
+![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_words/ch/word_4.jpg)
+
+```
+Predicts of ./doc/imgs_words/ch/word_4.jpg:('实力活力', 0.98458153)
 ```
 
 #### Multilingual Recognition Models
@@ -154,12 +164,25 @@ You need to specify the visual font path through `--vis_font_path`. There are sm
 python3 ./tools/infer/predict_rec.py --rec_model_path your_japan_mobile_v2.0_rec_infer_path.pth --rec_char_type japan --rec_char_dict_path ./pytorchocr/utils/dict/japan_dict.txt --image_dir ./doc/imgs_words/japan/1.jpg
 
 # rec_char_type
-# support_character_type = [
-            'ch', 'en', 'EN_symbol', 'french', 'german', 'japan', 'korean',
-            'it', 'es', 'pt', 'ru', 'ar', 'ta', 'ug', 'fa', 'ur', 'rs_latin',
-            'oc', 'rs_cyrillic', 'bg', 'uk', 'be', 'te', 'kn', 'ch_tra', 'hi',
-            'mr', 'ne', 'EN'
-        ]
+# rec_char_type
+# support_character_type = [ 
+#             # release/2.0
+#             'ch', 'en', 'EN_symbol', 'french', 'german', 'japan', 'korean',
+#             'it', 'es', 'pt', 'ru', 'ar', 'ta', 'ug', 'fa', 'ur', 'rs_latin',
+#             'oc', 'rs_cyrillic', 'bg', 'uk', 'be', 'te', 'kn', 'ch_tra', 'hi',
+#             'mr', 'ne', 'EN'
+#             # release/2.1
+#             'xi', 'pu', 'rs', 'rsc', 'ka', 'chinese_cht', 'latin', 'arabic',
+#             'cyrillic', 'devanagari'
+#         ]
+```
+
+refer to [paddleocr.py](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
+
+![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_words/korean/1.jpg)
+
+```
+Predicts of ./doc/imgs_words/korean/1.jpg:('바탕으로', 0.9948904)
 ```
 
 <a name="CLASSIFICATION"></a>
@@ -168,6 +191,12 @@ python3 ./tools/infer/predict_rec.py --rec_model_path your_japan_mobile_v2.0_rec
 
 ```bash
 python3 ./tools/infer/predict_cls.py --image_dir ./doc/imgs_words --model_path your_cls_pth_path.pth
+```
+
+![](C:/onedrive/OneDrive%20-%20Alilin/repo/PaddleOCR2Pytorch/doc/imgs_words/ch/word_1.jpg)
+
+```
+Predicts of ./doc/imgs_words/ch/word_4.jpg:['0', 0.9999982]
 ```
 
 <a name="CONCATENATION"></a>
@@ -196,6 +225,8 @@ After executing the command, the recognition result image is as follows:
 # en_server_pgnetA
 python tools/infer/predict_e2e.py --e2e_model_path ./en_server_pgnetA_infer.pth --image_dir ./doc/imgs_en/img623.jpg --e2e_algorithm PGNet --e2e_pgnet_polygon True --e2e_char_dict_path ./pytorchocr/utils/ic15_dict.txt --e2e_yaml_path ./configs/e2e/e2e_r50_vd_pg.yml
 ```
+
+![](../../doc/imgs_results/e2e_res_img623_pgnet.jpg)
 
 <a name="OTHER"></a>
 
@@ -353,4 +384,6 @@ def parse_args():
 
 ## References
 
-[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/inference_en.md)
+- [PaddleOCR release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/inference_en.md)
+- [PaddleOCR release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/inference_en.md)
+
