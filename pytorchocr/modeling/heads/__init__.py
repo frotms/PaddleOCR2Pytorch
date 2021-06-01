@@ -25,7 +25,7 @@ def build_head(config, **kwargs):
     # rec head
     from .rec_ctc_head import CTCHead
     from .rec_att_head import AttentionHead
-    # from .rec_srn_head import SRNHead
+    from .rec_srn_head import SRNHead
 
     # cls head
     from .cls_head import ClsHead

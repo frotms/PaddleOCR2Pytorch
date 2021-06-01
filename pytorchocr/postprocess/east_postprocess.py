@@ -114,8 +114,8 @@ class EASTPostProcess(object):
         score_list = outs_dict['f_score']
         geo_list = outs_dict['f_geo']
         if isinstance(score_list, torch.Tensor):
-            score_list = score_list.numpy()
-            geo_list = geo_list.numpy()
+            score_list = score_list.cpu().numpy()
+            geo_list = geo_list.cpu().numpy()
         img_num = len(shape_list)
         dt_boxes_list = []
         for ino in range(img_num):

@@ -114,6 +114,9 @@ python ./converter/rec_converter.py --yaml_path ./configs/rec/rec_mv3_tps_bilstm
 
 # rec_r34_vd_tps_bilstm_att
 python ./converter/rec_converter.py --yaml_path ./configs/rec/rec_r34_vd_tps_bilstm_att.yml --src_model_path your_ppocr_rec_r34_vd_tps_bilstm_att_v2.0_train_dir
+
+# rec_r50_vd_srn
+python ./converter/srn_converter.py --yaml_path ./configs/rec/rec_r50_fpn_srn.yml --src_model_path your_ppocr_rec_r50_vd_srn_train_dir
 ```
 
 <a name="PyTorch推理"></a>
@@ -246,7 +249,7 @@ python3 ./tools/infer/predict_det.py --det_model_path your_det_mv3_east_v2.0_inf
 python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_db_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm DB --det_yaml_path ./configs/det/det_r50_vd_db.yml
 
 # det_r50_vd_east
-python3 .\tools\infer\predict_det.py --det_model_path your_det_r50_vd_east_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm EAST --det_yaml_path ./configs/det/det_r50_vd_east.yml
+python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_east_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm EAST --det_yaml_path ./configs/det/det_r50_vd_east.yml
 
 # det_r50_vd_sast_icdar15
 python ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_sast_icdar15_v2.0_infer_path.pth --image_dir ./doc/imgs/00006737.jpg  --det_algorithm SAST --det_yaml_path ./configs/det/det_r50_vd_sast_icdar15.yml
@@ -275,10 +278,13 @@ python ./tools/infer/predict_rec.py --rec_model_path your_rec_mv3_tps_bilstm_ctc
 python ./tools/infer/predict_rec.py --rec_model_path your_rec_r34_vd_tps_bilstm_ctc_v2.0_infer_path.pth --image_dir ./doc/imgs_words_en/word_401.png --rec_image_shape 3,32,100 --rec_char_type en --rec_yaml_path ./configs/rec/rec_r34_vd_tps_bilstm_ctc.yml
 
 # rec_mv3_tps_bilstm_att
-python ./tools/infer/predict_rec.py --rec_model_path tour_rec_mv3_tps_bilstm_att_v2.0_infer_path.pth --image_dir ./doc/imgs_words_en/word_461.png --rec_image_shape 3,32,100 --rec_char_type en  --rec_algorithm RARE --rec_yaml_path ./configs/rec/rec_mv3_tps_bilstm_att.yml
+python ./tools/infer/predict_rec.py --rec_model_path your_rec_mv3_tps_bilstm_att_v2.0_infer_path.pth --image_dir ./doc/imgs_words_en/word_461.png --rec_image_shape 3,32,100 --rec_char_type en  --rec_algorithm RARE --rec_yaml_path ./configs/rec/rec_mv3_tps_bilstm_att.yml
 
 # rec_r34_vd_tps_bilstm_att
-python ./tools/infer/predict_rec.py --rec_model_path tour_rec_r34_vd_tps_bilstm_att_v2.0_infer_path.pth --image_dir ./doc/imgs_words_en/word_461.png  --rec_image_shape 3,32,100 --rec_char_type en  --rec_algorithm RARE --rec_yaml_path ./configs/rec/rec_r34_vd_tps_bilstm_att.yml
+python ./tools/infer/predict_rec.py --rec_model_path your_rec_r34_vd_tps_bilstm_att_v2.0_infer_path.pth --image_dir ./doc/imgs_words_en/word_461.png  --rec_image_shape 3,32,100 --rec_char_type en  --rec_algorithm RARE --rec_yaml_path ./configs/rec/rec_r34_vd_tps_bilstm_att.yml
+
+# rec_r50_vd_srn
+python ./tools/infer/predict_rec.py --rec_model_path your_rec_r50_vd_srn_infer_path.pth --image_dir ./doc/imgs_words_en/word_401.png --rec_image_shape 1,64,256 --rec_char_type en --rec_algorithm SRN --rec_yaml_path ./configs/rec/rec_r50_fpn_srn.yml
 ```
 
 ### 参数列表

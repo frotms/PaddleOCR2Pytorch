@@ -279,10 +279,10 @@ class SASTPostProcess(object):
         tvo_list = outs_dict['f_tvo']
         tco_list = outs_dict['f_tco']
         if isinstance(score_list, torch.Tensor):
-            score_list = score_list.numpy()
-            border_list = border_list.numpy()
-            tvo_list = tvo_list.numpy()
-            tco_list = tco_list.numpy()
+            score_list = score_list.cpu().numpy()
+            border_list = border_list.cpu().numpy()
+            tvo_list = tvo_list.cpu().numpy()
+            tco_list = tco_list.cpu().numpy()
 
         img_num = len(shape_list)
         poly_lists = []

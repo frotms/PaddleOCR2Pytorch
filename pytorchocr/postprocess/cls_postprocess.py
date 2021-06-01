@@ -10,7 +10,7 @@ class ClsPostProcess(object):
 
     def __call__(self, preds, label=None, *args, **kwargs):
         if isinstance(preds, torch.Tensor):
-            preds = preds.numpy()
+            preds = preds.cpu().numpy()
         pred_idxs = preds.argmax(axis=1)
         decode_out = [(self.label_list[idx], preds[i, idx])
                       for i, idx in enumerate(pred_idxs)]
