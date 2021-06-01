@@ -13,7 +13,7 @@
 
 ## TODO
 
-- [ ] 其他文本识别模型: SRN
+- [ ] 跟进[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
 
 ## 注意
 
@@ -21,12 +21,13 @@
 
 **近期更新**
 
-- 2021.4.25 更新AAAI 2021论文端到端识别算法PGNet
-- 2021.4.24 更新RARE
-- 2021.4.12 更新STARNET
-- 2021.4.8 更新DB, SAST, EAST, ROSETTA, CRNN
-- 2021.4.3 更新多语言识别模型，目前支持语种超过27种，[多语言模型下载](./doc/doc_ch/models_list.md)，包括中文简体、中文繁体、英文、法文、德文、韩文、日文、意大利文、西班牙文、葡萄牙文、俄罗斯文、阿拉伯文等，后续计划可以参考[多语言研发计划](https://github.com/PaddlePaddle/PaddleOCR/issues/1048)
-- 2021.1.10 白嫖中英文通用OCR模型
+- 2021.06.01 更新SRN
+- 2021.04.25 更新AAAI 2021论文端到端识别算法PGNet
+- 2021.04.24 更新RARE
+- 2021.04.12 更新STARNET
+- 2021.04.08 更新DB, SAST, EAST, ROSETTA, CRNN
+- 2021.04.03 更新多语言识别模型，目前支持语种超过27种，[多语言模型下载](./doc/doc_ch/models_list.md)，包括中文简体、中文繁体、英文、法文、德文、韩文、日文、意大利文、西班牙文、葡萄牙文、俄罗斯文、阿拉伯文等，后续计划可以参考[多语言研发计划](https://github.com/PaddlePaddle/PaddleOCR/issues/1048)
+- 2021.01.10 白嫖中英文通用OCR模型
 
 ## 特性
 

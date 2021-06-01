@@ -187,7 +187,7 @@ class AttnLabelDecode(BaseRecLabelDecode):
             return text, label
         """
         if isinstance(preds, torch.Tensor):
-            preds = preds.numpy()
+            preds = preds.cpu().numpy()
 
         preds_idx = preds.argmax(axis=2)
         preds_prob = preds.max(axis=2)
@@ -221,7 +221,7 @@ class SRNLabelDecode(BaseRecLabelDecode):
                  character_type='en',
                  use_space_char=False,
                  **kwargs):
-        self.max_text_length = kwargs['max_text_length']
+        self.max_text_length = kwargs.get('max_text_length', 25)
         super(SRNLabelDecode, self).__init__(character_dict_path,
                                              character_type, use_space_char)
 

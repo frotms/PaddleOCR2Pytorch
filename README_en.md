@@ -13,7 +13,7 @@ This repository aims to
 
 ## TODO
 
-- [ ] other text recognition models: SRN
+- [ ] follow up [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
 
 ## Notice
 
@@ -21,12 +21,13 @@ This repository aims to
 
 **Recent updates**
 
-- 2021.4.25 update AAAI 2021 end-to-end algorithm PGNet
-- 2021.4.24 update RARE
-- 2021.4.12 update STARNET
-- 2021.4.8 update DB, SAST, EAST, ROSETTA, CRNN
-- 2021.4.3 update more than 25+ multilingual recognition models [models list](./doc/doc_en/models_list_en.md), including：English, Chinese, German, French, Japanese，Spanish，Portuguese Russia Arabic and so on.  Models for more languages will continue to be updated [Develop Plan](https://github.com/PaddlePaddle/PaddleOCR/issues/1048).
-- 2021.1.10 upload Chinese and English general OCR models.
+- 2021.06.01 update SRN
+- 2021.04.25 update AAAI 2021 end-to-end algorithm PGNet
+- 2021.04.24 update RARE
+- 2021.04.12 update STARNET
+- 2021.04.08 update DB, SAST, EAST, ROSETTA, CRNN
+- 2021.04.03 update more than 25+ multilingual recognition models [models list](./doc/doc_en/models_list_en.md), including：English, Chinese, German, French, Japanese，Spanish，Portuguese Russia Arabic and so on.  Models for more languages will continue to be updated [Develop Plan](https://github.com/PaddlePaddle/PaddleOCR/issues/1048).
+- 2021.01.10 upload Chinese and English general OCR models.
 
 ## Features
 - PTOCR series of high-quality pre-trained models, comparable to commercial effects

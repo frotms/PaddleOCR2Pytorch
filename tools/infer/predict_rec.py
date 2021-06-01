@@ -206,38 +206,32 @@ class TextRecognizer(BaseOCRV20):
             norm_img_batch = norm_img_batch.copy()
 
             if self.rec_algorithm == "SRN":
-                raise NotImplementedError
-                # starttime = time.time()
-                # encoder_word_pos_list = np.concatenate(encoder_word_pos_list)
-                # gsrm_word_pos_list = np.concatenate(gsrm_word_pos_list)
-                # gsrm_slf_attn_bias1_list = np.concatenate(
-                #     gsrm_slf_attn_bias1_list)
-                # gsrm_slf_attn_bias2_list = np.concatenate(
-                #     gsrm_slf_attn_bias2_list)
+                starttime = time.time()
+                encoder_word_pos_list = np.concatenate(encoder_word_pos_list)
+                gsrm_word_pos_list = np.concatenate(gsrm_word_pos_list)
+                gsrm_slf_attn_bias1_list = np.concatenate(
+                    gsrm_slf_attn_bias1_list)
+                gsrm_slf_attn_bias2_list = np.concatenate(
+                    gsrm_slf_attn_bias2_list)
 
-                # with torch.no_grad():
-                #     inp = torch.Tensor(norm_img_batch)
-                #     encoder_word_pos_inp = torch.Tensor(encoder_word_pos_list)
-                #     gsrm_word_pos_inp = torch.Tensor(gsrm_word_pos_list)
-                #     gsrm_slf_attn_bias1_inp = torch.Tensor(gsrm_slf_attn_bias1_list)
-                #     gsrm_slf_attn_bias2_inp = torch.Tensor(gsrm_slf_attn_bias2_list)
-                #     print(inp.shape)
-                #     print(encoder_word_pos_inp.shape)
-                #     print(gsrm_word_pos_inp.shape)
-                #     print(gsrm_slf_attn_bias1_inp.shape)
-                #     print(gsrm_slf_attn_bias2_inp.shape, ' <<<<<')
-                #     if self.use_gpu:
-                #         inp = inp.cuda()
-                #         encoder_word_pos_inp = encoder_word_pos_inp.cuda()
-                #         gsrm_word_pos_inp = gsrm_word_pos_inp.cuda()
-                #         gsrm_slf_attn_bias1_inp = gsrm_slf_attn_bias1_inp.cuda()
-                #         gsrm_slf_attn_bias2_inp = gsrm_slf_attn_bias2_inp.cuda()
-                #
-                #
-                #     backbone_out = self.net.backbone(inp) # backbone_feat
-                #     prob_out = self.net.head(backbone_out, [encoder_word_pos_inp, gsrm_word_pos_inp, gsrm_slf_attn_bias1_inp, gsrm_slf_attn_bias2_inp])
-                # # preds = prob_out.cpu().numpy()
+                with torch.no_grad():
+                    inp = torch.Tensor(norm_img_batch)
+                    encoder_word_pos_inp = torch.Tensor(encoder_word_pos_list)
+                    gsrm_word_pos_inp = torch.Tensor(gsrm_word_pos_list)
+                    gsrm_slf_attn_bias1_inp = torch.Tensor(gsrm_slf_attn_bias1_list)
+                    gsrm_slf_attn_bias2_inp = torch.Tensor(gsrm_slf_attn_bias2_list)
+
+                    if self.use_gpu:
+                        inp = inp.cuda()
+                        encoder_word_pos_inp = encoder_word_pos_inp.cuda()
+                        gsrm_word_pos_inp = gsrm_word_pos_inp.cuda()
+                        gsrm_slf_attn_bias1_inp = gsrm_slf_attn_bias1_inp.cuda()
+                        gsrm_slf_attn_bias2_inp = gsrm_slf_attn_bias2_inp.cuda()
+
+                    backbone_out = self.net.backbone(inp) # backbone_feat
+                    prob_out = self.net.head(backbone_out, [encoder_word_pos_inp, gsrm_word_pos_inp, gsrm_slf_attn_bias1_inp, gsrm_slf_attn_bias2_inp])
                 # preds = {"predict": prob_out[2]}
+                preds = {"predict": prob_out["predict"]}
             else:
                 starttime = time.time()
                 # self.input_tensor.copy_from_cpu(norm_img_batch)
@@ -263,7 +257,6 @@ class TextRecognizer(BaseOCRV20):
         return rec_res, elapse
 
 
-
 def main(args):
     image_file_list = get_image_file_list(args.image_dir)
     text_recognizer = TextRecognizer(args)
@@ -278,7 +271,6 @@ def main(args):
             continue
         valid_image_file_list.append(image_file)
         img_list.append(img)
-
     try:
         rec_res, predict_time = text_recognizer(img_list)
     except Exception as e:
