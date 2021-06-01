@@ -45,9 +45,11 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
-|en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition|2.56M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
+|en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition(v2.0)|2.56M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
+|en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition(v2.1 the performance is optimized)|2.6M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 
 <a name="Multilingual"></a>
+
 ### Multilingual Recognition Model（Updating...）
 
 #### [release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/models_list_en.md#2-generate-italian-configuration-file-to-train-your-own-data)

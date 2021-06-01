@@ -44,9 +44,11 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
-|en_number_mobile_v2.0_rec|原始超轻量模型，支持英文、数字识别|2.56M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
+|en_number_mobile_v2.0_rec|原始超轻量模型，支持英文、数字识别(v2.0)|2.56M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
+|en_number_mobile_v2.0_rec|原始超轻量模型，支持英文、数字识别(v2.1优化)|2.6M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 
 <a name="多语言识别模型"></a>
+
 ### 3. 多语言识别模型（更多语言持续更新中...）
 
 #### [release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md#2-%E7%94%9F%E6%88%90%E6%84%8F%E5%A4%A7%E5%88%A9%E8%AF%AD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AE%AD%E7%BB%83%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%B0%E6%8D%AE)
