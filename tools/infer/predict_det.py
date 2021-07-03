@@ -166,7 +166,7 @@ class TextDetector(BaseOCRV20):
         #     outputs.append(output)
 
         with torch.no_grad():
-            inp = torch.Tensor(img)
+            inp = torch.from_numpy(img)
             if self.use_gpu:
                 inp = inp.cuda()
             outputs = self.net(inp)

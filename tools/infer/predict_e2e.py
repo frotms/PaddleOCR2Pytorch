@@ -103,7 +103,7 @@ class TextE2E(BaseOCRV20):
         starttime = time.time()
 
         with torch.no_grad():
-            inp = torch.Tensor(img)
+            inp = torch.from_numpy(img)
             if self.use_gpu:
                 inp = inp.cuda()
             outputs = self.net(inp)
