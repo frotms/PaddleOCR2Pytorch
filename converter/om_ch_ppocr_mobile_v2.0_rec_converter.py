@@ -24,10 +24,11 @@ class ServerV20RecConverter(BaseOCRV20):
     def load_paddle_weights(self, paddle_weights):
         para_state_dict, opti_state_dict = paddle_weights
         # [print(k, v.shape) for k, v in para_state_dict.items()];exit()
+        # [print('torch:  ', k, v.shape) for k, v in self.net.state_dict().items()];exit()
         for k,v in self.net.state_dict().items():
             keyword = 'block_list.'
             if keyword in k:
-                # replace: 'block_list.' -> ''
+                # replace: block_list.
                 name = k.replace(keyword, '')
             else:
                 name = k
@@ -42,7 +43,10 @@ class ServerV20RecConverter(BaseOCRV20):
             elif name.endswith('bias') or name.endswith('weight'):
                 ppname = name
             elif 'lstm' in name:
-                ppname = name
+                ppname = name.replace('lstm_0_', 'lstm.0.')
+                ppname = ppname.replace('lstm_1_', 'lstm.1.')
+                ppname = ppname.replace('_ih_l0', '_ih')
+                ppname = ppname.replace('_hh_l0', '_hh')
 
             else:
                 print('Redundance:')
@@ -54,7 +58,6 @@ class ServerV20RecConverter(BaseOCRV20):
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname].T))
                 else:
                     self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[ppname]))
-
             except Exception as e:
                 print('pytorch: {}, {}'.format(k, v.size()))
                 print('paddle: {}, {}'.format(ppname, para_state_dict[ppname].shape))
@@ -73,8 +76,8 @@ if __name__ == '__main__':
     cfg = {'model_type':'rec',
            'algorithm':'CRNN',
            'Transform':None,
-           'Backbone':{'name':'ResNet', 'layers':34},
-           'Neck':{'name':'SequenceEncoder', 'hidden_size':256, 'encoder_type':'rnn'},
+           'Backbone':{'model_name':'small', 'name':'MobileNetV3', 'scale':0.5, 'small_stride':[1,2,2,2]},
+           'Neck':{'name':'SequenceEncoder', 'hidden_size':48, 'encoder_type':'om'},
            'Head':{'name':'CTCHead', 'fc_decay': 4e-05}}
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
     converter = ServerV20RecConverter(cfg, paddle_pretrained_model_path)
@@ -90,19 +93,20 @@ if __name__ == '__main__':
     # inp = torch.Tensor(transpose_img)
     # print('inp:', np.sum(transpose_img), np.mean(transpose_img), np.max(transpose_img), np.min(transpose_img))
 
-    np.random.seed(666)
-    inputs = np.random.randn(1,3,32,320).astype(np.float32)
-    inp = torch.from_numpy(inputs)
-
-    out = converter.net(inp)
-    out = out.data.numpy()
-    print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
-    # print(out['maps'].data.numpy())
+    # out = converter.net(inp)
+    # out = out.data.numpy()
+    # print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
 
     # save
-    # converter.save_pytorch_weights('ch_ptocr_server_v2.0_rec_infer.pth')
+    converter.save_pytorch_weights('om_ch_ptocr_mobile_v2.0_rec_infer.pth')
     print('done.')
 
-    # dummy_input = torch.autograd.Variable(torch.randn(1, 3, 32, 320))
-    # torch.onnx.export(converter.net, dummy_input, 'ch_ptocr_server_v2.0_rec_infer.onnx', opset_version=11,
-    #                   do_constant_folding=False, verbose=False)
+    dummy_input = torch.autograd.Variable(torch.randn(1, 3, 32, 320))
+    dynamic_axes = {'input.1': [0, 1, 2, 3],
+                    '938': [0, 1],
+                    }
+
+    torch.onnx.export(converter.net, dummy_input, 'om_ch_ptocr_mobile_v2.0_rec_infer.onnx', opset_version=11,
+                      do_constant_folding=False, verbose=False,
+                      dynamic_axes=dynamic_axes
+                      )

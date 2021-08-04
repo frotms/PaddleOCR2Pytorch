@@ -23,7 +23,7 @@ class ServerV20RecConverter(BaseOCRV20):
 
     def load_paddle_weights(self, paddle_weights):
         para_state_dict, opti_state_dict = paddle_weights
-
+        # [print('torch:  ', k, v.shape) for k, v in self.net.state_dict().items()];exit()
         for k,v in self.net.state_dict().items():
             keyword = 'block_list.'
             if keyword in k:
@@ -96,3 +96,6 @@ if __name__ == '__main__':
     # save
     converter.save_pytorch_weights('ch_ptocr_mobile_v2.0_rec_infer.pth')
     print('done.')
+    dummy_input = torch.autograd.Variable(torch.randn(1, 3, 32, 320))
+    torch.onnx.export(converter.net, dummy_input, 'ch_ptocr_mobile_v2.0_rec_infer.onnx', opset_version=11,
+                      verbose=False)

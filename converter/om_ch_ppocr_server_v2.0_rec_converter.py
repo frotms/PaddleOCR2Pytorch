@@ -24,6 +24,7 @@ class ServerV20RecConverter(BaseOCRV20):
     def load_paddle_weights(self, paddle_weights):
         para_state_dict, opti_state_dict = paddle_weights
         # [print(k, v.shape) for k, v in para_state_dict.items()];exit()
+        # [print('torch:  ', k, v.shape) for k,v in self.net.state_dict().items()];exit()
         for k,v in self.net.state_dict().items():
             keyword = 'block_list.'
             if keyword in k:
@@ -42,7 +43,10 @@ class ServerV20RecConverter(BaseOCRV20):
             elif name.endswith('bias') or name.endswith('weight'):
                 ppname = name
             elif 'lstm' in name:
-                ppname = name
+                ppname = name.replace('lstm_0_', 'lstm.0.')
+                ppname = ppname.replace('lstm_1_', 'lstm.1.')
+                ppname = ppname.replace('_ih_l0', '_ih')
+                ppname = ppname.replace('_hh_l0', '_hh')
 
             else:
                 print('Redundance:')
@@ -74,7 +78,7 @@ if __name__ == '__main__':
            'algorithm':'CRNN',
            'Transform':None,
            'Backbone':{'name':'ResNet', 'layers':34},
-           'Neck':{'name':'SequenceEncoder', 'hidden_size':256, 'encoder_type':'rnn'},
+           'Neck':{'name':'SequenceEncoder', 'hidden_size':256, 'encoder_type':'om'},
            'Head':{'name':'CTCHead', 'fc_decay': 4e-05}}
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
     converter = ServerV20RecConverter(cfg, paddle_pretrained_model_path)
@@ -100,9 +104,15 @@ if __name__ == '__main__':
     # print(out['maps'].data.numpy())
 
     # save
-    # converter.save_pytorch_weights('ch_ptocr_server_v2.0_rec_infer.pth')
+    converter.save_pytorch_weights('om_ch_ptocr_server_v2.0_rec_infer.pth')
     print('done.')
 
-    # dummy_input = torch.autograd.Variable(torch.randn(1, 3, 32, 320))
-    # torch.onnx.export(converter.net, dummy_input, 'ch_ptocr_server_v2.0_rec_infer.onnx', opset_version=11,
-    #                   do_constant_folding=False, verbose=False)
+    dummy_input = torch.autograd.Variable(torch.randn(1, 3, 32, 320))
+    dynamic_axes = {'input.1': [0, 1, 2, 3],
+                    '712': [0, 1],
+                    }
+
+    torch.onnx.export(converter.net, dummy_input, 'om_ch_ptocr_server_v2.0_rec_infer.onnx', opset_version=11,
+                      do_constant_folding=False, verbose=False,
+                      dynamic_axes=dynamic_axes
+                      )
