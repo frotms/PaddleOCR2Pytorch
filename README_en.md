@@ -13,7 +13,7 @@ This repository aims to
 
 ## TODO
 
-- [ ] follow up [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
 
 ## Notice
 

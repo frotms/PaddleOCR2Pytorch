@@ -13,7 +13,7 @@
 
 ## TODO
 
-- [ ] 跟进[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- [ ] 文档结构分析[PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README_ch.md)工具包，支持版面分析与表格识别（含Excel导出）
 
 ## 注意
 
