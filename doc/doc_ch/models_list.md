@@ -102,6 +102,7 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 
 - [多语言模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_ch/multi_languages.md)
 - [lang](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
+- [Multilingual OCR Development Plan](https://github.com/PaddlePaddle/PaddleOCR/issues/1048)
 
 <a name="文本方向分类模型"></a>
 

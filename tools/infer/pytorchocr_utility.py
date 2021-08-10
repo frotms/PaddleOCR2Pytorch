@@ -228,6 +228,15 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck': {'name': 'PGFPN'},
                           'Head': {'name': 'PGHead'}}
 
+    elif 'om_' in weights_name and '_rec_' in weights_name:
+        network_config = {'model_type': 'rec',
+                          'algorithm': 'CRNN',
+                          'Transform': None,
+                          'Backbone': {'model_name': 'small', 'name': 'MobileNetV3', 'scale': 0.5,
+                                       'small_stride': [1, 2, 2, 2]},
+                          'Neck': {'name': 'SequenceEncoder', 'hidden_size': 48, 'encoder_type': 'om'},
+                          'Head': {'name': 'CTCHead', 'fc_decay': 4e-05}}
+
     else:
         network_config = {'model_type': 'rec',
                           'algorithm': 'CRNN',

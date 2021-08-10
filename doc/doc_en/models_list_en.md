@@ -103,6 +103,7 @@ For more supported languages, please refer to :
 
 - [Multi-language model](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/multi_languages_en.md)
 - [lang](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
+- [Multilingual OCR Development Plan](https://github.com/PaddlePaddle/PaddleOCR/issues/1048)
 
 <a name="Angle"></a>
 
