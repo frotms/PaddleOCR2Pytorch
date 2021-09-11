@@ -172,6 +172,22 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck':None,
                           'Head':{'name':'ClsHead', 'class_dim':2}}
 
+    elif weights_name == 'ch_ptocr_v2_rec_infer.pth':
+        network_config = {'model_type': 'rec',
+                          'algorithm': 'CRNN',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV1Enhance', 'scale': 0.5},
+                          'Neck': {'name': 'SequenceEncoder', 'hidden_size': 64, 'encoder_type': 'rnn'},
+                          'Head': {'name': 'CTCHead', 'mid_channels': 96, 'fc_decay': 2e-05}}
+
+    elif weights_name == 'ch_ptocr_v2_det_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'DB',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV3', 'model_name': 'large', 'scale': 0.5, 'disable_se': True},
+                          'Neck': {'name': 'DBFPN', 'out_channels': 96},
+                          'Head': {'name': 'DBHead', 'k': 50}}
+
     elif weights_name == 'det_mv3_db_v2.0_infer.pth':
         network_config = {'model_type': 'det',
                           'algorithm': 'DB',
@@ -227,6 +243,15 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Backbone': {'name': 'ResNet', 'layers': 50},
                           'Neck': {'name': 'PGFPN'},
                           'Head': {'name': 'PGHead'}}
+
+    elif 'om_' in weights_name and '_rec_' in weights_name:
+        network_config = {'model_type': 'rec',
+                          'algorithm': 'CRNN',
+                          'Transform': None,
+                          'Backbone': {'model_name': 'small', 'name': 'MobileNetV3', 'scale': 0.5,
+                                       'small_stride': [1, 2, 2, 2]},
+                          'Neck': {'name': 'SequenceEncoder', 'hidden_size': 48, 'encoder_type': 'om'},
+                          'Head': {'name': 'CTCHead', 'fc_decay': 4e-05}}
 
     else:
         network_config = {'model_type': 'rec',

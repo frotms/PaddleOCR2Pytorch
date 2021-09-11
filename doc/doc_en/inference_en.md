@@ -44,6 +44,11 @@ python3 ./converter/ch_ppocr_mobile_v2.0_rec_converter.py --src_model_path paddl
 python3 ./converter/ch_ppocr_server_v2.0_rec_converter.py --src_model_path paddle_ch_ppocr_server_v2.0_rec_train_dir
 
 python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddle_ch_ppocr_mobile_v2.0_cls_train_dir
+
+#ppocr v2
+python3 ./converter/ch_ppocr_v2_det_converter.py --src_model_path ./paddle_ch_PP-OCRv2_det_distill_train_dir
+
+python ./converter/ch_ppocr_v2_rec_converter.py --src_model_path ./paddle_ch_PP-OCRv2_rec_train_dir
 ```
 
 <a name="MULTILINGUAL"></a>
