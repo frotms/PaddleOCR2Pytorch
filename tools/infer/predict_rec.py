@@ -68,8 +68,8 @@ class TextRecognizer(BaseOCRV20):
     def resize_norm_img(self, img, max_wh_ratio):
         imgC, imgH, imgW = self.rec_image_shape
         assert imgC == img.shape[2]
-        if self.character_type == "ch":
-            imgW = int((32 * max_wh_ratio))
+        max_wh_ratio = max(max_wh_ratio, imgW / imgH)
+        imgW = int((32 * max_wh_ratio))
         imgW = max(min(imgW, self.limited_max_width), self.limited_min_width)
         h, w = img.shape[:2]
         ratio = w / float(h)
@@ -78,7 +78,7 @@ class TextRecognizer(BaseOCRV20):
         if ratio_imgH > imgW:
             resized_w = imgW
         else:
-            resized_w = int(math.ceil(imgH * ratio))
+            resized_w = int(ratio_imgH)
         resized_image = cv2.resize(img, (resized_w, imgH))
         resized_image = resized_image.astype('float32')
         resized_image = resized_image.transpose((2, 0, 1)) / 255
@@ -87,6 +87,7 @@ class TextRecognizer(BaseOCRV20):
         padding_im = np.zeros((imgC, imgH, imgW), dtype=np.float32)
         padding_im[:, :, 0:resized_w] = resized_image
         return padding_im
+
 
     def resize_norm_img_srn(self, img, image_shape):
         imgC, imgH, imgW = image_shape

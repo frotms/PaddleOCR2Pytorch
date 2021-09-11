@@ -13,7 +13,6 @@ This repository aims to
 
 ## TODO
 
-- [ ] PP-OCRv2. The inference speed of PP-OCRv2 is 220% higher than that of PP-OCR server in CPU device. The F-score of PP-OCRv2 is 7% higher than that of PP-OCR mobile.
 - [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
 
 ## Notice
@@ -22,6 +21,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2021.09.11 PP-OCRv2. The inference speed of PP-OCRv2 is 220% higher than that of PP-OCR server in CPU device. The F-score of PP-OCRv2 is 7% higher than that of PP-OCR mobile.
 - 2021.06.01 update SRN
 - 2021.04.25 update AAAI 2021 end-to-end algorithm PGNet
 - 2021.04.24 update RARE
@@ -32,6 +32,7 @@ This repository aims to
 
 ## Features
 - PTOCR series of high-quality pre-trained models, comparable to commercial effects
+    - Ultra lightweight PP-OCRv2 series models: detection (3.1M) + direction classifier (1.4M) + recognition 8.5M) = 13.0M
     - Ultra lightweight ptocr_mobile series models
     - General ptocr_server series models
     - Support Chinese, English, and digit recognition, vertical text recognition, and long text recognition
@@ -61,11 +62,14 @@ If you want to get more models including multilingual models，please refer to [
 ## PP-OCR Pipeline
 
 <div align="center">
-    <img src="./doc/framework.png" width="800">
+    <img src="./doc/ppocrv2_framework.jpg" width="800">
 </div>
 
 
-PP-OCR is a practical ultra-lightweight OCR system. It is mainly composed of three parts: DB text detection[2], detection frame correction and CRNN text recognition[7]. The system adopts 19 effective strategies from 8 aspects including backbone network selection and adjustment, prediction head design, data augmentation, learning rate transformation strategy, regularization parameter selection, pre-training model use, and automatic model tailoring and quantization to optimize and slim down the models of each module. The final results are an ultra-lightweight Chinese and English OCR model with an overall size of 3.5M and a 2.8M English digital OCR model. For more details, please refer to the PP-OCR technical article (https://arxiv.org/abs/2009.09941). Besides, The implementation of the FPGM Pruner [8] and PACT quantization [9] is based on [PaddleSlim](https://github.com/PaddlePaddle/PaddleSlim).
+
+[1] PP-OCR is a practical ultra-lightweight OCR system. It is mainly composed of three parts: DB text detection, detection frame correction and CRNN text recognition. The system adopts 19 effective strategies from 8 aspects including backbone network selection and adjustment, prediction head design, data augmentation, learning rate transformation strategy, regularization parameter selection, pre-training model use, and automatic model tailoring and quantization to optimize and slim down the models of each module (as shown in the green box above). The final results are an ultra-lightweight Chinese and English OCR model with an overall size of 3.5M and a 2.8M English digital OCR model. For more details, please refer to the PP-OCR technical article (<https://arxiv.org/abs/2009.09941>).
+
+[2] On the basis of PP-OCR, PP-OCRv2 is further optimized in five aspects. The detection model adopts CML(Collaborative Mutual Learning) knowledge distillation strategy and CopyPaste data expansion strategy. The recognition model adopts LCNet lightweight backbone network, U-DML knowledge distillation strategy and enhanced CTC loss function improvement (as shown in the red box above), which further improves the inference speed and prediction effect. For more details, please refer to the [technical report](https://arxiv.org/abs/2109.03144) of PP-OCRv2.
 
 
 ## Visualization
