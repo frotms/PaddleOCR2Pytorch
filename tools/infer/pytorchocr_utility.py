@@ -5,7 +5,7 @@ import cv2
 from PIL import Image, ImageDraw, ImageFont
 import argparse
 
-def parse_args():
+def init_args():
     def str2bool(v):
         return v.lower() in ("true", "t", "1")
 
@@ -97,6 +97,20 @@ def parse_args():
     parser.add_argument("--cls_yaml_path", type=str, default=None)
     parser.add_argument("--e2e_yaml_path", type=str, default=None)
 
+    # multi-process
+    parser.add_argument("--use_mp", type=str2bool, default=False)
+    parser.add_argument("--total_process_num", type=int, default=1)
+    parser.add_argument("--process_id", type=int, default=0)
+
+    parser.add_argument("--benchmark", type=str2bool, default=False)
+    parser.add_argument("--save_log_path", type=str, default="./log_output/")
+
+    parser.add_argument("--show_log", type=str2bool, default=True)
+
+    return parser
+
+def parse_args():
+    parser = init_args()
     return parser.parse_args()
 
 def get_default_config(args):

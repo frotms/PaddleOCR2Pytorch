@@ -28,22 +28,8 @@ def compare_ret(pp_ret, pt_ret, info):
     print('sub: ', np.sum(np.abs(pp_ret-pt_ret)), np.mean(np.abs(pp_ret-pt_ret)))
 
 
-class Hsigmoid(torch.nn.Module):
-    def __init__(self, inplace=True, slope=0.2, offset=0.5):
-        super(Hsigmoid, self).__init__()
-        self.inplace = inplace
-        self.slope = slope
-        self.offset = offset
-        self.bias = 6. * self.offset
-
-    def forward(self, x):
-        # torch: torch.nn.functional.relu6(x + 3., inplace=self.inplace) / 6.
-        # paddle: torch.nn.functional.relu6(1.2 * x + 3., inplace=self.inplace) / 6.
-        return torch.nn.functional.relu6((1.+self.slope) * x + self.bias, inplace=self.inplace) / 6.
-
-def hard_sigmoid(x, slope=0.1666667, offset=0.5, inplace=True):
-    # return torch.nn.functional.relu6((1.+slope) * x + offset*6, inplace=inplace) / 6.
-    return torch.clamp(slope * x + offset, 0., 1.)
+def hard_swish(x, inplace=True):
+    return x * torch.nn.functional.relu6(x + 3., inplace=inplace) / 6.
 
 def paddle_hs():
     np.random.seed(SEED)
@@ -52,9 +38,8 @@ def paddle_hs():
     with fluid.dygraph.guard():
 
         inp = fluid.dygraph.to_variable(x)
-        # ret = F.hardsigmoid(inp, slope=0.2, offset=0.5)
-        ret = F.hardsigmoid(inp, slope=0.2, offset=0.5)
-        # ret = F.hardsigmoid(inp)
+        ret = F.hardswish(inp)
+        # ret = F.activation.hardsigmoid(inp)
 
         # print(ret)
     return ret.numpy()
@@ -62,9 +47,8 @@ def paddle_hs():
 def torch_hs():
     np.random.seed(SEED)
     org = torch.from_numpy(np.random.randn(*INPUT_SIZE).astype(np.float32))
-    # hs = Hsigmoid(inplace=True, slope=0.2)(org)
-    # ret = hs
-    ret = hard_sigmoid(org, slope=0.2, offset=0.5)
+    # ret = Hsigmoid(inplace=True, slope=0.)(org)
+    ret = hard_swish(org)
     return ret.numpy()
 
 
