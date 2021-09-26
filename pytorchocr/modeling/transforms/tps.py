@@ -179,7 +179,9 @@ class GridGenerator(nn.Module):
 
         batch_C_prime_with_zeros = torch.cat(
             [batch_C_prime, batch_C_ex_part_tensor], dim=1)
+        inv_delta_C_tensor = inv_delta_C_tensor.to(batch_C_prime_with_zeros.device)
         batch_T = torch.matmul(inv_delta_C_tensor, batch_C_prime_with_zeros)
+        P_hat_tensor = P_hat_tensor.to(batch_T.device)
         batch_P_prime = torch.matmul(P_hat_tensor, batch_T)
         return batch_P_prime
 
