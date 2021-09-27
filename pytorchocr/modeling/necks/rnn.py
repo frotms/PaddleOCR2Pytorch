@@ -1,6 +1,7 @@
 import os, sys
 import torch
 import torch.nn as nn
+from ..common import UniDirectionalLSTM, SimpleLSTM, SimpleLSTMJit
 
 class Im2Seq(nn.Module):
     def __init__(self, in_channels, **kwargs):
@@ -9,7 +10,7 @@ class Im2Seq(nn.Module):
 
     def forward(self, x):
         B, C, H, W = x.shape
-        assert H == 1
+        # assert H == 1
         x = x.squeeze(dim=2)
         # x = x.transpose([0, 2, 1])  # paddle (NTC)(batch, width, channels)
         x = x.permute(0,2,1)
@@ -31,6 +32,27 @@ class EncoderWithRNN__(nn.Module):
         return x
 
 
+# for bmb
+class EncoderWithRNN_BMB(nn.Module):
+    def __init__(self, in_channels, hidden_size):
+        super(EncoderWithRNN_BMB, self).__init__()
+        self.out_channels = hidden_size * 2
+        self.lstm_0_cell_fw = SimpleLSTMJit(in_channels, hidden_size)
+        self.lstm_0_cell_bw = SimpleLSTMJit(in_channels, hidden_size)
+        self.lstm_1_cell_fw = SimpleLSTMJit(self.out_channels, hidden_size)
+        self.lstm_1_cell_bw = SimpleLSTMJit(self.out_channels, hidden_size)
+
+    def bi_lstm(self, x, fw_fn, bw_fn):
+        out1, h1 = fw_fn(x)
+        out2, h2 = bw_fn(torch.flip(x, [1]))
+        return torch.cat([out1, torch.flip(out2, [1])], 2)
+
+    def forward(self, x):
+        x = self.bi_lstm(x, self.lstm_0_cell_fw, self.lstm_0_cell_bw)
+        x = self.bi_lstm(x, self.lstm_1_cell_fw, self.lstm_1_cell_bw)
+        return x
+
+# for hwom
 class EncoderWithRNN_StackLSTM(nn.Module):
     def __init__(self, in_channels, hidden_size):
         super(EncoderWithRNN_StackLSTM, self).__init__()
@@ -91,6 +113,7 @@ class SequenceEncoder(nn.Module):
                 'fc': EncoderWithFC,
                 'rnn': EncoderWithRNN,
                 'om':EncoderWithRNN_StackLSTM,
+                'bm': EncoderWithRNN_BMB,
             }
             assert encoder_type in support_encoder_dict, '{} must in {}'.format(
                 encoder_type, support_encoder_dict.keys())
