@@ -49,20 +49,21 @@ class BaseRecLabelDecode(object):
             self.character_str = string.printable[:-6]
             dict_character = list(self.character_str)
         elif character_type in support_character_type:
-            self.character_str = ""
+            self.character_str = []
             assert character_dict_path is not None, "character_dict_path should not be None when character_type is {}".format(
                 character_type)
             with open(character_dict_path, "rb") as fin:
                 lines = fin.readlines()
                 for line in lines:
                     line = line.decode('utf-8').strip("\n").strip("\r\n")
-                    self.character_str += line
+                    self.character_str.append(line)
             if use_space_char:
-                self.character_str += " "
+                self.character_str.append(" ")
             dict_character = list(self.character_str)
 
         else:
             raise NotImplementedError
+
         self.character_type = character_type
         dict_character = self.add_special_char(dict_character)
         self.dict = {}
@@ -120,6 +121,7 @@ class CTCLabelDecode(BaseRecLabelDecode):
         preds_idx = preds.argmax(axis=2)
         preds_prob = preds.max(axis=2)
         text = self.decode(preds_idx, preds_prob, is_remove_duplicate=True)
+
         if label is None:
             return text
         label = self.decode(label)

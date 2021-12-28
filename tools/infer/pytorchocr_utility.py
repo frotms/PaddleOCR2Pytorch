@@ -162,7 +162,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck':{'name':'SequenceEncoder', 'hidden_size':256, 'encoder_type':'rnn'},
                           'Head':{'name':'CTCHead', 'fc_decay': 4e-05}}
 
-    elif weights_name == 'ch_ptocr_mobile_v2.0_det_infer.pth':
+    elif weights_name in ['ch_ptocr_mobile_v2.0_det_infer.pth']:
         network_config = {'model_type': 'det',
                           'algorithm': 'DB',
                           'Transform': None,
@@ -170,7 +170,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck': {'name': 'DBFPN', 'out_channels': 96},
                           'Head': {'name': 'DBHead', 'k': 50}}
 
-    elif weights_name == 'ch_ptocr_mobile_v2.0_rec_infer.pth':
+    elif weights_name =='ch_ptocr_mobile_v2.0_rec_infer.pth':
         network_config = {'model_type':'rec',
                           'algorithm':'CRNN',
                           'Transform':None,
@@ -257,6 +257,21 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Backbone': {'name': 'ResNet', 'layers': 50},
                           'Neck': {'name': 'PGFPN'},
                           'Head': {'name': 'PGHead'}}
+
+    elif weights_name == 'en_ptocr_mobile_v2.0_table_det_infer.pth':
+        network_config = {'model_type': 'det','algorithm': 'DB',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV3', 'model_name': 'large', 'scale': 0.5, 'disable_se': False},
+                          'Neck': {'name': 'DBFPN', 'out_channels': 96},
+                          'Head': {'name': 'DBHead', 'k': 50}}
+
+    elif weights_name == 'en_ptocr_mobile_v2.0_table_rec_infer.pth':
+        network_config = {'model_type': 'rec',
+                          'algorithm': 'CRNN',
+                          'Transform': None,
+                          'Backbone': {'model_name': 'large', 'name': 'MobileNetV3', },
+                          'Neck': {'name': 'SequenceEncoder', 'hidden_size': 96, 'encoder_type': 'rnn'},
+                          'Head': {'name': 'CTCHead', 'fc_decay': 4e-05}}
 
     elif 'om_' in weights_name and '_rec_' in weights_name:
         network_config = {'model_type': 'rec',

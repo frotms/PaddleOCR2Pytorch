@@ -250,7 +250,7 @@ class TextRecognizer(BaseOCRV20):
                         inp = inp.cuda()
                     prob_out = self.net(inp)
                 preds = prob_out.cpu().numpy()
-
+            np.save('rec.npy', preds)
             rec_result = self.postprocess_op(preds)
             for rno in range(len(rec_result)):
                 rec_res[indices[beg_img_no + rno]] = rec_result[rno]

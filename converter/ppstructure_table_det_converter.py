@@ -19,6 +19,9 @@ class PPStructureTableDetConverter(BaseOCRV20):
         with fluid.dygraph.guard():
             para_state_dict, opti_state_dict = fluid.load_dygraph(weights_path)
 
+        [print('paddle: {} ---- {}'.format(k, v.shape)) for k, v in para_state_dict.items()]
+        [print('pytorch: {} ---- {}'.format(k, v.shape)) for k, v in self.net.state_dict().items()]
+
         for k,v in self.net.state_dict().items():
             keyword = 'stages.'
             if keyword in k:
@@ -55,7 +58,7 @@ if __name__ == '__main__':
     cfg = {'model_type':'det',
            'algorithm':'DB',
            'Transform':None,
-           'Backbone':{'name':'MobileNetV3', 'model_name':'large', 'scale':0.5, 'disable_se':True},
+           'Backbone':{'name':'MobileNetV3', 'model_name':'large', 'scale':0.5, 'disable_se':False},
            'Neck':{'name':'DBFPN', 'out_channels':96},
            'Head':{'name':'DBHead', 'k':50}}
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
@@ -70,5 +73,5 @@ if __name__ == '__main__':
     print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
 
     # save
-    converter.save_pytorch_weights('en_ppocr_mobile_v2.0_table_det_infer.pth')
+    converter.save_pytorch_weights('en_ptocr_mobile_v2.0_table_det_infer.pth')
     print('done.')

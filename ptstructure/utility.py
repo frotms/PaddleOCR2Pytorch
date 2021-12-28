@@ -18,6 +18,18 @@ def init_args():
     parser.add_argument("--postprocess_type", type=str, default='numpy')
     parser.add_argument("--table_yaml_path", type=str, default=None)
 
+    # params for ser
+    parser.add_argument("--model_name_or_path", type=str)
+    parser.add_argument("--max_seq_length", type=int, default=512)
+    parser.add_argument(
+        "--label_map_path", type=str, default='./vqa/labels/labels_ser.txt')
+
+    parser.add_argument(
+        "--mode",
+        type=str,
+        default='structure',
+        help='structure and vqa is supported')
+
     return parser
 
 

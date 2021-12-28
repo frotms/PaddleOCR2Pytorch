@@ -87,5 +87,5 @@ if __name__ == '__main__':
     print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
 
     # save
-    converter.save_pytorch_weights('en_ppocr_mobile_v2.0_table_rec_infer.pth')
+    converter.save_pytorch_weights('en_ptocr_mobile_v2.0_table_rec_infer.pth')
     print('done.')
