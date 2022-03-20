@@ -89,6 +89,12 @@ python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_east.y
  
 # det_r50_vd_sast_totaltext
 python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_sast_totaltext.yml --src_model_path your_ppocr_det_r50_vd_sast_totaltext_v2.0_train_dir
+
+# det_mv3_pse
+python3 ./converter/det_converter.py --yaml_path ./configs/det/det_mv3_pse.yml --src_model_path your_ppocr_det_mv3_pse_v2.0_train_dir
+
+# det_r50_vd_pse
+python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_pse.yml --src_model_path your_ppocr_det_r50_vd_pse_v2.0_train_dir
 ```
 
 <a name="其他识别模型"></a>
@@ -261,6 +267,12 @@ python ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_sast_icdar1
 
 # det_r50_vd_sast_totaltext
 python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_sast_totaltext_v2.0_infer_path.pth --image_dir ./doc/imgs/00006737.jpg  --det_algorithm SAST --det_yaml_path ./configs/det/det_r50_vd_sast_totaltext.yml
+
+# det_mv3_pse
+python3 ./tools/infer/predict_det.py --det_model_path your_det_mv3_pse_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm PSE --det_yaml_path ./configs/det/det_mv3_pse.yml
+
+# det_r50_vd_pse
+python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_pse_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm PSE --det_yaml_path ./configs/det/det_r50_vd_pse.yml
 
 
 # recognition
