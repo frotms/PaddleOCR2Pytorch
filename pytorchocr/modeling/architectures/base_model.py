@@ -54,6 +54,8 @@ class BaseModel(nn.Module):
         config["Head"]['in_channels'] = in_channels
         self.head = build_head(config["Head"], **kwargs)
 
+        self.return_all_feats = config.get("return_all_feats", False)
+
         self._initialize_weights()
 
     def _initialize_weights(self):
@@ -77,10 +79,20 @@ class BaseModel(nn.Module):
 
 
     def forward(self, x):
+        y = dict()
         if self.use_transform:
             x = self.transform(x)
         x = self.backbone(x)
+        y["backbone_out"] = x
         if self.use_neck:
             x = self.neck(x)
+        y["neck_out"] = x
         x = self.head(x)
-        return x
+        if isinstance(x, dict):
+            y.update(x)
+        else:
+            y["head_out"] = x
+        if self.return_all_feats:
+            return y
+        else:
+            return x

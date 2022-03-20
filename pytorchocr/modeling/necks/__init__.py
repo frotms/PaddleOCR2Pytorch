@@ -20,7 +20,8 @@ def build_neck(config):
     from .sast_fpn import SASTFPN
     from .rnn import SequenceEncoder
     from .pg_fpn import PGFPN
-    support_dict = ['DBFPN', 'EASTFPN', 'SASTFPN', 'SequenceEncoder', 'PGFPN']
+    from .fpn import FPN
+    support_dict = ['FPN', 'DBFPN', 'EASTFPN', 'SASTFPN', 'SequenceEncoder', 'PGFPN']
 
     module_name = config.pop('name')
     assert module_name in support_dict, Exception('neck only support {}'.format(
