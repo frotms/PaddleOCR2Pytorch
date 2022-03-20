@@ -22,6 +22,10 @@ def build_post_process(config, global_config=None):
         'AttnLabelDecode', 'ClsPostProcess', 'SRNLabelDecode', 'PGPostProcess'
     ]
 
+    if config['name'] == 'PSEPostProcess':
+        from .pse_postprocess import PSEPostProcess
+        support_dict.append('PSEPostProcess')
+
     config = copy.deepcopy(config)
     module_name = config.pop('name')
     if global_config is not None:

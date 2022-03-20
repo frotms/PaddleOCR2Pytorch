@@ -1,3 +1,7 @@
+"""
+This code is refered from:
+https://github.com/WenmuZhou/DBNet.pytorch/blob/master/post_processing/seg_detector_representer.py
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -31,6 +35,7 @@ class DBPostProcess(object):
         assert score_mode in [
             "slow", "fast"
         ], "Score mode must be in [slow, fast] but got: {}".format(score_mode)
+
         self.dilation_kernel = None if not use_dilation else np.array(
             [[1, 1], [1, 1]])
 
