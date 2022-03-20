@@ -32,8 +32,10 @@ def build_head(config, **kwargs):
     from .cls_head import ClsHead
     support_dict = [
         'DBHead', 'PSEHead', 'EASTHead', 'SASTHead', 'CTCHead', 'ClsHead', 'AttentionHead',
-        'SRNHead', 'PGHead'
+        'SRNHead', 'PGHead', 'TableAttentionHead'
     ]
+
+    from .table_att_head import TableAttentionHead
 
     module_name = config.pop('name')
     assert module_name in support_dict, Exception('head only support {}'.format(

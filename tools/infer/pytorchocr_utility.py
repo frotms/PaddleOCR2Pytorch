@@ -5,7 +5,7 @@ import cv2
 from PIL import Image, ImageDraw, ImageFont
 import argparse
 
-def parse_args():
+def init_args():
     def str2bool(v):
         return v.lower() in ("true", "t", "1")
 
@@ -104,6 +104,20 @@ def parse_args():
     parser.add_argument("--cls_yaml_path", type=str, default=None)
     parser.add_argument("--e2e_yaml_path", type=str, default=None)
 
+    # multi-process
+    parser.add_argument("--use_mp", type=str2bool, default=False)
+    parser.add_argument("--total_process_num", type=int, default=1)
+    parser.add_argument("--process_id", type=int, default=0)
+
+    parser.add_argument("--benchmark", type=str2bool, default=False)
+    parser.add_argument("--save_log_path", type=str, default="./log_output/")
+
+    parser.add_argument("--show_log", type=str2bool, default=True)
+
+    return parser
+
+def parse_args():
+    parser = init_args()
     return parser.parse_args()
 
 def get_default_config(args):
@@ -155,7 +169,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck':{'name':'SequenceEncoder', 'hidden_size':256, 'encoder_type':'rnn'},
                           'Head':{'name':'CTCHead', 'fc_decay': 4e-05}}
 
-    elif weights_name == 'ch_ptocr_mobile_v2.0_det_infer.pth':
+    elif weights_name in ['ch_ptocr_mobile_v2.0_det_infer.pth']:
         network_config = {'model_type': 'det',
                           'algorithm': 'DB',
                           'Transform': None,
@@ -163,7 +177,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck': {'name': 'DBFPN', 'out_channels': 96},
                           'Head': {'name': 'DBHead', 'k': 50}}
 
-    elif weights_name == 'ch_ptocr_mobile_v2.0_rec_infer.pth':
+    elif weights_name =='ch_ptocr_mobile_v2.0_rec_infer.pth':
         network_config = {'model_type':'rec',
                           'algorithm':'CRNN',
                           'Transform':None,
@@ -250,6 +264,21 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Backbone': {'name': 'ResNet', 'layers': 50},
                           'Neck': {'name': 'PGFPN'},
                           'Head': {'name': 'PGHead'}}
+
+    elif weights_name == 'en_ptocr_mobile_v2.0_table_det_infer.pth':
+        network_config = {'model_type': 'det','algorithm': 'DB',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV3', 'model_name': 'large', 'scale': 0.5, 'disable_se': False},
+                          'Neck': {'name': 'DBFPN', 'out_channels': 96},
+                          'Head': {'name': 'DBHead', 'k': 50}}
+
+    elif weights_name == 'en_ptocr_mobile_v2.0_table_rec_infer.pth':
+        network_config = {'model_type': 'rec',
+                          'algorithm': 'CRNN',
+                          'Transform': None,
+                          'Backbone': {'model_name': 'large', 'name': 'MobileNetV3', },
+                          'Neck': {'name': 'SequenceEncoder', 'hidden_size': 96, 'encoder_type': 'rnn'},
+                          'Head': {'name': 'CTCHead', 'fc_decay': 4e-05}}
 
     elif 'om_' in weights_name and '_rec_' in weights_name:
         network_config = {'model_type': 'rec',

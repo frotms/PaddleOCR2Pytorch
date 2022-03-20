@@ -185,13 +185,13 @@ class TextDetector(BaseOCRV20):
 
         preds = {}
         if self.det_algorithm == "EAST":
-            preds['f_geo'] = outputs['f_geo']
-            preds['f_score'] = outputs['f_score']
+            preds['f_geo'] = outputs['f_geo'].cpu().numpy()
+            preds['f_score'] = outputs['f_score'].cpu().numpy()
         elif self.det_algorithm == 'SAST':
-            preds['f_border'] = outputs['f_border']
-            preds['f_score'] = outputs['f_score']
-            preds['f_tco'] = outputs['f_tco']
-            preds['f_tvo'] = outputs['f_tvo']
+            preds['f_border'] = outputs['f_border'].cpu().numpy()
+            preds['f_score'] = outputs['f_score'].cpu().numpy()
+            preds['f_tco'] = outputs['f_tco'].cpu().numpy()
+            preds['f_tvo'] = outputs['f_tvo'].cpu().numpy()
         elif self.det_algorithm in ['DB', 'PSE']:
             # preds['maps'] = outputs[0]
             preds['maps'] = outputs['maps'].cpu().numpy()
