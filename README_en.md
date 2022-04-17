@@ -13,7 +13,7 @@ This repository aims to
 
 ## TODO
 
-- [ ] 3 text recognition algorithms (NRTR、SEED、SAR), 1 [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) and 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
+- [ ] 2 text recognition algorithms (SEED、SAR), 1 [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) and 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
 - [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
 
 ## Notice
@@ -22,6 +22,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2022.04.17 1text recognition algorithm (NRTR)
 - 2022.03.20 1 text detection algorithm (PSENet)
 - 2021.09.11 PP-OCRv2. The inference speed of PP-OCRv2 is 220% higher than that of PP-OCR server in CPU device. The F-score of PP-OCRv2 is 7% higher than that of PP-OCR mobile.
 - 2021.06.01 update SRN

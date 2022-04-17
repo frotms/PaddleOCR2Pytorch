@@ -4,7 +4,7 @@ import sys
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(__dir__)
 sys.path.append(os.path.abspath(os.path.join(__dir__, '../..')))
-
+from PIL import Image
 import cv2
 import numpy as np
 import math
@@ -43,6 +43,12 @@ class TextRecognizer(BaseOCRV20):
                 "character_dict_path": args.rec_char_dict_path,
                 "use_space_char": args.use_space_char
             }
+        elif self.rec_algorithm == 'NRTR':
+            postprocess_params = {
+                'name': 'NRTRLabelDecode',
+                "character_dict_path": args.rec_char_dict_path,
+                "use_space_char": args.use_space_char
+            }
         self.postprocess_op = build_post_process(postprocess_params)
 
         use_gpu = args.use_gpu
@@ -56,10 +62,11 @@ class TextRecognizer(BaseOCRV20):
         network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path)
         weights = self.read_pytorch_weights(self.weights_path)
         self.out_channels = self.get_out_channels(weights)
-        # self.out_channels = self.get_out_channels_from_char_dict(args.rec_char_dict_path)
+        if self.rec_algorithm == 'NRTR':
+            self.out_channels = list(weights.values())[-1].numpy().shape[0]
+
         kwargs['out_channels'] = self.out_channels
         super(TextRecognizer, self).__init__(network_config, **kwargs)
-
         self.load_state_dict(weights)
         self.net.eval()
         if self.use_gpu:
@@ -67,6 +74,16 @@ class TextRecognizer(BaseOCRV20):
 
     def resize_norm_img(self, img, max_wh_ratio):
         imgC, imgH, imgW = self.rec_image_shape
+        if self.rec_algorithm == 'NRTR':
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            # return padding_im
+            image_pil = Image.fromarray(np.uint8(img))
+            img = image_pil.resize([100, 32], Image.ANTIALIAS)
+            img = np.array(img)
+            norm_img = np.expand_dims(img, -1)
+            norm_img = norm_img.transpose((2, 0, 1))
+            return norm_img.astype(np.float32) / 128. - 1.
+
         assert imgC == img.shape[2]
         max_wh_ratio = max(max_wh_ratio, imgW / imgH)
         imgW = int((32 * max_wh_ratio))
@@ -249,8 +266,11 @@ class TextRecognizer(BaseOCRV20):
                     if self.use_gpu:
                         inp = inp.cuda()
                     prob_out = self.net(inp)
-                preds = prob_out.cpu().numpy()
-            np.save('rec.npy', preds)
+                if isinstance(prob_out, list):
+                    preds = [v.cpu().numpy() for v in prob_out]
+                else:
+                    preds = prob_out.cpu().numpy()
+
             rec_result = self.postprocess_op(preds)
             for rno in range(len(rec_result)):
                 rec_res[indices[beg_img_no + rno]] = rec_result[rno]
@@ -275,12 +295,6 @@ def main(args):
     try:
         rec_res, predict_time = text_recognizer(img_list)
     except Exception as e:
-        print(
-            "ERROR!!!! \n"
-            "Please read the FAQ：https://github.com/PaddlePaddle/PaddleOCR#faq \n"
-            "If your model has tps module:  "
-            "TPS does not support variable shape.\n"
-            "Please set --rec_image_shape='3,32,100' and --rec_char_type='en' ")
         print(e)
         exit()
     for ino in range(len(img_list)):
