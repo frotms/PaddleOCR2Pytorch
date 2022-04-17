@@ -13,7 +13,7 @@
 
 ## TODO
 
-- [ ] 3种文本识别算法(NRTR、SEED、SAR)，文档结构化算法新增1种[关键信息提取](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md)算法(SDMGR)，3种[DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa)算法(LayoutLM、LayoutLMv2，LayoutXLM)
+- [ ] 2种文本识别算法(SEED、SAR)，文档结构化算法新增1种[关键信息提取](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md)算法(SDMGR)，3种[DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa)算法(LayoutLM、LayoutLMv2，LayoutXLM)
 - [ ] 文档结构分析[PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README_ch.md)工具包，支持版面分析与表格识别（含Excel导出）
 
 ## 注意
@@ -22,6 +22,7 @@
 
 **近期更新**
 
+- 2022.04.17 1种文本识别算法(NRTR)
 - 2022.03.20 1种文本检测算法(PSENet)
 - 2021.09.11 PP-OCRv2，CPU推理速度相比于PP-OCR server提升220%；效果相比于PP-OCR mobile 提升7%
 - 2021.06.01 更新SRN

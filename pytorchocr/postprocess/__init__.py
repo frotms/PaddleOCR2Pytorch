@@ -13,13 +13,15 @@ def build_post_process(config, global_config=None):
     from .db_postprocess import DBPostProcess
     from .east_postprocess import EASTPostProcess
     from .sast_postprocess import SASTPostProcess
-    from .rec_postprocess import CTCLabelDecode, AttnLabelDecode, SRNLabelDecode
+    from .rec_postprocess import CTCLabelDecode, AttnLabelDecode, SRNLabelDecode, TableLabelDecode, \
+        NRTRLabelDecode
     from .cls_postprocess import ClsPostProcess
     from .pg_postprocess import PGPostProcess
 
     support_dict = [
         'DBPostProcess', 'EASTPostProcess', 'SASTPostProcess', 'CTCLabelDecode',
-        'AttnLabelDecode', 'ClsPostProcess', 'SRNLabelDecode', 'PGPostProcess'
+        'AttnLabelDecode', 'ClsPostProcess', 'SRNLabelDecode', 'PGPostProcess',
+        'TableLabelDecode', 'NRTRLabelDecode'
     ]
 
     if config['name'] == 'PSEPostProcess':
@@ -31,6 +33,6 @@ def build_post_process(config, global_config=None):
     if global_config is not None:
         config.update(global_config)
     assert module_name in support_dict, Exception(
-        'post process only support {}'.format(support_dict))
+        'post process only support {}, but got {}'.format(support_dict, module_name))
     module_class = eval(module_name)(**config)
     return module_class

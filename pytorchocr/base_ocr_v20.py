@@ -63,7 +63,10 @@ class BaseOCRV20:
         return weights
 
     def get_out_channels(self, weights):
-        out_channels = list(weights.values())[-1].numpy().shape[0]
+        if list(weights.keys())[-1].endswith('.weight') and len(list(weights.values())[-1].shape) == 2:
+            out_channels = list(weights.values())[-1].numpy().shape[1]
+        else:
+            out_channels = list(weights.values())[-1].numpy().shape[0]
         return out_channels
 
     def load_state_dict(self, weights):
