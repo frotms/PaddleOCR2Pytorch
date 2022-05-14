@@ -49,6 +49,10 @@ python3 ./converter/ch_ppocr_mobile_v2.0_cls_converter.py --src_model_path paddl
 python3 ./converter/ch_ppocr_v2_det_converter.py --src_model_path ./paddle_ch_PP-OCRv2_det_distill_train_dir
 
 python ./converter/ch_ppocr_v2_rec_converter.py --src_model_path ./paddle_ch_PP-OCRv2_rec_train_dir
+
+#ppocr v3
+# ch_PP-OCRv3_rec_train, en_PP-OCRv3_det_distill_train, Multilingual_PP-OCRv3_det_distill_train
+python ./converter/ch_ppocr_v3_det_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
 ```
 
 <a name="MULTILINGUAL"></a>
@@ -276,6 +280,9 @@ python3 ./tools/infer/predict_det.py --det_model_path your_det_mv3_pse_v2.0_infe
 
 # det_r50_vd_pse
 python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_pse_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm PSE --det_yaml_path ./configs/det/det_r50_vd_pse.yml
+
+# ppocr_v3_det
+python ./tools/infer/predict_det.py --use_gpu false --det_algorithm DB --det_model_path your_xx_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
 
 
 # recognition

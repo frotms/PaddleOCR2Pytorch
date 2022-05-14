@@ -209,6 +209,14 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck': {'name': 'DBFPN', 'out_channels': 96},
                           'Head': {'name': 'DBHead', 'k': 50}}
 
+    elif weights_name == 'ch_ptocr_v3_det_infer.pth':
+        network_config = {'model_type': 'det',
+                          'algorithm': 'DB',
+                          'Transform': None,
+                          'Backbone': {'name': 'MobileNetV3', 'model_name': 'large', 'scale': 0.5, 'disable_se': True},
+                          'Neck': {'name': 'RSEFPN', 'out_channels': 96, 'shortcut': True},
+                          'Head': {'name': 'DBHead', 'k': 50}}
+
     elif weights_name == 'det_mv3_db_v2.0_infer.pth':
         network_config = {'model_type': 'det',
                           'algorithm': 'DB',
