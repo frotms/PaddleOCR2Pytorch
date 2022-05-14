@@ -23,6 +23,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2022.05.14 PP-OCRv3 text detection model
 - 2022.04.17 1text recognition algorithm (NRTR)
 - 2022.03.20 1 text detection algorithm (PSENet)
 - 2021.09.11 PP-OCRv2. The inference speed of PP-OCRv2 is 220% higher than that of PP-OCR server in CPU device. The F-score of PP-OCRv2 is 7% higher than that of PP-OCR mobile.
