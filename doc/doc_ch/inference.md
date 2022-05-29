@@ -50,8 +50,11 @@ python3 ./converter/ch_ppocr_v2_det_converter.py --src_model_path ./paddle_ch_PP
 python ./converter/ch_ppocr_v2_rec_converter.py --src_model_path ./paddle_ch_PP-OCRv2_rec_train_dir
 
 #ppocr v3
+# det
 # ch_PP-OCRv3_rec_train, en_PP-OCRv3_det_distill_train, Multilingual_PP-OCRv3_det_distill_train
 python ./converter/ch_ppocr_v3_det_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
+
+python ./converter/ch_ppocr_v3_rec_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
 ```
 
 <a name="多语言识别模型"></a>
@@ -60,6 +63,10 @@ python ./converter/ch_ppocr_v3_det_converter.py --src_model_path paddle_ch_PP-OC
 
 ```bash
 python3 ./converter/multilingual_mobile_v2.0_rec_converter.py --src_model_path paddle_multilingual_mobile_v2.0_rec_train_dir
+
+# v3
+# en_PP-OCRv3_rec, multilingual_PP-OCRv3_rec
+python ./converter/multilingual_ppocr_v3_rec_converter.py --src_model_path paddle_multilingual_PP-OCRv3_rec_train_dir
 ```
 
 <a name="端到端模型"></a>
@@ -151,13 +158,22 @@ PyTorch模型下载链接：https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg 提�
 
 ```bash
 python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_det_pth_path.pth
+
+# v3
+python ./tools/infer/predict_det.py --det_model_path your_ch_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
 ```
 
 ![](../imgs_results/det_res_img_10_db.jpg)
 
 ![](../imgs_results/det_res_img623_sast.jpg)
 
+#### 多语言检测模型
 
+```bash
+# v3
+# en_ptocr_v3_det_infer.pth, multilingual_ptocr_v3_det_infer.pth
+python ./tools/infer/predict_det.py --det_algorithm DB --det_model_path your_multilingual_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
+```
 
 <a name="文本识别模型推理"></a>
 
@@ -167,6 +183,9 @@ python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_de
 
 ```bash
 python3 ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words --model_path your_rec_pth_path.pth
+
+# v3
+python ./tools/infer/predict_rec.py --rec_algorithm SVTR --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --image_dir ./doc/imgs_words/en/word_1.png
 ```
 
 ![](../imgs_words/ch/word_4.jpg)
@@ -196,6 +215,11 @@ python3 ./tools/infer/predict_rec.py --rec_model_path your_japan_mobile_v2.0_rec
 #             'xi', 'pu', 'rs', 'rsc', 'ka', 'chinese_cht', 'latin', 'arabic',
 #             'cyrillic', 'devanagari'
 #         ]
+
+# v3
+python ./tools/infer/predict_rec.py --rec_algorithm SVTR --rec_model_path your_en_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --rec_yaml_path ./configs/rec/PP-OCRv3/en_ptocr_v3_rec.yml --rec_char_dict_path ./pytorchocr/utils/en_dict.txt  --image_dir ./doc/imgs_words/en/word_1.png 
+
+python ./tools/infer/predict_rec.py --rec_algorithm SVTR --rec_model_path your_japan_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --rec_yaml_path ./configs/rec/PP-OCRv3/multi_language/japan_PP-OCRv3_rec.yml --rec_char_dict_path ./pytorchocr/utils/dict/japan_dict.txt  --image_dir ./doc/imgs_words/japan/1.jpg
 ```
 
 参考：[paddleocr.py](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
@@ -232,6 +256,10 @@ python3 ./tools/infer/predict_system.py --image_dir ./doc/imgs --det_model_path 
 
 # 不使用方向分类器
 python3 ./tools/infer/predict_system.py --image_dir ./doc/imgs --det_model_path your_det_pth_path.pth --rec_model_path your_rec_pth_path.pth
+
+# v3
+# other rec-models: use --rec_char_dict_path and --rec_yaml_path
+python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_path your_ch_ptocr_v3_det_infer_path.pth --rec_image_shape 3,48,320 --rec_algorithm SVTR --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth
 ```
 
 执行命令后，识别结果图像如下：
@@ -282,7 +310,7 @@ python3 ./tools/infer/predict_det.py --det_model_path your_det_mv3_pse_v2.0_infe
 python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_pse_v2.0_infer_path.pth --image_dir ./doc/imgs_en/img_195.jpg  --det_algorithm PSE --det_yaml_path ./configs/det/det_r50_vd_pse.yml
 
 # ppocr_v3_det
-python ./tools/infer/predict_det.py --use_gpu false --det_algorithm DB --det_model_path your_xx_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
+python ./tools/infer/predict_det.py --det_algorithm DB --det_model_path your_xx_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
 
 
 # recognition
@@ -438,3 +466,4 @@ def init_args():
 
 - [PaddleOCR release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/inference.md)
 - [PaddleOCR release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_ch/inference.md)
+- [PaddleOCR release/2.5](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_ch/inference_ppocr.md)

@@ -105,6 +105,17 @@ class TextRecognizer(BaseOCRV20):
         padding_im[:, :, 0:resized_w] = resized_image
         return padding_im
 
+    def resize_norm_img_svtr(self, img, image_shape):
+
+        imgC, imgH, imgW = image_shape
+        resized_image = cv2.resize(
+            img, (imgW, imgH), interpolation=cv2.INTER_LINEAR)
+        resized_image = resized_image.astype('float32')
+        resized_image = resized_image.transpose((2, 0, 1)) / 255
+        resized_image -= 0.5
+        resized_image /= 0.5
+        return resized_image
+
 
     def resize_norm_img_srn(self, img, image_shape):
         imgC, imgH, imgW = image_shape
@@ -202,12 +213,15 @@ class TextRecognizer(BaseOCRV20):
                 wh_ratio = w * 1.0 / h
                 max_wh_ratio = max(max_wh_ratio, wh_ratio)
             for ino in range(beg_img_no, end_img_no):
-                if self.rec_algorithm != "SRN":
-                    norm_img = self.resize_norm_img(img_list[indices[ino]],
-                                                    max_wh_ratio)
+                if self.rec_algorithm == "SAR":
+                    raise NotImplementedError
+
+                elif self.rec_algorithm == "SVTR":
+                    norm_img = self.resize_norm_img_svtr(img_list[indices[ino]],
+                                                         self.rec_image_shape)
                     norm_img = norm_img[np.newaxis, :]
                     norm_img_batch.append(norm_img)
-                else:
+                elif self.rec_algorithm == "SRN":
                     norm_img = self.process_image_srn(img_list[indices[ino]],
                                                       self.rec_image_shape, 8,
                                                       self.max_text_length)
@@ -220,6 +234,11 @@ class TextRecognizer(BaseOCRV20):
                     gsrm_slf_attn_bias1_list.append(norm_img[3])
                     gsrm_slf_attn_bias2_list.append(norm_img[4])
                     norm_img_batch.append(norm_img[0])
+                else:
+                    norm_img = self.resize_norm_img(img_list[indices[ino]],
+                                                    max_wh_ratio)
+                    norm_img = norm_img[np.newaxis, :]
+                    norm_img_batch.append(norm_img)
             norm_img_batch = np.concatenate(norm_img_batch)
             norm_img_batch = norm_img_batch.copy()
 
@@ -266,6 +285,7 @@ class TextRecognizer(BaseOCRV20):
                     if self.use_gpu:
                         inp = inp.cuda()
                     prob_out = self.net(inp)
+
                 if isinstance(prob_out, list):
                     preds = [v.cpu().numpy() for v in prob_out]
                 else:
