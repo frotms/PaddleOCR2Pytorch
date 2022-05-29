@@ -7,9 +7,9 @@ import torch
 from pytorchocr.base_ocr_v20 import BaseOCRV20
 
 
-class PPOCRv2DetConverter(BaseOCRV20):
+class PPOCRv3DetConverter(BaseOCRV20):
     def __init__(self, config, paddle_pretrained_model_path, **kwargs):
-        super(PPOCRv2DetConverter, self).__init__(config, **kwargs)
+        super(PPOCRv3DetConverter, self).__init__(config, **kwargs)
         self.load_paddle_weights(paddle_pretrained_model_path)
         self.net.eval()
 
@@ -70,7 +70,7 @@ if __name__ == '__main__':
            'Neck':{'name':'RSEFPN', 'out_channels':96, 'shortcut': True},
            'Head':{'name':'DBHead', 'k':50}}
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
-    converter = PPOCRv2DetConverter(cfg, paddle_pretrained_model_path)
+    converter = PPOCRv3DetConverter(cfg, paddle_pretrained_model_path)
 
     print('todo')
 

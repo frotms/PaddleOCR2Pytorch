@@ -20,11 +20,26 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 <a name="Detection"></a>
 ## 1. Text Detection Model
 
+### Chinese Detection Model
+
 |model name|description|model size|download|
 | --- | --- | --- | --- |
+|ch_PP-OCRv3_det|[New] Original lightweight model, supporting Chinese, English, multilingual text detection|3.8M|inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_distill_train.tar)|
 |ch_ppocr_mobile_v2.0_det|Original lightweight model, supporting Chinese, English, multilingual text detection|3M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_train.tar)|
 |ch_ppocr_server_v2.0_det|General model, which is larger than the lightweight model, but achieved better performance|47M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_train.tar)|
 |ch_PP-OCRv2_det|[New] Original lightweight model, supporting Chinese, English, multilingual text detection|3M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_distill_train.tar)|
+
+### English Detection Model
+
+| model name      | description                                                  | model size | download                                                     |
+| --------------- | ------------------------------------------------------------ | ---------- | ------------------------------------------------------------ |
+| en_PP-OCRv3_det | [New] Original lightweight detection model, supporting English | 3.8M       | [inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_distill_train.tar) |
+
+### Multilingual Detection Model
+
+| model name      | description                                                  | model size | download                                                     |
+| --------------- | ------------------------------------------------------------ | ---------- | ------------------------------------------------------------ |
+| ml_PP-OCRv3_det | [New] Original lightweight detection model, supporting English | 3.8M       | [inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/Multilingual_PP-OCRv3_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/Multilingual_PP-OCRv3_det_distill_train.tar) |
 
 <a name="Recognition"></a>
 
@@ -35,6 +50,7 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
+|ch_PP-OCRv3_rec|[New] Original lightweight model, supporting Chinese, English, multilingual text recognition|12.4M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_train.tar)|
 |ch_ppocr_mobile_v2.0_rec|Original lightweight model, supporting Chinese, English and number recognition|3.71M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_train.tar) / [pre-trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_pre.tar) |
 |ch_ppocr_server_v2.0_rec|General model, supporting Chinese, English and number recognition|94.8M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_train.tar) / [pre-trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_pre.tar) |
 |ch_PP-OCRv2_rec|[New] Original lightweight model, supporting Chinese, English, multilingual text detection|8.5M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_rec_train.tar) |
@@ -47,6 +63,7 @@ The downloadable models provided by PaddleOCR include `inference model`, `traine
 
 |model name|description|model size|download|
 | --- | --- | --- | --- |
+|en_PP-OCRv3_rec|[New] Original lightweight model, supporting english, English, multilingual text recognition|9.6M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_rec_train.tar)|
 |en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition(v2.0)|2.56M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 |en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition(v2.1 the performance is optimized)|2.6M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 

@@ -20,14 +20,29 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 <a name="文本检测模型"></a>
 ## 一、文本检测模型
 
+### 1.中文检测模型
+
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
+|ch_PP-OCRv3_det|【最新】原始超轻量模型，支持中英文、多语种文本检测|3.8M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_distill_train.tar)|
 |ch_ppocr_mobile_v2.0_det|原始超轻量模型，支持中英文、多语种文本检测|3M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_train.tar)|
 |ch_ppocr_server_v2.0_det|通用模型，支持中英文、多语种文本检测，比超轻量模型更大，但效果更好|47M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_train.tar)|
 |ch_PP-OCRv2_det|【最新】原始超轻量模型，支持中英文、多语种文本检测|3M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_distill_train.tar)|
 
+### 2.英文检测模型
+
+| 模型名称        | 模型简介                                   | 配置文件                                                     | 推理模型大小 | 下载地址                                                     |
+| --------------- | ------------------------------------------ | ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ |
+| en_PP-OCRv3_det | 【最新】原始超轻量模型，支持英文、数字检测 | [ch_PP-OCRv3_det.yml](../../configs/det/ch_PP-OCRv3/ch_PP-OCRv3_det.yml) | 3.8M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_distill_train.tar) |
+
+### 3.多语言检测模型
+
+| 模型名称        | 模型简介                               | 配置文件                                                     | 推理模型大小 | 下载地址                                                     |
+| --------------- | -------------------------------------- | ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ |
+| ml_PP-OCRv3_det | 【最新】原始超轻量模型，支持多语言检测 | [ch_PP-OCRv3_det.yml](../../configs/det/ch_PP-OCRv3/ch_PP-OCRv3_det.yml) | 3.8M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/Multilingual_PP-OCRv3_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/Multilingual_PP-OCRv3_det_distill_train.tar) |
 
 <a name="文本识别模型"></a>
+
 ### 二、文本识别模型
 
 <a name="中文识别模型"></a>
@@ -35,6 +50,7 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
+|ch_PP-OCRv3_rec|【最新】原始超轻量模型，支持中英文、数字识别|12.4M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_train.tar)|
 |ch_ppocr_mobile_v2.0_rec|原始超轻量模型，支持中英文、数字识别|3.71M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_train.tar) / [预训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_pre.tar) |
 |ch_ppocr_server_v2.0_rec|通用模型，支持中英文、数字识别|94.8M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_train.tar) / [预训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_pre.tar) |
 |ch_PP-OCRv2_rec|【最新】原始超轻量模型，支持中英文、数字识别|8.5M|[<br/>推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_rec_train.tar) |
@@ -46,6 +62,7 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
+|en_PP-OCRv3_rec|【最新】原始超轻量模型，支持英文、数字识别|9.6M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_rec_train.tar)|
 |en_number_mobile_v2.0_rec|原始超轻量模型，支持英文、数字识别(v2.0)|2.56M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 |en_number_mobile_v2.0_rec|原始超轻量模型，支持英文、数字识别(v2.1优化)|2.6M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
 
@@ -99,6 +116,23 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 | arabic_mobile_v2.0_rec      | 阿拉伯字母   | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_train.tar) |
 | cyrillic_mobile_v2.0_rec    | 斯拉夫字母   | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_train.tar) |
 | devanagari_mobile_v2.0_rec  | 梵文字母     | 2.6M         | [推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_train.tar) |
+
+[release/2.5](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_ch/models_list.md)
+
+### 
+
+| 模型名称                 | 字典文件                                   | 模型简介     | 配置文件                                                     | 推理模型大小 | 下载地址                                                     |
+| ------------------------ | ------------------------------------------ | ------------ | ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ |
+| korean_PP-OCRv3_rec      | pytorchocr/utils/dict/korean_dict.txt      | 韩文识别     | [korean_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/korean_PP-OCRv3_rec.yml) | 11M          | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/korean_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/korean_PP-OCRv3_rec_train.tar) |
+| japan_PP-OCRv3_rec       | pytorchocr/utils/dict/japan_dict.txt       | 日文识别     | [japan_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/japan_PP-OCRv3_rec.yml) | 11M          | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/japan_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/japan_PP-OCRv3_rec_train.tar) |
+| chinese_cht_PP-OCRv3_rec | pytorchocr/utils/dict/chinese_cht_dict.txt | 中文繁体识别 | [chinese_cht_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/chinese_cht_PP-OCRv3_rec.yml) | 12M          | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/chinese_cht_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/chinese_cht_PP-OCRv3_rec_train.tar) |
+| te_PP-OCRv3_rec          | pytorchocr/utils/dict/te_dict.txt          | 泰卢固文识别 | [te_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/te_PP-OCRv3_rec.yml) | 9.6M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/te_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/te_PP-OCRv3_rec_train.tar) |
+| ka_PP-OCRv3_rec          | pytorchocr/utils/dict/ka_dict.txt          | 卡纳达文识别 | [ka_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/ka_PP-OCRv3_rec.yml) | 9.9M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/ka_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/ka_PP-OCRv3_rec_train.tar) |
+| ta_PP-OCRv3_rec          | pytorchocr/utils/dict/ta_dict.txt          | 泰米尔文识别 | [ta_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/ta_PP-OCRv3_rec.yml) | 9.6M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/ta_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/ta_PP-OCRv3_rec_train.tar) |
+| latin_PP-OCRv3_rec       | pytorchocr/utils/dict/latin_dict.txt       | 拉丁文识别   | [latin_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/latin_PP-OCRv3_rec.yml) | 9.7M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/latin_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/latin_PP-OCRv3_rec_train.tar) |
+| arabic_PP-OCRv3_rec      | pytorchocr/utils/dict/arabic_dict.txt      | 阿拉伯字母   | [arabic_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/arabic_PP-OCRv3_rec.yml) | 9.6M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/arabic_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/arabic_PP-OCRv3_rec_train.tar) |
+| cyrillic_PP-OCRv3_rec    | pytorchocr/utils/dict/cyrillic_dict.txt    | 斯拉夫字母   | [cyrillic_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/cyrillic_PP-OCRv3_rec.yml) | 9.6M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/cyrillic_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/cyrillic_PP-OCRv3_rec_train.tar) |
+| devanagari_PP-OCRv3_rec  | pytorchocr/utils/dict/devanagari_dict.txt  | 梵文字母     | [devanagari_PP-OCRv3_rec.yml](../../configs/rec/PP-OCRv3/multi_language/devanagari_PP-OCRv3_rec.yml) | 9.9M         | [推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/devanagari_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/devanagari_PP-OCRv3_rec_train.tar) |
 
 更多支持语种请参考: 
 

@@ -209,6 +209,23 @@ def AnalysisConfig(weights_path, yaml_path=None):
                           'Neck': {'name': 'DBFPN', 'out_channels': 96},
                           'Head': {'name': 'DBHead', 'k': 50}}
 
+    elif weights_name == 'ch_ptocr_v3_rec_infer.pth':
+        network_config = {'model_type':'rec',
+           'algorithm':'CRNN',
+           'Transform':None,
+           'Backbone':{'name':'MobileNetV1Enhance',
+                       'scale':0.5,
+                       'last_conv_stride': [1, 2],
+                       'last_pool_type': 'avg'},
+           'Neck':{'name':'SequenceEncoder',
+                   'dims': 64,
+                   'depth': 2,
+                   'hidden_dims': 120,
+                   'use_guide': True,
+                   'encoder_type':'svtr'},
+           'Head':{'name':'CTCHead', 'fc_decay': 2e-05}
+           }
+
     elif weights_name == 'ch_ptocr_v3_det_infer.pth':
         network_config = {'model_type': 'det',
                           'algorithm': 'DB',

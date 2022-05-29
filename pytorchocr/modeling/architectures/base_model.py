@@ -51,8 +51,12 @@ class BaseModel(nn.Module):
             in_channels = self.neck.out_channels
 
         # # build head, head is need for det, rec and cls
-        config["Head"]['in_channels'] = in_channels
-        self.head = build_head(config["Head"], **kwargs)
+        if 'Head' not in config or config['Head'] is None:
+            self.use_head = False
+        else:
+            self.use_head = True
+            config["Head"]['in_channels'] = in_channels
+            self.head = build_head(config["Head"], **kwargs)
 
         self.return_all_feats = config.get("return_all_feats", False)
 
@@ -87,12 +91,20 @@ class BaseModel(nn.Module):
         if self.use_neck:
             x = self.neck(x)
         y["neck_out"] = x
-        x = self.head(x)
-        if isinstance(x, dict):
+        if self.use_head:
+            x = self.head(x)
+        # for multi head, save ctc neck out for udml
+        if isinstance(x, dict) and 'ctc_nect' in x.keys():
+            y['neck_out'] = x['ctc_neck']
+            y['head_out'] = x
+        elif isinstance(x, dict):
             y.update(x)
         else:
             y["head_out"] = x
         if self.return_all_feats:
-            return y
+            if self.training:
+                return y
+            else:
+                return {"head_out": y["head_out"]}
         else:
             return x
