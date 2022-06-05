@@ -13,7 +13,10 @@ This repository aims to
 
 ## TODO
 
-- [ ] 2 text recognition algorithms (SEED、SAR), 1 [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) and 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
+- [ ] text detection algorithms (FCENET)
+- [ ] text recognition algorithms (SEED、SAR、SVTR)
+- [ ] [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) 
+- [ ] 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
 - [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
 
 ## Notice
