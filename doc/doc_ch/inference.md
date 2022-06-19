@@ -142,6 +142,9 @@ python ./converter/srn_converter.py --yaml_path ./configs/rec/rec_r50_fpn_srn.ym
 
 # NRTR
 python ./rec_nrtr_mtb_converter.py --yaml_path ../configs/rec/rec_mtb_nrtr.yml --dict_path ../pytorchocr/utils/EN_symbol_dict.txt --src_model_path your_ppocr_rec_mtb_nrtr_train_dir
+
+# SAR
+python ./converter/rec_sar_converter.py --yaml_path ./configs/rec/rec_r31_sar.yml --dict_path ./pytorchocr/utils/dict90.txt --src_model_path your_rec_r31_sar_train_dir
 ```
 
 <a name="PyTorch推理"></a>
@@ -343,6 +346,9 @@ python ./tools/infer/predict_rec.py --rec_model_path your_rec_r50_vd_srn_infer_p
 
 # NRTR
 python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/EN_symbol_dict.txt --rec_algorithm NRTR --rec_model_path your_rec_mtb_nrtr_infer_path.pth --rec_yaml_path ./configs/rec/rec_mtb_nrtr.yml --image_dir ./doc/imgs_words_en/word_10.png
+
+# SAR
+python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/dict90.txt --max_text_length 30 --rec_yaml_path ./configs/rec/rec_r31_sar.yml --rec_algorithm SAR --rec_image_shape 3,48,48,160 --use_space_char false --rec_model_path your_rec_r31_sar_infer_path.pth --image_dir ./doc/imgs_words/en/word_1.png 
 ```
 
 ### 参数列表

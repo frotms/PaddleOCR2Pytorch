@@ -7,12 +7,12 @@ import cv2
 import torch
 from pytorchocr.base_ocr_v20 import BaseOCRV20
 
-class RecV20RecConverter(BaseOCRV20):
+class RecSARConverter(BaseOCRV20):
     def __init__(self, config, paddle_pretrained_model_path, **kwargs):
         para_state_dict, opti_state_dict = self.read_paddle_weights(paddle_pretrained_model_path)
         print('config: ', config)
         print(type(kwargs), kwargs)
-        super(RecV20RecConverter, self).__init__(config, **kwargs)
+        super(RecSARConverter, self).__init__(config, **kwargs)
         self.load_paddle_weights([para_state_dict, opti_state_dict])
         print('model is loaded: {}'.format(paddle_pretrained_model_path))
         self.net.eval()
@@ -24,31 +24,32 @@ class RecV20RecConverter(BaseOCRV20):
         # [print('torch: {} ---- {}'.format(k, v.shape)) for k,v in self.net.state_dict().items()]
         # exit()
 
-        for k,v in para_state_dict.items():
+        for k,v in self.net.state_dict().items():
             name = k
-            if k.endswith('._mean'):
-                name = k.replace('._mean', '.running_mean')
-            if k.endswith('._variance'):
-                name = k.replace('._variance', '.running_var')
+            if k.endswith('num_batches_tracked'):
+                continue
+            if k.endswith('.running_mean'):
+                name = k.replace('.running_mean', '._mean')
+            if k.endswith('.running_var'):
+                name = k.replace('.running_var', '._variance')
 
             try:
                 if k.endswith('.weight'):
-                    if len(v.shape) == len(self.net.state_dict()[name].shape) == 2 \
-                        and v.shape[0] == self.net.state_dict()[name].shape[1] \
-                        and v.shape[1] == self.net.state_dict()[name].shape[0]:
-                        self.net.state_dict()[name].copy_(torch.Tensor(v.T))
+                    if len(v.shape) == len(para_state_dict[name].shape) == 2 \
+                        and v.shape[0] == para_state_dict[name].shape[1] \
+                        and v.shape[1] == para_state_dict[name].shape[0]:
+                        self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[name].T))
                     else:
-                        self.net.state_dict()[name].copy_(torch.Tensor(v))
+                        self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[name]))
                 else:
-                    self.net.state_dict()[name].copy_(torch.Tensor(v))
+                    self.net.state_dict()[k].copy_(torch.Tensor(para_state_dict[name]))
             except Exception as e:
-                print('pytorch: {}'.format(name))
-                print('paddle: {}'.format(k))
-                print('pytorch: {}'.format(self.net.state_dict()[name].shape))
-                print('paddle: {}'.format(v.shape))
+                print('pytorch: {}'.format(k))
+                print('paddle: {}'.format(name))
+                print('pytorch: {}'.format(v.shape))
+                print('paddle: {}'.format(para_state_dict[name].shape))
                 print(e)
                 raise e
-
 
         print('weights are loaded.')
 
@@ -86,13 +87,7 @@ if __name__ == '__main__':
 
     else:
         raise NotImplementedError
-        # cfg = {'model_type':'rec',
-        #        'algorithm':'CRNN',
-        #        'Transform':None,
-        #        'Backbone':{'model_name':'small', 'name':'MobileNetV3', 'scale':0.5, 'small_stride':[1,2,2,2]},
-        #        'Neck':{'name':'SequenceEncoder', 'hidden_size':48, 'encoder_type':'rnn'},
-        #        'Head':{'name':'CTCHead', 'fc_decay': 4e-05},
-        #        }
+
     kwargs = {}
 
     dict_path = args.dict_path
@@ -102,32 +97,23 @@ if __name__ == '__main__':
     else:
         ValueError('Assign the dict.txt path of network configuration')
 
-    dict_character = ['blank', '<unk>', '<s>', '</s>']
-    out_channels = len(dict_character)+1 # ['blank', '<unk>', '<s>', '</s>'] + use_space?
     with open(dict_path, 'r', encoding='utf-8') as f:
         num_chars = len(f.readlines())
-    out_channels += num_chars
+    beg_end_str = "<BOS/EOS>"
+    unknown_str = "<UKN>"
+    padding_str = "<PAD>"
+    aux_str_list = [beg_end_str, unknown_str, padding_str]
+    out_channels = num_chars + len(aux_str_list)
     kwargs['out_channels'] = out_channels
 
     paddle_pretrained_model_path = os.path.join(os.path.abspath(args.src_model_path), 'best_accuracy')
-    converter = RecV20RecConverter(cfg, paddle_pretrained_model_path, **kwargs)
+    converter = RecSARConverter(cfg, paddle_pretrained_model_path, **kwargs)
 
-    # image = cv2.imread('./doc/imgs_words_en/word_10.png')
-    # image = cv2.resize(image, (100, 32))
-    # image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # image = np.expand_dims(image, -1)
-    # mean = 0.5
-    # std = 0.5
-    # scale = 1. / 255
-    # norm_img = (image * scale - mean) / std
-    # transpose_img = norm_img.transpose(2, 0, 1)
-    # transpose_img = np.expand_dims(transpose_img, 0).astype(np.float32)
-    # print('inp:', np.sum(transpose_img), np.mean(transpose_img), np.max(transpose_img), np.min(transpose_img))
-    # with torch.no_grad():
-    #     inp = torch.Tensor(transpose_img)
-    #     out = converter.net(inp)
-    # out = out.data.numpy()
-    # print('out:', np.sum(out), np.mean(out), np.max(out), np.min(out))
+
+    inp = torch.from_numpy(np.random.randn(1,3,48,160).astype(np.float32))
+    with torch.no_grad():
+        out = converter.net(inp)
+        print('out: ', out.shape)
 
     # save
     if args.dst_model_path is not None:
