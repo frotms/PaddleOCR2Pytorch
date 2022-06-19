@@ -49,6 +49,12 @@ class TextRecognizer(BaseOCRV20):
                 "character_dict_path": args.rec_char_dict_path,
                 "use_space_char": args.use_space_char
             }
+        elif self.rec_algorithm == "SAR":
+            postprocess_params = {
+                'name': 'SARLabelDecode',
+                "character_dict_path": args.rec_char_dict_path,
+                "use_space_char": args.use_space_char
+            }
         self.postprocess_op = build_post_process(postprocess_params)
 
         use_gpu = args.use_gpu
@@ -64,6 +70,8 @@ class TextRecognizer(BaseOCRV20):
         self.out_channels = self.get_out_channels(weights)
         if self.rec_algorithm == 'NRTR':
             self.out_channels = list(weights.values())[-1].numpy().shape[0]
+        elif self.rec_algorithm == 'SAR':
+            self.out_channels = list(weights.values())[-3].numpy().shape[0]
 
         kwargs['out_channels'] = self.out_channels
         super(TextRecognizer, self).__init__(network_config, **kwargs)
@@ -189,6 +197,40 @@ class TextRecognizer(BaseOCRV20):
         return (norm_img, encoder_word_pos, gsrm_word_pos, gsrm_slf_attn_bias1,
                 gsrm_slf_attn_bias2)
 
+    def resize_norm_img_sar(self, img, image_shape,
+                            width_downsample_ratio=0.25):
+        imgC, imgH, imgW_min, imgW_max = image_shape
+        h = img.shape[0]
+        w = img.shape[1]
+        valid_ratio = 1.0
+        # make sure new_width is an integral multiple of width_divisor.
+        width_divisor = int(1 / width_downsample_ratio)
+        # resize
+        ratio = w / float(h)
+        resize_w = math.ceil(imgH * ratio)
+        if resize_w % width_divisor != 0:
+            resize_w = round(resize_w / width_divisor) * width_divisor
+        if imgW_min is not None:
+            resize_w = max(imgW_min, resize_w)
+        if imgW_max is not None:
+            valid_ratio = min(1.0, 1.0 * resize_w / imgW_max)
+            resize_w = min(imgW_max, resize_w)
+        resized_image = cv2.resize(img, (resize_w, imgH))
+        resized_image = resized_image.astype('float32')
+        # norm
+        if image_shape[0] == 1:
+            resized_image = resized_image / 255
+            resized_image = resized_image[np.newaxis, :]
+        else:
+            resized_image = resized_image.transpose((2, 0, 1)) / 255
+        resized_image -= 0.5
+        resized_image /= 0.5
+        resize_shape = resized_image.shape
+        padding_im = -1.0 * np.ones((imgC, imgH, imgW_max), dtype=np.float32)
+        padding_im[:, :, 0:resize_w] = resized_image
+        pad_shape = padding_im.shape
+
+        return padding_im, resize_shape, pad_shape, valid_ratio
 
     def __call__(self, img_list):
         img_num = len(img_list)
@@ -214,7 +256,13 @@ class TextRecognizer(BaseOCRV20):
                 max_wh_ratio = max(max_wh_ratio, wh_ratio)
             for ino in range(beg_img_no, end_img_no):
                 if self.rec_algorithm == "SAR":
-                    raise NotImplementedError
+                    norm_img, _, _, valid_ratio = self.resize_norm_img_sar(
+                        img_list[indices[ino]], self.rec_image_shape)
+                    norm_img = norm_img[np.newaxis, :]
+                    valid_ratio = np.expand_dims(valid_ratio, axis=0)
+                    valid_ratios = []
+                    valid_ratios.append(valid_ratio)
+                    norm_img_batch.append(norm_img)
 
                 elif self.rec_algorithm == "SVTR":
                     norm_img = self.resize_norm_img_svtr(img_list[indices[ino]],
@@ -269,6 +317,21 @@ class TextRecognizer(BaseOCRV20):
                     prob_out = self.net.head(backbone_out, [encoder_word_pos_inp, gsrm_word_pos_inp, gsrm_slf_attn_bias1_inp, gsrm_slf_attn_bias2_inp])
                 # preds = {"predict": prob_out[2]}
                 preds = {"predict": prob_out["predict"]}
+
+            elif self.rec_algorithm == "SAR":
+                starttime = time.time()
+                # valid_ratios = np.concatenate(valid_ratios)
+                # inputs = [
+                #     norm_img_batch,
+                #     valid_ratios,
+                # ]
+
+                with torch.no_grad():
+                    inp = torch.from_numpy(norm_img_batch)
+                    if self.use_gpu:
+                        inp = inp.cuda()
+                    preds = self.net(inp)
+
             else:
                 starttime = time.time()
                 # self.input_tensor.copy_from_cpu(norm_img_batch)
