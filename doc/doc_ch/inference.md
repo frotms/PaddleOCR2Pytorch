@@ -188,7 +188,7 @@ python ./tools/infer/predict_det.py --det_algorithm DB --det_model_path your_mul
 python3 ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words --model_path your_rec_pth_path.pth
 
 # v3
-python ./tools/infer/predict_rec.py --rec_algorithm SVTR --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --image_dir ./doc/imgs_words/en/word_1.png
+python ./tools/infer/predict_rec.py --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --image_dir ./doc/imgs_words/en/word_1.png
 ```
 
 ![](../imgs_words/ch/word_4.jpg)
@@ -220,9 +220,9 @@ python3 ./tools/infer/predict_rec.py --rec_model_path your_japan_mobile_v2.0_rec
 #         ]
 
 # v3
-python ./tools/infer/predict_rec.py --rec_algorithm SVTR --rec_model_path your_en_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --rec_yaml_path ./configs/rec/PP-OCRv3/en_ptocr_v3_rec.yml --rec_char_dict_path ./pytorchocr/utils/en_dict.txt  --image_dir ./doc/imgs_words/en/word_1.png 
+python ./tools/infer/predict_rec.py --rec_model_path your_en_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --rec_yaml_path ./configs/rec/PP-OCRv3/en_PP-OCRv3_rec.yml --rec_char_dict_path ./pytorchocr/utils/en_dict.txt  --image_dir ./doc/imgs_words/en/word_1.png 
 
-python ./tools/infer/predict_rec.py --rec_algorithm SVTR --rec_model_path your_japan_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --rec_yaml_path ./configs/rec/PP-OCRv3/multi_language/japan_PP-OCRv3_rec.yml --rec_char_dict_path ./pytorchocr/utils/dict/japan_dict.txt  --image_dir ./doc/imgs_words/japan/1.jpg
+python ./tools/infer/predict_rec.py --rec_model_path your_japan_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --rec_yaml_path ./configs/rec/PP-OCRv3/multi_language/japan_PP-OCRv3_rec.yml --rec_char_dict_path ./pytorchocr/utils/dict/japan_dict.txt  --image_dir ./doc/imgs_words/japan/1.jpg
 ```
 
 参考：[paddleocr.py](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
@@ -262,7 +262,7 @@ python3 ./tools/infer/predict_system.py --image_dir ./doc/imgs --det_model_path 
 
 # v3
 # other rec-models: use --rec_char_dict_path and --rec_yaml_path
-python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_path your_ch_ptocr_v3_det_infer_path.pth --rec_image_shape 3,48,320 --rec_algorithm SVTR --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth
+python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_path your_ch_ptocr_v3_det_infer_path.pth --rec_image_shape 3,48,320 --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth
 ```
 
 执行命令后，识别结果图像如下：
