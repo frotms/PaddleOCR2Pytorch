@@ -94,7 +94,7 @@ class TextRecognizer(BaseOCRV20):
 
         assert imgC == img.shape[2]
         max_wh_ratio = max(max_wh_ratio, imgW / imgH)
-        imgW = int((32 * max_wh_ratio))
+        imgW = int((imgH * max_wh_ratio))
         imgW = max(min(imgW, self.limited_max_width), self.limited_min_width)
         h, w = img.shape[:2]
         ratio = w / float(h)
