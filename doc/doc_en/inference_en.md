@@ -146,6 +146,9 @@ python ./rec_nrtr_mtb_converter.py --yaml_path ../configs/rec/rec_mtb_nrtr.yml -
 
 # SAR
 python ./converter/rec_sar_converter.py --yaml_path ./configs/rec/rec_r31_sar.yml --dict_path ./pytorchocr/utils/dict90.txt --src_model_path your_rec_r31_sar_train_dir
+
+# SVTR
+python ./converter/rec_svtr_converter.py --yaml_path ./configs/rec/rec_svtr/rec_svtr_tiny_6local_6global_stn_en.yml --src_model_path your_rec_svtr_tiny_none_ctc_en_train_dir
 ```
 
 <a name="INFERENCE"></a>
@@ -351,6 +354,12 @@ python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/EN_s
 
 # SAR
 python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/dict90.txt --max_text_length 30 --rec_yaml_path ./configs/rec/rec_r31_sar.yml --rec_algorithm SAR --rec_image_shape 3,48,48,160 --use_space_char false --rec_model_path your_rec_r31_sar_infer_path.pth --image_dir ./doc/imgs_words/en/word_1.png
+
+# SVTR
+# en
+python ./tools/infer/predict_rec.py --rec_model_path yout_rec_svtr_tiny_none_ctc_en_infer_path.pth --rec_algorithm SVTR --rec_image_shape 3,64,256 --rec_char_dict_path ./pytorchocr/utils/ic15_dict.txt --rec_yaml_path ./configs/rec/rec_svtr/rec_svtr_tiny_6local_6global_stn_en.yml --image_dir ./doc/imgs_words_en/word_10.png
+# ch
+python ./tools/infer/predict_rec.py --rec_model_path yout_rec_svtr_tiny_none_ctc_ch_infer_path.pth --rec_algorithm SVTR --rec_image_shape 3,64,256 --rec_char_dict_path ./pytorchocr/utils/ppocr_keys_v1.txt --rec_yaml_path ./configs/rec/rec_svtr/rec_svtr_tiny_6local_6global_stn_ch.yml --image_dir ./doc/imgs_words/ch/word_1.jpg
 ```
 
 <a name="PARSER"></a>
