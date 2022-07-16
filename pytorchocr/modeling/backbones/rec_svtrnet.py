@@ -154,7 +154,7 @@ class Attention(nn.Module):
                                2].flatten(1)
             mask_inf = torch.full([H * W, H * W], fill_value=float("-Inf"), dtype=torch.float32)
             mask = torch.where(mask_paddle < 1, mask_paddle, mask_inf)
-            self.mask = mask.unsqueeze(1).unsqueeze(0)
+            self.mask = mask.unsqueeze(0).unsqueeze(1)
             # self.mask = mask[None, None, :]
         self.mixer = mixer
 
@@ -385,7 +385,7 @@ class SVTRNet(nn.Module):
             out_channels=192,
             out_char_num=25,
             block_unit='Block',
-            act='nn.GELU',
+            act='gelu',
             last_stage=True,
             sub_num=2,
             prenorm=True,
@@ -420,7 +420,7 @@ class SVTRNet(nn.Module):
                 qkv_bias=qkv_bias,
                 qk_scale=qk_scale,
                 drop=drop_rate,
-                act_layer=eval(act),
+                act_layer=act,
                 attn_drop=attn_drop_rate,
                 drop_path=dpr[0:depth[0]][i],
                 norm_layer=norm_layer,
@@ -449,7 +449,7 @@ class SVTRNet(nn.Module):
                 qkv_bias=qkv_bias,
                 qk_scale=qk_scale,
                 drop=drop_rate,
-                act_layer=eval(act),
+                act_layer=act,
                 attn_drop=attn_drop_rate,
                 drop_path=dpr[depth[0]:depth[0] + depth[1]][i],
                 norm_layer=norm_layer,
@@ -477,7 +477,7 @@ class SVTRNet(nn.Module):
                 qkv_bias=qkv_bias,
                 qk_scale=qk_scale,
                 drop=drop_rate,
-                act_layer=eval(act),
+                act_layer=act,
                 attn_drop=attn_drop_rate,
                 drop_path=dpr[depth[0] + depth[1]:][i],
                 norm_layer=norm_layer,
