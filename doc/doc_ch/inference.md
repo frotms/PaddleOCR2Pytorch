@@ -106,6 +106,9 @@ python3 ./converter/det_converter.py --yaml_path ./configs/det/det_mv3_pse.yml -
 
 # det_r50_vd_pse
 python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_pse.yml --src_model_path your_ppocr_det_r50_vd_pse_v2.0_train_dir
+
+# det_fcenet
+python3 ./converter/det_fcenet_converter.py --src your_det_r50_dcn_fce_ctw/det_r50_dcn_fce_ctw_v2.0_train_dir
 ```
 
 <a name="其他识别模型"></a>
@@ -317,6 +320,9 @@ python3 ./tools/infer/predict_det.py --det_model_path your_det_r50_vd_pse_v2.0_i
 
 # ppocr_v3_det
 python ./tools/infer/predict_det.py --det_algorithm DB --det_model_path your_xx_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
+
+# det_fcenet
+python3.7 ./tools/infer/predict_det.py --det_algorithm FCE --det_model_path your_det_r50_dcn_fce_ctw_v2.0_infer_path.pth --det_fce_box_type poly --det_yaml_path ./configs/det/det_r50_vd_dcn_fce_ctw.yml --image_dir ./doc/imgs_en/img_10.jpg
 
 
 # recognition

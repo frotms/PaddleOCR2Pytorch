@@ -21,6 +21,7 @@ def build_head(config, **kwargs):
     from .det_east_head import EASTHead
     from .det_sast_head import SASTHead
     from .det_pse_head import PSEHead
+    from .det_fce_head import FCEHead
     from .e2e_pg_head import PGHead
 
     # rec head
@@ -34,7 +35,7 @@ def build_head(config, **kwargs):
     from .cls_head import ClsHead
     support_dict = [
         'DBHead', 'PSEHead', 'EASTHead', 'SASTHead', 'CTCHead', 'ClsHead', 'AttentionHead',
-        'SRNHead', 'PGHead', 'Transformer', 'TableAttentionHead','SARHead',
+        'SRNHead', 'PGHead', 'Transformer', 'TableAttentionHead','SARHead', 'FCEHead'
 
     ]
 
