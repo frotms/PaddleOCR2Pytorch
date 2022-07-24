@@ -13,7 +13,6 @@
 
 ## TODO
 
-- [ ] 文本检测算法FCENET
 - [ ] 文本识别算法(SEED)
 - [ ] 文档结构化算法[关键信息提取](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md)算法(SDMGR)
 - [ ] 3种[DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa)算法(LayoutLM、LayoutLMv2，LayoutXLM)
@@ -25,6 +24,7 @@
 
 **近期更新**
 
+- 2022.07.24 文本检测算法(FCENET)
 - 2022.07.16 文本识别算法(SVTR)
 - 2022.06.19 文本识别算法(SAR)
 - 2022.05.29 [PP-OCRv3](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_ch/ppocr_introduction.md#pp-ocrv3)，速度可比情况下，中文场景效果相比于PP-OCRv2再提升5%，英文场景提升11%，80语种多语言模型平均识别准确率提升5%以上

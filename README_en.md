@@ -13,7 +13,6 @@ This repository aims to
 
 ## TODO
 
-- [ ] text detection algorithms (FCENET)
 - [ ] text recognition algorithms (SEED)
 - [ ] [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) 
 - [ ] 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
@@ -25,6 +24,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2022.07.24 text detection algorithms (FCENET)
 - 2022.07.16 text recognition algorithms (SVTR)
 - 2022.06.19 text recognition algorithms (SAR)
 - 2022.05.29 [PP-OCRv3](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_en/ppocr_introduction_en.md#pp-ocrv3): With comparable speed, the effect of Chinese scene is further improved by 5% compared with PP-OCRv2, the effect of English scene is improved by 11%, and the average recognition accuracy of 80 language multilingual models is improved by more than 5%

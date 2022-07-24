@@ -49,6 +49,13 @@ def init_args():
     parser.add_argument("--det_pse_box_type", type=str, default='box')
     parser.add_argument("--det_pse_scale", type=int, default=1)
 
+    # FCE parmas
+    parser.add_argument("--scales", type=list, default=[8, 16, 32])
+    parser.add_argument("--alpha", type=float, default=1.0)
+    parser.add_argument("--beta", type=float, default=1.0)
+    parser.add_argument("--fourier_degree", type=int, default=5)
+    parser.add_argument("--det_fce_box_type", type=str, default='poly')
+
     # params for text recognizer
     parser.add_argument("--rec_algorithm", type=str, default='CRNN')
     parser.add_argument("--rec_model_path", type=str)

@@ -5,6 +5,63 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from pytorchocr.modeling.common import Activation
+import torchvision
+
+class DeformableConvV2(nn.Module):
+    def __init__(self,
+                 in_channels,
+                 out_channels,
+                 kernel_size,
+                 stride=1,
+                 padding=0,
+                 dilation=1,
+                 groups=1,
+                 weight_attr=None,
+                 bias_attr=None,
+                 lr_scale=1,
+                 regularizer=None,
+                 skip_quant=False,
+                 dcn_bias_regularizer=None,
+                 dcn_bias_lr_scale=2.):
+        super(DeformableConvV2, self).__init__()
+        self.offset_channel = 2 * kernel_size**2 * groups
+        self.mask_channel = kernel_size**2 * groups
+
+        if bias_attr:
+            # in FCOS-DCN head, specifically need learning_rate and regularizer
+            dcn_bias_attr = True
+        else:
+            # in ResNet backbone, do not need bias
+            dcn_bias_attr = False
+        self.conv_dcn = torchvision.ops.DeformConv2d(
+            in_channels,
+            out_channels,
+            kernel_size,
+            stride=stride,
+            padding=(kernel_size - 1) // 2 * dilation,
+            dilation=dilation,
+            groups=groups//2,
+            bias=dcn_bias_attr)
+
+        self.conv_offset = nn.Conv2d(
+            in_channels,
+            groups * 3 * kernel_size**2,
+            kernel_size,
+            stride=stride,
+            padding=(kernel_size - 1) // 2,
+            bias=True)
+        if skip_quant:
+            self.conv_offset.skip_quant = True
+
+    def forward(self, x):
+        offset_mask = self.conv_offset(x)
+        offset, mask = torch.split(
+            offset_mask,
+            split_size_or_sections=[self.offset_channel, self.mask_channel],
+            dim=1)
+        mask = torch.sigmoid(mask)
+        y = self.conv_dcn(x, offset, mask=mask)
+        return y
 
 class ConvBNLayer(nn.Module):
     def __init__(self,
@@ -15,21 +72,34 @@ class ConvBNLayer(nn.Module):
                  groups=1,
                  is_vd_mode=False,
                  act=None,
-                 name=None, ):
+                 name=None,
+                 is_dcn=False,
+                 ):
         super(ConvBNLayer, self).__init__()
 
         self.is_vd_mode = is_vd_mode
         self.act = act
         self._pool2d_avg = nn.AvgPool2d(
             kernel_size=2, stride=2, padding=0, ceil_mode=True)
-        self._conv = nn.Conv2d(
-            in_channels=in_channels,
-            out_channels=out_channels,
-            kernel_size=kernel_size,
-            stride=stride,
-            padding=(kernel_size - 1) // 2,
-            groups=groups,
-            bias=False)
+        if not is_dcn:
+            self._conv = nn.Conv2d(
+                in_channels=in_channels,
+                out_channels=out_channels,
+                kernel_size=kernel_size,
+                stride=stride,
+                padding=(kernel_size - 1) // 2,
+                groups=groups,
+                bias=False)
+        else:
+            self._conv = DeformableConvV2(
+                in_channels=in_channels,
+                out_channels=out_channels,
+                kernel_size=kernel_size,
+                stride=stride,
+                padding=(kernel_size - 1) // 2,
+                groups=2,  # groups,
+                bias_attr=False)
+
         if name == "conv1":
             bn_name = "bn_" + name
         else:
@@ -60,7 +130,9 @@ class BottleneckBlock(nn.Module):
                  stride,
                  shortcut=True,
                  if_first=False,
-                 name=None):
+                 name=None,
+                 is_dcn=False,
+                 ):
         super(BottleneckBlock, self).__init__()
 
         self.conv0 = ConvBNLayer(
@@ -75,7 +147,9 @@ class BottleneckBlock(nn.Module):
             kernel_size=3,
             stride=stride,
             act='relu',
-            name=name + "_branch2b")
+            name=name + "_branch2b",
+            is_dcn=is_dcn,
+        )
         self.conv2 = ConvBNLayer(
             in_channels=out_channels,
             out_channels=out_channels * 4,
@@ -157,7 +231,12 @@ class BasicBlock(nn.Module):
 
 
 class ResNet(nn.Module):
-    def __init__(self, in_channels=3, layers=50, **kwargs):
+    def __init__(self,
+                 in_channels=3,
+                 layers=50,
+                 dcn_stage=None,
+                 out_indices=None,
+                 **kwargs):
         super(ResNet, self).__init__()
 
         self.layers = layers
@@ -179,6 +258,13 @@ class ResNet(nn.Module):
         num_channels = [64, 256, 512,
                         1024] if layers >= 50 else [64, 64, 128, 256]
         num_filters = [64, 128, 256, 512]
+
+        self.dcn_stage = dcn_stage if dcn_stage is not None else [
+            False, False, False, False
+        ]
+        self.out_indices = out_indices if out_indices is not None else [
+            0, 1, 2, 3
+        ]
 
         self.conv1_1 = ConvBNLayer(
             in_channels=in_channels,
@@ -210,6 +296,7 @@ class ResNet(nn.Module):
                 # block_list = []
                 block_list = nn.Sequential()
                 shortcut = False
+                is_dcn = self.dcn_stage[block]
                 for i in range(depth[block]):
                     if layers in [101, 152] and block == 2:
                         if i == 0:
@@ -225,11 +312,14 @@ class ResNet(nn.Module):
                             stride=2 if i == 0 and block != 0 else 1,
                             shortcut=shortcut,
                             if_first=block == i == 0,
-                            name=conv_name)
+                            name=conv_name,
+                            is_dcn=is_dcn,
+                    )
 
                     shortcut = True
                     block_list.add_module('bb_%d_%d' % (block, i), bottleneck_block)
-                self.out_channels.append(num_filters[block] * 4)
+                if block in self.out_indices:
+                    self.out_channels.append(num_filters[block] * 4)
                 # self.stages.append(nn.Sequential(*block_list))
                 self.stages.append(block_list)
         else:
@@ -237,6 +327,7 @@ class ResNet(nn.Module):
                 # block_list = []
                 block_list = nn.Sequential()
                 shortcut = False
+                # is_dcn = self.dcn_stage[block]
                 for i in range(depth[block]):
                     conv_name = "res" + str(block + 2) + chr(97 + i)
                     basic_block = BasicBlock(
@@ -251,7 +342,8 @@ class ResNet(nn.Module):
                     shortcut = True
                     block_list.add_module('bb_%d_%d' % (block, i), basic_block)
                     # block_list.append(basic_block)
-                self.out_channels.append(num_filters[block])
+                if block in self.out_indices:
+                    self.out_channels.append(num_filters[block])
                 self.stages.append(block_list)
 
                 # self.stages.append(nn.Sequential(*block_list))
@@ -263,7 +355,8 @@ class ResNet(nn.Module):
         y = self.conv1_3(y)
         y = self.pool2d_max(y)
         out = []
-        for block in self.stages:
+        for i, block in enumerate(self.stages):
             y = block(y)
-            out.append(y)
+            if i in self.out_indices:
+                out.append(y)
         return out
