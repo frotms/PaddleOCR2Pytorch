@@ -182,7 +182,7 @@ python ./tools/infer/predict_det.py --det_model_path your_ch_ptocr_v3_det_infer_
 ```bash
 # v3
 # en_ptocr_v3_det_infer.pth, multilingual_ptocr_v3_det_infer.pth
-python ./tools/infer/predict_det.py --det_algorithm DB --det_model_path your_multilingual_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path ./configs/det/det_ppocr_v3.yml --det_model_path your_multilingual_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
 ```
 
 <a name="RECOGNITION"></a>
