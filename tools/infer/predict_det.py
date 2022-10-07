@@ -50,6 +50,23 @@ class TextDetector(BaseOCRV20):
             postprocess_params["unclip_ratio"] = args.det_db_unclip_ratio
             postprocess_params["use_dilation"] = args.use_dilation
             postprocess_params["score_mode"] = args.det_db_score_mode
+        elif self.det_algorithm == "DB++":
+            postprocess_params['name'] = 'DBPostProcess'
+            postprocess_params["thresh"] = args.det_db_thresh
+            postprocess_params["box_thresh"] = args.det_db_box_thresh
+            postprocess_params["max_candidates"] = 1000
+            postprocess_params["unclip_ratio"] = args.det_db_unclip_ratio
+            postprocess_params["use_dilation"] = args.use_dilation
+            postprocess_params["score_mode"] = args.det_db_score_mode
+            pre_process_list[1] = {
+                'NormalizeImage': {
+                    'std': [1.0, 1.0, 1.0],
+                    'mean':
+                        [0.48109378172549, 0.45752457890196, 0.40787054090196],
+                    'scale': '1./255.',
+                    'order': 'hwc'
+                }
+            }
         elif self.det_algorithm == "EAST":
             postprocess_params['name'] = 'EASTPostProcess'
             postprocess_params["score_thresh"] = args.det_east_score_thresh
@@ -204,7 +221,7 @@ class TextDetector(BaseOCRV20):
             preds['f_score'] = outputs['f_score'].cpu().numpy()
             preds['f_tco'] = outputs['f_tco'].cpu().numpy()
             preds['f_tvo'] = outputs['f_tvo'].cpu().numpy()
-        elif self.det_algorithm in ['DB', 'PSE']:
+        elif self.det_algorithm in ['DB', 'PSE', 'DB++']:
             # preds['maps'] = outputs[0]
             preds['maps'] = outputs['maps'].cpu().numpy()
         elif self.det_algorithm == 'FCE':

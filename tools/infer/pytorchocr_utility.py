@@ -164,7 +164,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
         network_config = {'model_type':'det',
                           'algorithm':'DB',
                           'Transform':None,
-                          'Backbone':{'name':'ResNet', 'layers':18, 'disable_se':True},
+                          'Backbone':{'name':'ResNet_vd', 'layers':18, 'disable_se':True},
                           'Neck':{'name':'DBFPN', 'out_channels':256},
                           'Head':{'name':'DBHead', 'k':50}}
 
@@ -253,7 +253,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
         network_config = {'model_type': 'det',
                           'algorithm': 'DB',
                           'Transform': None,
-                          'Backbone': {'name': 'ResNet', 'layers': 50},
+                          'Backbone': {'name': 'ResNet_vd', 'layers': 50},
                           'Neck': {'name': 'DBFPN', 'out_channels': 256},
                           'Head': {'name': 'DBHead', 'k': 50}}
 
@@ -269,7 +269,7 @@ def AnalysisConfig(weights_path, yaml_path=None):
         network_config = {'model_type': 'det',
                           'algorithm': 'EAST',
                           'Transform': None,
-                          'Backbone': {'name': 'ResNet', 'layers': 50},
+                          'Backbone': {'name': 'ResNet_vd', 'layers': 50},
                           'Neck': {'name': 'EASTFPN', 'model_name': 'large'},
                           'Head': {'name': 'EASTHead', 'model_name': 'large'}}
 

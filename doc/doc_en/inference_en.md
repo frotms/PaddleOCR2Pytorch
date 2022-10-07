@@ -110,6 +110,9 @@ python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_vd_pse.ym
 
 # det_fcenet
 python3 ./converter/det_fcenet_converter.py --src your_det_r50_dcn_fce_ctw/det_r50_dcn_fce_ctw_v2.0_train_dir
+
+# db++
+python3 ./converter/det_converter.py --yaml_path ./configs/det/det_r50_db++_icdar15.yml --src_model_path your_ppocr_det_r50_db++_icdar15_or_td_tr_train_dir
 ```
 
 <a name="CVT_RECOGNITION"></a>
@@ -325,6 +328,10 @@ python ./tools/infer/predict_det.py --use_gpu false --det_algorithm DB --det_mod
 
 # det_fcenet
 python3.7 ./tools/infer/predict_det.py --det_algorithm FCE --det_model_path your_det_r50_dcn_fce_ctw_v2.0_infer_path.pth --det_fce_box_type poly --det_yaml_path ./configs/det/det_r50_vd_dcn_fce_ctw.yml --image_dir ./doc/imgs_en/img_10.jpg
+
+# db++
+python3 tools/infer/predict_det.py --image_dir ./doc/imgs_en/img_10.jpg --det_model_path your_det_r50_db++_icdar15_infer_path.pth --det_algorithm="DB++"  --det_yaml_path ./configs/det/det_r50_db++_icdar15.yml
+python3 tools/infer/predict_det.py --image_dir ./doc/imgs_en/img_10.jpg --det_model_path your_det_r50_db++_td_tr_infer_path.pth --det_algorithm="DB++"  --det_yaml_path ./configs/det/det_r50_db++_td_tr.yml
 
 
 # recognition

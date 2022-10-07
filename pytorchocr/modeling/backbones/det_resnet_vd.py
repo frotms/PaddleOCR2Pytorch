@@ -40,7 +40,7 @@ class DeformableConvV2(nn.Module):
             stride=stride,
             padding=(kernel_size - 1) // 2 * dilation,
             dilation=dilation,
-            groups=groups//2,
+            groups=groups//2 if groups > 1 else 1,
             bias=dcn_bias_attr)
 
         self.conv_offset = nn.Conv2d(
@@ -70,6 +70,7 @@ class ConvBNLayer(nn.Module):
                  kernel_size,
                  stride=1,
                  groups=1,
+                 dcn_groups=1,
                  is_vd_mode=False,
                  act=None,
                  name=None,
@@ -97,13 +98,9 @@ class ConvBNLayer(nn.Module):
                 kernel_size=kernel_size,
                 stride=stride,
                 padding=(kernel_size - 1) // 2,
-                groups=2,  # groups,
+                groups=dcn_groups,
                 bias_attr=False)
 
-        if name == "conv1":
-            bn_name = "bn_" + name
-        else:
-            bn_name = "bn" + name[3:]
         self._batch_norm = nn.BatchNorm2d(
             out_channels,
             track_running_stats=True,
@@ -149,6 +146,7 @@ class BottleneckBlock(nn.Module):
             act='relu',
             name=name + "_branch2b",
             is_dcn=is_dcn,
+            dcn_groups=2,
         )
         self.conv2 = ConvBNLayer(
             in_channels=out_channels,
@@ -230,14 +228,14 @@ class BasicBlock(nn.Module):
         return y
 
 
-class ResNet(nn.Module):
+class ResNet_vd(nn.Module):
     def __init__(self,
                  in_channels=3,
                  layers=50,
                  dcn_stage=None,
                  out_indices=None,
                  **kwargs):
-        super(ResNet, self).__init__()
+        super(ResNet_vd, self).__init__()
 
         self.layers = layers
         supported_layers = [18, 34, 50, 101, 152, 200]

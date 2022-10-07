@@ -82,9 +82,10 @@ class DSConv(nn.Module):
 
 
 class DBFPN(nn.Module):
-    def __init__(self, in_channels, out_channels, **kwargs):
+    def __init__(self, in_channels, out_channels, use_asf=False, **kwargs):
         super(DBFPN, self).__init__()
         self.out_channels = out_channels
+        self.use_asf = use_asf
 
         self.in2_conv = nn.Conv2d(
             in_channels=in_channels[0],
@@ -131,6 +132,9 @@ class DBFPN(nn.Module):
             padding=1,
             bias=False)
 
+        if self.use_asf is True:
+            self.asf = ASFBlock(self.out_channels, self.out_channels // 4)
+
     def forward(self, x):
         c2, c3, c4, c5 = x
 
@@ -155,6 +159,10 @@ class DBFPN(nn.Module):
         p3 = F.interpolate(p3, scale_factor=2, mode="nearest", )#align_mode=1)
 
         fuse = torch.cat([p5, p4, p3, p2], dim=1)
+
+        if self.use_asf is True:
+            fuse = self.asf(fuse, [p5, p4, p3, p2])
+
         return fuse
 
 
@@ -317,3 +325,63 @@ class LKPAN(nn.Module):
 
         fuse = torch.cat([p5, p4, p3, p2], dim=1)
         return fuse
+
+
+class ASFBlock(nn.Module):
+    """
+    This code is refered from:
+        https://github.com/MhLiao/DB/blob/master/decoders/feature_attention.py
+    """
+
+    def __init__(self, in_channels, inter_channels, out_features_num=4):
+        """
+        Adaptive Scale Fusion (ASF) block of DBNet++
+        Args:
+            in_channels: the number of channels in the input data
+            inter_channels: the number of middle channels
+            out_features_num: the number of fused stages
+        """
+        super(ASFBlock, self).__init__()
+        self.in_channels = in_channels
+        self.inter_channels = inter_channels
+        self.out_features_num = out_features_num
+        self.conv = nn.Conv2d(in_channels, inter_channels, 3, padding=1)
+
+        self.spatial_scale = nn.Sequential(
+            #Nx1xHxW
+            nn.Conv2d(
+                in_channels=1,
+                out_channels=1,
+                kernel_size=3,
+                bias=False,
+                padding=1,
+                ),
+            nn.ReLU(),
+            nn.Conv2d(
+                in_channels=1,
+                out_channels=1,
+                kernel_size=1,
+                bias=False,
+                ),
+            nn.Sigmoid())
+
+        self.channel_scale = nn.Sequential(
+            nn.Conv2d(
+                in_channels=inter_channels,
+                out_channels=out_features_num,
+                kernel_size=1,
+                bias=False,
+                ),
+            nn.Sigmoid())
+
+    def forward(self, fuse_features, features_list):
+        fuse_features = self.conv(fuse_features)
+        spatial_x = torch.mean(fuse_features, dim=1, keepdim=True)
+        attention_scores = self.spatial_scale(spatial_x) + fuse_features
+        attention_scores = self.channel_scale(attention_scores)
+        assert len(features_list) == self.out_features_num
+
+        out_list = []
+        for i in range(self.out_features_num):
+            out_list.append(attention_scores[:, i:i + 1] * features_list[i])
+        return torch.cat(out_list, dim=1)
