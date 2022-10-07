@@ -85,7 +85,7 @@ if __name__ == '__main__':
     # cfg = {'model_type':'det',
     #        'algorithm':'DB',
     #        'Transform':None,
-    #        'Backbone':{'name':'ResNet', 'layers':18, 'disable_se':True},
+    #        'Backbone':{'name':'ResNet_vd', 'layers':18, 'disable_se':True},
     #        'Neck':{'name':'DBFPN', 'out_channels':256},
     #        'Head':{'name':'DBHead', 'k':50}}
     # kwargs = {'out_channels': 6625}

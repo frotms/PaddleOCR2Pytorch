@@ -96,7 +96,7 @@ if __name__ == '__main__':
             'algorithm':'FCE',
             'Transform':None,
             'Backbone':{
-                'name': 'ResNet',
+                'name': 'ResNet_vd',
                 'layers': 50,
                 'dcn_stage': [False, True, True, True],
                 'out_indices': [1,2,3],
