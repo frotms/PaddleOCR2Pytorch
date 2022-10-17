@@ -15,14 +15,15 @@ def build_post_process(config, global_config=None):
     from .sast_postprocess import SASTPostProcess
     from .fce_postprocess import FCEPostProcess
     from .rec_postprocess import CTCLabelDecode, AttnLabelDecode, SRNLabelDecode, TableLabelDecode, \
-        NRTRLabelDecode, SARLabelDecode
+        NRTRLabelDecode, SARLabelDecode, ViTSTRLabelDecode
     from .cls_postprocess import ClsPostProcess
     from .pg_postprocess import PGPostProcess
 
     support_dict = [
         'DBPostProcess', 'EASTPostProcess', 'SASTPostProcess', 'CTCLabelDecode',
         'AttnLabelDecode', 'ClsPostProcess', 'SRNLabelDecode', 'PGPostProcess',
-        'TableLabelDecode', 'NRTRLabelDecode', 'SARLabelDecode', 'FCEPostProcess'
+        'TableLabelDecode', 'NRTRLabelDecode', 'SARLabelDecode', 'FCEPostProcess',
+        'ViTSTRLabelDecode'
     ]
 
     if config['name'] == 'PSEPostProcess':

@@ -155,6 +155,9 @@ python ./converter/rec_sar_converter.py --yaml_path ./configs/rec/rec_r31_sar.ym
 
 # SVTR
 python ./converter/rec_svtr_converter.py --yaml_path ./configs/rec/rec_svtr/rec_svtr_tiny_6local_6global_stn_en.yml --src_model_path your_rec_svtr_tiny_none_ctc_en_train_dir
+
+# ViTSTR
+python ./converter/rec_vitstr_converter.py --yaml_path ./configs/rec/rec_vitstr_none_ce.yml --src_model_path your_rec_vitstr_none_ce_train_dir
 ```
 
 <a name="INFERENCE"></a>
@@ -363,7 +366,7 @@ python ./tools/infer/predict_rec.py --rec_model_path your_rec_r34_vd_tps_bilstm_
 python ./tools/infer/predict_rec.py --rec_model_path your_rec_r50_vd_srn_infer_path.pth --image_dir ./doc/imgs_words_en/word_401.png --rec_image_shape 1,64,256 --rec_char_type en --rec_algorithm SRN --rec_yaml_path ./configs/rec/rec_r50_fpn_srn.yml
 
 # NRTR
-python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/EN_symbol_dict.txt --rec_algorithm NRTR --rec_model_path your_rec_mtb_nrtr_infer_path.pth --rec_yaml_path ./configs/rec/rec_mtb_nrtr.yml --image_dir ./doc/imgs_words_en/word_10.png
+python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/EN_symbol_dict.txt --rec_algorithm NRTR --rec_model_path your_rec_mtb_nrtr_infer_path.pth --rec_yaml_path ./configs/rec/rec_mtb_nrtr.yml --image_dir ./doc/imgs_words_en/word_10.png --rec_image_shape 1,32,100
 
 # SAR
 python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/dict90.txt --max_text_length 30 --rec_yaml_path ./configs/rec/rec_r31_sar.yml --rec_algorithm SAR --rec_image_shape 3,48,48,160 --use_space_char false --rec_model_path your_rec_r31_sar_infer_path.pth --image_dir ./doc/imgs_words/en/word_1.png
@@ -373,6 +376,9 @@ python ./tools/infer/predict_rec.py --rec_char_dict_path ./pytorchocr/utils/dict
 python ./tools/infer/predict_rec.py --rec_model_path yout_rec_svtr_tiny_none_ctc_en_infer_path.pth --rec_algorithm SVTR --rec_image_shape 3,64,256 --rec_char_dict_path ./pytorchocr/utils/ic15_dict.txt --rec_yaml_path ./configs/rec/rec_svtr/rec_svtr_tiny_6local_6global_stn_en.yml --image_dir ./doc/imgs_words_en/word_10.png
 # ch
 python ./tools/infer/predict_rec.py --rec_model_path yout_rec_svtr_tiny_none_ctc_ch_infer_path.pth --rec_algorithm SVTR --rec_image_shape 3,64,256 --rec_char_dict_path ./pytorchocr/utils/ppocr_keys_v1.txt --rec_yaml_path ./configs/rec/rec_svtr/rec_svtr_tiny_6local_6global_stn_ch.yml --image_dir ./doc/imgs_words/ch/word_1.jpg
+
+# ViTSTR
+python tools/infer/predict_rec.py --rec_model_path your_rec_vitstr_none_ce_infer_path.pth --rec_algorithm ViTSTR --rec_image_shape 1,224,224  --rec_char_dict_path ./pytorchocr/utils/EN_symbol_dict.txt --rec_yaml_path ./configs/rec/rec_vitstr_none_ce.yml --image_dir ./doc/imgs_words_en/word_10.png
 ```
 
 <a name="PARSER"></a>
@@ -498,5 +504,6 @@ def init_args():
 
 - [PaddleOCR release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/inference_en.md)
 - [PaddleOCR release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/inference_en.md)
-- [PaddleOCR release/2.5](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_ch/inference_ppocr.md)
+- [PaddleOCR release/2.5](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_en/inference_en.md)
+- [PaddleOCR release/2.6](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/inference_en.md)
 

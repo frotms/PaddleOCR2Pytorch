@@ -133,3 +133,17 @@ dmypy.json
 
 # pth
 *.pth
+
+# idea
+*.idea
+
+# inference_result
+inference_results*
+
+# models_vx
+models_v*
+onnx_models*
+det_models*
+rec_models*
+*副本*
+*测试数据*
