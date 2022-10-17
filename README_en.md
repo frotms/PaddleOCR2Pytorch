@@ -13,7 +13,7 @@ This repository aims to
 
 ## TODO
 
-- [ ] Text Recognition: [ViTSTR](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_vitstr_en.md), [ABINet](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_abinet_en.md), [VisionLAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_visionlan_en.md), [SPIN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_spin_en.md), [RobustScanner](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_robustscanner_en.md)
+- [ ] Text Recognition: [ABINet](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_abinet_en.md), [VisionLAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_visionlan_en.md), [SPIN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_spin_en.md), [RobustScanner](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_robustscanner_en.md)
 - [ ] Table Recognition: [TableMaster](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_table_master_en.md)
 - [ ] [PP-Structurev2](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure)，with functions and performance fully upgraded, adapted to Chinese scenes, and new support for [Layout Recovery](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/recovery) and **one line command to convert PDF to Word**
 - [ ] [Layout Analysis](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/layout) optimization: model storage reduced by 95%, while speed increased by 11 times, and the average CPU time-cost is only 41ms
@@ -30,6 +30,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2022.10.17 Text Recognition: [ViTSTR](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_vitstr_en.md)
 - 2022.10.07 Text Detection: [DB++](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_det_db_en.md)
 - 2022.07.24 text detection algorithms (FCENET)
 - 2022.07.16 text recognition algorithms (SVTR)
