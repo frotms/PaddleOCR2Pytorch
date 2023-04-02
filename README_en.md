@@ -20,7 +20,7 @@ This repository aims to
 - [ ] [Layout Analysis](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/layout) optimization: model storage reduced by 95%, while speed increased by 11 times, and the average CPU time-cost is only 41ms
 - [ ] [Table Recognition](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/table) optimization: 3 optimization strategies are designed, and the model accuracy is improved by 6% under comparable time consumption
 - [ ] [Key Information Extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/kie) optimization：a visual-independent model structure is designed, the accuracy of semantic entity recognition is increased by 2.8%, and the accuracy of relation extraction is increased by 9.1%
-- [ ] text recognition algorithms (SEED)
+- [ ] text recognition algorithms ([SEED](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_seed_en.md))
 - [ ] [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) 
 - [ ] 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
 - [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
