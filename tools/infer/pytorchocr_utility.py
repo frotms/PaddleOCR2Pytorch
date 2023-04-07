@@ -16,6 +16,7 @@ def init_args():
     # parser.add_argument("--use_tensorrt", type=str2bool, default=False)
     # parser.add_argument("--use_fp16", type=str2bool, default=False)
     parser.add_argument("--gpu_mem", type=int, default=500)
+    parser.add_argument("--warmup", type=str2bool, default=False)
 
     # params for text detector
     parser.add_argument("--image_dir", type=str)
@@ -105,11 +106,17 @@ def init_args():
     parser.add_argument("--e2e_pgnet_polygon", type=bool, default=True)
     parser.add_argument("--e2e_pgnet_mode", type=str, default='fast')
 
+    # SR parmas
+    parser.add_argument("--sr_model_path", type=str)
+    parser.add_argument("--sr_image_shape", type=str, default="3, 32, 128")
+    parser.add_argument("--sr_batch_num", type=int, default=1)
+
     # params .yaml
     parser.add_argument("--det_yaml_path", type=str, default=None)
     parser.add_argument("--rec_yaml_path", type=str, default=None)
     parser.add_argument("--cls_yaml_path", type=str, default=None)
     parser.add_argument("--e2e_yaml_path", type=str, default=None)
+    parser.add_argument("--sr_yaml_path", type=str, default=None)
 
     # multi-process
     parser.add_argument("--use_mp", type=str2bool, default=False)

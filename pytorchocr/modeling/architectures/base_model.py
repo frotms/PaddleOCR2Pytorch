@@ -34,9 +34,13 @@ class BaseModel(nn.Module):
             # raise NotImplementedError
 
         # build backbone, backbone is need for del, rec and cls
-        config["Backbone"]['in_channels'] = in_channels
-        self.backbone = build_backbone(config["Backbone"], model_type)
-        in_channels = self.backbone.out_channels
+        if 'Backbone' not in config or config['Backbone'] is None:
+            self.use_backbone = False
+        else:
+            self.use_backbone = True
+            config["Backbone"]['in_channels'] = in_channels
+            self.backbone = build_backbone(config["Backbone"], model_type)
+            in_channels = self.backbone.out_channels
 
         # build neck
         # for rec, neck can be cnn,rnn or reshape(None)
@@ -86,11 +90,20 @@ class BaseModel(nn.Module):
         y = dict()
         if self.use_transform:
             x = self.transform(x)
-        x = self.backbone(x)
-        y["backbone_out"] = x
+        if self.use_backbone:
+            x = self.backbone(x)
+        if isinstance(x, dict):
+            y.update(x)
+        else:
+            y["backbone_out"] = x
+        final_name = "backbone_out"
         if self.use_neck:
             x = self.neck(x)
-        y["neck_out"] = x
+            if isinstance(x, dict):
+                y.update(x)
+            else:
+                y["neck_out"] = x
+            final_name = "neck_out"
         if self.use_head:
             x = self.head(x)
         # for multi head, save ctc neck out for udml
@@ -104,7 +117,9 @@ class BaseModel(nn.Module):
         if self.return_all_feats:
             if self.training:
                 return y
+            elif isinstance(x, dict):
+                return x
             else:
-                return {"head_out": y["head_out"]}
+                return {final_name: x}
         else:
             return x

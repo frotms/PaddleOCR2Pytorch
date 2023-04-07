@@ -7,6 +7,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
     - [CHINESE AND ENGLISH GENERAL OCR MODELS](#GENERAL)
     - [MULTILINGUAL MODELS](#MULTILINGUAL)
     - [END2END MODELS](#E2E_MODELS)
+    - [SUPER RESOLUTION MODELS](#SR_MODELS)
     - [OTHER DETECTION MODELS](#CVT_DETECTION)
     - [OTHER RECOGNITION MODELS](#CVT_RECOGNITION)
 
@@ -17,6 +18,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
     - [TEXT DIRECTION CLASSIFICATION MODEL INFERENCE](#CLASSIFICATION)
     - [TEXT DETECTION ANGLE CLASSIFICATION AND RECOGNITION INFERENCE CONCATENATION](#CONCATENATION)
     - [END2END MODEL INFERENCE](#E2E_INFERENCE)
+    - [SUPER RESOLUTION MODEL INFERENCE](#SR_INFERENCE)
     - [OTHER MODEL INFERENCE](#OTHER)
     - [PARSER LIST](#PARSER)
 
@@ -77,6 +79,15 @@ python ./converter/multilingual_ppocr_v3_rec_converter.py --src_model_path paddl
 ```bash
 # en_server_pgnetA
 python ./converter/e2e_converter.py --yaml_path ./configs/e2e/e2e_r50_vd_pg.yml --src_model_path your_ppocr_e2e_models_en_server_pgnetA_train_dir
+```
+
+<a name="SR_MODELS"></a>
+
+### SUPER RESOLUTION MODELS
+
+```bash
+# sr_telescope
+python ./converter/sr_converter.py --yaml_path ./configs/sr/sr_telescope.yml --src_model_path your_ppocr_sr_telescope_train_dir
 ```
 
 <a name="cvt_DETECTION"></a>
@@ -294,6 +305,20 @@ python tools/infer/predict_e2e.py --e2e_model_path ./en_server_pgnetA_infer.pth 
 
 ![](../../doc/imgs_results/e2e_res_img623_pgnet.jpg)
 
+<a name="SR_INFERENCE"></a>
+
+### SUPER RESOLUTION MODEL INFERENCE
+
+```bash
+# sr_telescope
+python ./tools/infer/predict_sr.py --sr_yaml_path ./configs/sr/sr_telescope.yml --sr_model_path your_sr_telescope_infer_path.pth --image_dir
+./doc/imgs_words_en/word_52.png
+```
+
+![](C:/workspace/repo/deep_learning_framework/github/PaddleOCR2Pytorch/doc/imgs_words_en/word_52.png)
+
+![](C:/workspace/repo/deep_learning_framework/github/PaddleOCR2Pytorch/doc/imgs_results/sr/sr_word_52.png)
+
 <a name="OTHER"></a>
 
 ### OTHER MODEL INFERENCE
@@ -397,6 +422,7 @@ def init_args():
     # parser.add_argument("--use_tensorrt", type=str2bool, default=False)
     # parser.add_argument("--use_fp16", type=str2bool, default=False)
     parser.add_argument("--gpu_mem", type=int, default=500)
+    parser.add_argument("--warmup", type=str2bool, default=False)
 
     # params for text detector
     parser.add_argument("--image_dir", type=str)
@@ -429,6 +455,13 @@ def init_args():
     parser.add_argument("--det_pse_min_area", type=float, default=16)
     parser.add_argument("--det_pse_box_type", type=str, default='box')
     parser.add_argument("--det_pse_scale", type=int, default=1)
+
+    # FCE parmas
+    parser.add_argument("--scales", type=list, default=[8, 16, 32])
+    parser.add_argument("--alpha", type=float, default=1.0)
+    parser.add_argument("--beta", type=float, default=1.0)
+    parser.add_argument("--fourier_degree", type=int, default=5)
+    parser.add_argument("--det_fce_box_type", type=str, default='poly')
 
     # params for text recognizer
     parser.add_argument("--rec_algorithm", type=str, default='CRNN')
@@ -472,18 +505,22 @@ def init_args():
     # PGNet parmas
     parser.add_argument("--e2e_pgnet_score_thresh", type=float, default=0.5)
     parser.add_argument(
-        "--e2e_char_dict_path", type=str,
-        default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                             'pytorchocr/utils/ic15_dict.txt'))
+        "--e2e_char_dict_path", type=str, default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'pytorchocr/utils/ic15_dict.txt'))
     parser.add_argument("--e2e_pgnet_valid_set", type=str, default='totaltext')
     parser.add_argument("--e2e_pgnet_polygon", type=bool, default=True)
     parser.add_argument("--e2e_pgnet_mode", type=str, default='fast')
+
+    # SR parmas
+    parser.add_argument("--sr_model_path", type=str)
+    parser.add_argument("--sr_image_shape", type=str, default="3, 32, 128")
+    parser.add_argument("--sr_batch_num", type=int, default=1)
 
     # params .yaml
     parser.add_argument("--det_yaml_path", type=str, default=None)
     parser.add_argument("--rec_yaml_path", type=str, default=None)
     parser.add_argument("--cls_yaml_path", type=str, default=None)
     parser.add_argument("--e2e_yaml_path", type=str, default=None)
+    parser.add_argument("--sr_yaml_path", type=str, default=None)
 
     # multi-process
     parser.add_argument("--use_mp", type=str2bool, default=False)

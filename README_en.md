@@ -13,7 +13,7 @@ This repository aims to
 
 ## TODO
 
-- [ ] Add implementation of [4 cutting-edge algorithms](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md)：Text Detection [DRRG](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md),  Text Recognition [RFL](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_rfl_en.md), Image Super-Resolution [Text Telescope](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_sr_telescope_en.md)，Handwritten Mathematical Expression Recognition [CAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_can_en.md)
+- [ ] Add implementation of [cutting-edge algorithms](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md)：Text Detection [DRRG](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md),  Text Recognition [RFL](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_rfl_en.md), Handwritten Mathematical Expression Recognition [CAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_can_en.md)
 - [ ] Text Recognition: [ABINet](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_abinet_en.md), [VisionLAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_visionlan_en.md), [SPIN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_spin_en.md), [RobustScanner](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_robustscanner_en.md)
 - [ ] Table Recognition: [TableMaster](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_table_master_en.md)
 - [ ] [PP-Structurev2](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure)，with functions and performance fully upgraded, adapted to Chinese scenes, and new support for [Layout Recovery](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/recovery) and **one line command to convert PDF to Word**
@@ -31,6 +31,7 @@ This repository aims to
 
 **Recent updates**
 
+- 2023.04.07 Image Super-Resolution [Text Telescope](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_sr_telescope_en.md)
 - 2022.10.17 Text Recognition: [ViTSTR](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_vitstr_en.md)
 - 2022.10.07 Text Detection: [DB++](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_det_db_en.md)
 - 2022.07.24 text detection algorithms (FCENET)
