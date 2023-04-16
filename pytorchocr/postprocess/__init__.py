@@ -18,12 +18,13 @@ def build_post_process(config, global_config=None):
         NRTRLabelDecode, SARLabelDecode, ViTSTRLabelDecode
     from .cls_postprocess import ClsPostProcess
     from .pg_postprocess import PGPostProcess
+    from .rec_postprocess import CANLabelDecode
 
     support_dict = [
         'DBPostProcess', 'EASTPostProcess', 'SASTPostProcess', 'CTCLabelDecode',
         'AttnLabelDecode', 'ClsPostProcess', 'SRNLabelDecode', 'PGPostProcess',
         'TableLabelDecode', 'NRTRLabelDecode', 'SARLabelDecode', 'FCEPostProcess',
-        'ViTSTRLabelDecode'
+        'ViTSTRLabelDecode','CANLabelDecode'
     ]
 
     if config['name'] == 'PSEPostProcess':

@@ -61,6 +61,13 @@ class TextRecognizer(BaseOCRV20):
                 "character_dict_path": args.rec_char_dict_path,
                 "use_space_char": args.use_space_char
             }
+        elif self.rec_algorithm == "CAN":
+            self.inverse = args.rec_image_inverse
+            postprocess_params = {
+                'name': 'CANLabelDecode',
+                "character_dict_path": args.rec_char_dict_path,
+                "use_space_char": args.use_space_char
+            }
         self.postprocess_op = build_post_process(postprocess_params)
 
         use_gpu = args.use_gpu
@@ -245,6 +252,31 @@ class TextRecognizer(BaseOCRV20):
 
         return padding_im, resize_shape, pad_shape, valid_ratio
 
+
+    def norm_img_can(self, img, image_shape):
+
+        img = cv2.cvtColor(
+            img, cv2.COLOR_BGR2GRAY)  # CAN only predict gray scale image
+
+        if self.inverse:
+            img = 255 - img
+
+        if self.rec_image_shape[0] == 1:
+            h, w = img.shape
+            _, imgH, imgW = self.rec_image_shape
+            if h < imgH or w < imgW:
+                padding_h = max(imgH - h, 0)
+                padding_w = max(imgW - w, 0)
+                img_padded = np.pad(img, ((0, padding_h), (0, padding_w)),
+                                    'constant',
+                                    constant_values=(255))
+                img = img_padded
+
+        img = np.expand_dims(img, 0) / 255.0  # h,w,c -> c,h,w
+        img = img.astype('float32')
+
+        return img
+
     def __call__(self, img_list):
         img_num = len(img_list)
         # Calculate the aspect ratio of all text bars
@@ -295,6 +327,17 @@ class TextRecognizer(BaseOCRV20):
                     gsrm_slf_attn_bias1_list.append(norm_img[3])
                     gsrm_slf_attn_bias2_list.append(norm_img[4])
                     norm_img_batch.append(norm_img[0])
+                elif self.rec_algorithm == "CAN":
+                    norm_img = self.norm_img_can(img_list[indices[ino]],
+                                                 max_wh_ratio)
+                    norm_img = norm_img[np.newaxis, :]
+                    norm_img_batch.append(norm_img)
+                    norm_image_mask = np.ones(norm_img.shape, dtype='float32')
+                    word_label = np.ones([1, 36], dtype='int64')
+                    norm_img_mask_batch = []
+                    word_label_list = []
+                    norm_img_mask_batch.append(norm_image_mask)
+                    word_label_list.append(word_label)
                 else:
                     norm_img = self.resize_norm_img(img_list[indices[ino]],
                                                     max_wh_ratio)
@@ -345,6 +388,21 @@ class TextRecognizer(BaseOCRV20):
                         inp = inp.cuda()
                     preds = self.net(inp)
 
+            elif self.rec_algorithm == "CAN":
+                starttime = time.time()
+                norm_img_mask_batch = np.concatenate(norm_img_mask_batch)
+                word_label_list = np.concatenate(word_label_list)
+                inputs = [norm_img_batch, norm_img_mask_batch, word_label_list]
+
+                inp = [torch.from_numpy(e_i) for e_i in inputs]
+                if self.use_gpu:
+                    inp = [e_i.cuda() for e_i in inp]
+                with torch.no_grad():
+                    outputs = self.net(inp)
+                    outputs = [v.cpu().numpy() for k, v in enumerate(outputs)]
+
+                preds = outputs
+
             else:
                 starttime = time.time()
                 # self.input_tensor.copy_from_cpu(norm_img_batch)
@@ -388,6 +446,7 @@ def main(args):
             continue
         valid_image_file_list.append(image_file)
         img_list.append(img)
+    rec_res, predict_time = text_recognizer(img_list)
     try:
         rec_res, predict_time = text_recognizer(img_list)
     except Exception as e:

@@ -169,6 +169,9 @@ python ./converter/rec_svtr_converter.py --yaml_path ./configs/rec/rec_svtr/rec_
 
 # ViTSTR
 python ./converter/rec_vitstr_converter.py --yaml_path ./configs/rec/rec_vitstr_none_ce.yml --src_model_path your_rec_vitstr_none_ce_train_dir
+
+# CAN
+python3 ./converter/rec_can_converter.py --yaml_path ./configs/rec/rec_d28_can.yml --src_model_path your_rec_d28_can_train_dir
 ```
 
 <a name="INFERENCE"></a>
@@ -404,6 +407,9 @@ python ./tools/infer/predict_rec.py --rec_model_path yout_rec_svtr_tiny_none_ctc
 
 # ViTSTR
 python tools/infer/predict_rec.py --rec_model_path your_rec_vitstr_none_ce_infer_path.pth --rec_algorithm ViTSTR --rec_image_shape 1,224,224  --rec_char_dict_path ./pytorchocr/utils/EN_symbol_dict.txt --rec_yaml_path ./configs/rec/rec_vitstr_none_ce.yml --image_dir ./doc/imgs_words_en/word_10.png
+
+# CAN
+python3 ./tools/infer/predict_rec.py --image_dir="./doc/datasets/crohme_demo/hme_00.jpg" --rec_algorithm="CAN" --rec_batch_num=1 --rec_model_path your_rec_d28_can_infer_path.pth --rec_char_dict_path="./pytorchocr/utils/dict/latex_symbol_dict.txt" --rec_yaml_path ./configs/rec/rec_d28_can.yml
 ```
 
 <a name="PARSER"></a>
