@@ -11,20 +11,6 @@ This repository aims to
 - use models in PyTorch which are trained in Paddle
 - give a guideline for Paddle2PyTorch
 
-## TODO
-
-- [ ] Add implementation of [cutting-edge algorithms](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md)：Text Detection [DRRG](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md),  Text Recognition [RFL](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_rfl_en.md)
-- [ ] Text Recognition: [ABINet](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_abinet_en.md), [VisionLAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_visionlan_en.md), [SPIN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_spin_en.md), [RobustScanner](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_robustscanner_en.md)
-- [ ] Table Recognition: [TableMaster](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_table_master_en.md)
-- [ ] [PP-Structurev2](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure)，with functions and performance fully upgraded, adapted to Chinese scenes, and new support for [Layout Recovery](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/recovery) and **one line command to convert PDF to Word**
-- [ ] [Layout Analysis](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/layout) optimization: model storage reduced by 95%, while speed increased by 11 times, and the average CPU time-cost is only 41ms
-- [ ] [Table Recognition](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/table) optimization: 3 optimization strategies are designed, and the model accuracy is improved by 6% under comparable time consumption
-- [ ] [Key Information Extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/kie) optimization：a visual-independent model structure is designed, the accuracy of semantic entity recognition is increased by 2.8%, and the accuracy of relation extraction is increased by 9.1%
-- [ ] text recognition algorithms ([SEED](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_seed_en.md))
-- [ ] [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) 
-- [ ] 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
-- [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
-
 ## Notice
 
 `PytorchOCR` models are converted from `PaddleOCRv2.0`.
@@ -56,7 +42,7 @@ This repository aims to
 
 ## Features
 - PTOCR series of high-quality pre-trained models, comparable to commercial effects
-    - Ultra lightweight PP-OCRv2 series models: detection (3.1M) + direction classifier (1.4M) + recognition 8.5M) = 13.0M
+    - Ultra lightweight PP-OCR series models: detection + direction classifier + recognition
     - Ultra lightweight ptocr_mobile series models
     - General ptocr_server series models
     - Support Chinese, English, and digit recognition, vertical text recognition, and long text recognition
@@ -79,7 +65,19 @@ If you want to get more models including multilingual models，please refer to [
 - [FAQ](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/FAQ_en.md)
 - [References](#References)
 
+## TODO
 
+- [ ] Add implementation of [cutting-edge algorithms](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md)：Text Detection [DRRG](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md),  Text Recognition [RFL](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_rfl_en.md)
+- [ ] Text Recognition: [ABINet](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_abinet_en.md), [VisionLAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_visionlan_en.md), [SPIN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_spin_en.md), [RobustScanner](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_robustscanner_en.md)
+- [ ] Table Recognition: [TableMaster](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_table_master_en.md)
+- [ ] [PP-Structurev2](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure)，with functions and performance fully upgraded, adapted to Chinese scenes, and new support for [Layout Recovery](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/recovery) and **one line command to convert PDF to Word**
+- [ ] [Layout Analysis](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/layout) optimization: model storage reduced by 95%, while speed increased by 11 times, and the average CPU time-cost is only 41ms
+- [ ] [Table Recognition](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/table) optimization: 3 optimization strategies are designed, and the model accuracy is improved by 6% under comparable time consumption
+- [ ] [Key Information Extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/kie) optimization：a visual-independent model structure is designed, the accuracy of semantic entity recognition is increased by 2.8%, and the accuracy of relation extraction is increased by 9.1%
+- [ ] text recognition algorithms ([SEED](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_seed_en.md))
+- [ ] [key information extraction](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.4/ppstructure/docs/kie.md) algorithm (SDMGR) 
+- [ ] 3 [DocVQA](https://github.com/PaddlePaddle/PaddleOCR/tree/release/2.4/ppstructure/vqa) algorithms (LayoutLM, LayoutLMv2, LayoutXLM)
+- [ ] a new structured documents analysis toolkit, i.e., [PP-Structure](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.2/ppstructure/README.md), support layout analysis and table recognition (One-key to export chart images to Excel files).
 
 <a name="PP-OCR-Pipeline"></a>
 
