@@ -36,6 +36,7 @@ class Transformer(nn.Module):
                  num_encoder_layers=6,
                  beam_size=0,
                  num_decoder_layers=6,
+                 max_len=25,
                  dim_feedforward=1024,
                  attention_dropout_rate=0.0,
                  residual_dropout_rate=0.1,
@@ -46,6 +47,7 @@ class Transformer(nn.Module):
                  scale_embedding=True):
         super(Transformer, self).__init__()
         self.out_channels = out_channels # out_channels + 1
+        self.max_len = max_len
         self.embedding = Embeddings(
             d_model=d_model,
             vocab=self.out_channels,
@@ -98,7 +100,7 @@ class Transformer(nn.Module):
         tgt_key_padding_mask = self.generate_padding_mask(tgt)
         tgt = self.embedding(tgt).permute(1, 0, 2)
         tgt = self.positional_encoding(tgt)
-        tgt_mask = self.generate_square_subsequent_mask(tgt.shape[0])
+        tgt_mask = self.generate_square_subsequent_mask(tgt.shape[0], tgt.device)
 
         if self.encoder is not None:
             src = self.positional_encoding(src.permute(1, 0, 2))

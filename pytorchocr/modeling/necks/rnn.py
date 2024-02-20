@@ -71,6 +71,7 @@ class EncoderWithSVTR(nn.Module):
             qkv_bias=True,
             mlp_ratio=2.0,
             drop_rate=0.1,
+            kernel_size=[3,3],
             attn_drop_rate=0.1,
             drop_path=0.,
             qk_scale=None):
@@ -78,7 +79,11 @@ class EncoderWithSVTR(nn.Module):
         self.depth = depth
         self.use_guide = use_guide
         self.conv1 = ConvBNLayer(
-            in_channels, in_channels // 8, padding=1, act='swish')
+            in_channels,
+            in_channels // 8,
+            kernel_size=kernel_size,
+            padding=[kernel_size[0] // 2, kernel_size[1] // 2],
+            act='swish')
         self.conv2 = ConvBNLayer(
             in_channels // 8, hidden_dims, kernel_size=1, act='swish')
 

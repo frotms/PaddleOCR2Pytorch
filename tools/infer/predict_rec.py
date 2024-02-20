@@ -68,8 +68,14 @@ class TextRecognizer(BaseOCRV20):
                 "character_dict_path": args.rec_char_dict_path,
                 "use_space_char": args.use_space_char
             }
+        elif self.rec_algorithm == 'RFL':
+            postprocess_params = {
+                'name': 'RFLLabelDecode',
+                "character_dict_path": None,
+                "use_space_char": args.use_space_char
+            }
         self.postprocess_op = build_post_process(postprocess_params)
-
+        print(postprocess_params)
         use_gpu = args.use_gpu
         self.use_gpu = torch.cuda.is_available() and use_gpu
 
@@ -78,8 +84,11 @@ class TextRecognizer(BaseOCRV20):
 
         self.weights_path = args.rec_model_path
         self.yaml_path = args.rec_yaml_path
-        network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path)
+
+        char_num = len(getattr(self.postprocess_op, 'character'))
+        network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path, char_num)
         weights = self.read_pytorch_weights(self.weights_path)
+
         self.out_channels = self.get_out_channels(weights)
         if self.rec_algorithm == 'NRTR':
             self.out_channels = list(weights.values())[-1].numpy().shape[0]
@@ -88,6 +97,7 @@ class TextRecognizer(BaseOCRV20):
 
         kwargs['out_channels'] = self.out_channels
         super(TextRecognizer, self).__init__(network_config, **kwargs)
+
         self.load_state_dict(weights)
         self.net.eval()
         if self.use_gpu:
@@ -111,6 +121,16 @@ class TextRecognizer(BaseOCRV20):
             else:
                 norm_img = norm_img.astype(np.float32) / 128. - 1.
             return norm_img
+        elif self.rec_algorithm == 'RFL':
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            resized_image = cv2.resize(
+                img, (imgW, imgH), interpolation=cv2.INTER_CUBIC)
+            resized_image = resized_image.astype('float32')
+            resized_image = resized_image / 255
+            resized_image = resized_image[np.newaxis, :]
+            resized_image -= 0.5
+            resized_image /= 0.5
+            return resized_image
 
         assert imgC == img.shape[2]
         max_wh_ratio = max(max_wh_ratio, imgW / imgH)
@@ -405,14 +425,6 @@ class TextRecognizer(BaseOCRV20):
 
             else:
                 starttime = time.time()
-                # self.input_tensor.copy_from_cpu(norm_img_batch)
-                # self.predictor.run()
-                #
-                # outputs = []
-                # for output_tensor in self.output_tensors:
-                #     output = output_tensor.copy_to_cpu()
-                #     outputs.append(output)
-                # preds = outputs[0]
 
                 with torch.no_grad():
                     inp = torch.from_numpy(norm_img_batch)
@@ -446,7 +458,6 @@ def main(args):
             continue
         valid_image_file_list.append(image_file)
         img_list.append(img)
-    rec_res, predict_time = text_recognizer(img_list)
     try:
         rec_res, predict_time = text_recognizer(img_list)
     except Exception as e:

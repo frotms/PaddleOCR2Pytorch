@@ -31,6 +31,9 @@ This repository aims to
 
 **Recent updates**
 
+- 2024.02.20 [PP-OCRv4](./doc/doc_ch/PP-OCRv4_introduction.md), support mobile version and server version
+  - PP-OCRv4-mobile：When the speed is comparable, the effect of the Chinese scene is improved by 4.5% compared with PP-OCRv3, the English scene is improved by 10%, and the average recognition accuracy of the 80-language multilingual model is increased by more than 8%.
+  - PP-OCRv4-server：Release the OCR model with the highest accuracy at present, the detection model accuracy increased by 4.9% in the Chinese and English scenes, and the recognition model accuracy increased by 2%
 - 2023.04.16 Handwritten Mathematical Expression Recognition [CAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_can_en.md)
 - 2023.04.07 Image Super-Resolution [Text Telescope](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_sr_telescope_en.md)
 - 2022.10.17 Text Recognition: [ViTSTR](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_vitstr_en.md)
@@ -120,9 +123,9 @@ If you want to get more models including multilingual models，please refer to [
 
 ## References
 
-- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- [PytorchOCR](https://github.com/WenmuZhou/PytorchOCR)
+- [https://github.com/PaddlePaddle/PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- [https://github.com/WenmuZhou/PytorchOCR](https://github.com/WenmuZhou/PytorchOCR)
 - [Paddle](https://github.com/PaddlePaddle)
 - [Pytorch](https://pytorch.org/)
 - [https://github.com/frotms/image_classification_pytorch](https://github.com/frotms/image_classification_pytorch)
-- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md)
+- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md)

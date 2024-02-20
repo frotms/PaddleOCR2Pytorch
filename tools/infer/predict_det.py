@@ -8,7 +8,7 @@ import copy
 import cv2
 import numpy as np
 import time
-
+import json
 import torch
 from pytorchocr.base_ocr_v20 import BaseOCRV20
 import tools.infer.pytorchocr_utility as utility
@@ -124,14 +124,10 @@ class TextDetector(BaseOCRV20):
         self.yaml_path = args.det_yaml_path
         network_config = utility.AnalysisConfig(self.weights_path, self.yaml_path)
         super(TextDetector, self).__init__(network_config, **kwargs)
-
         self.load_pytorch_weights(self.weights_path)
         self.net.eval()
         if self.use_gpu:
             self.net.cuda()
-
-
-    # load_pytorch_weights
 
     def order_points_clockwise(self, pts):
         """
@@ -198,14 +194,6 @@ class TextDetector(BaseOCRV20):
         img = img.copy()
         starttime = time.time()
 
-        # self.input_tensor.copy_from_cpu(img)
-        # self.predictor.run()
-        # outputs = []
-        # for output_tensor in self.output_tensors:
-        #     output = output_tensor.copy_to_cpu()
-        #     outputs.append(output)
-
-
         with torch.no_grad():
             inp = torch.from_numpy(img)
             if self.use_gpu:
@@ -222,7 +210,6 @@ class TextDetector(BaseOCRV20):
             preds['f_tco'] = outputs['f_tco'].cpu().numpy()
             preds['f_tvo'] = outputs['f_tvo'].cpu().numpy()
         elif self.det_algorithm in ['DB', 'PSE', 'DB++']:
-            # preds['maps'] = outputs[0]
             preds['maps'] = outputs['maps'].cpu().numpy()
         elif self.det_algorithm == 'FCE':
             for i, (k, output) in enumerate(outputs.items()):
@@ -264,6 +251,9 @@ if __name__ == "__main__":
         if count > 0:
             total_time += elapse
         count += 1
+        save_pred = os.path.basename(image_file) + "\t" + str(
+            json.dumps(np.array(dt_boxes).astype(np.int32).tolist())) + "\n"
+        print(save_pred)
         print("Predict time of {}: {}".format(image_file, elapse))
         src_im = utility.draw_text_det_res(dt_boxes, image_file)
         img_name_pure = os.path.split(image_file)[-1]

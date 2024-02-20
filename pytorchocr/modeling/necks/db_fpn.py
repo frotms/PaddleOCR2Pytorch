@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from pytorchocr.modeling.backbones.det_mobilenet_v3 import SEModule
+from pytorchocr.modeling.necks.intracl import IntraCLBlock
 
 def hard_swish(x, inplace=True):
     return x * F.relu6(x + 3., inplace=inplace) / 6.
@@ -194,6 +195,13 @@ class RSEFPN(nn.Module):
         self.out_channels = out_channels
         self.ins_conv = nn.ModuleList()
         self.inp_conv = nn.ModuleList()
+        self.intracl = False
+        if 'intracl' in kwargs.keys() and kwargs['intracl'] is True:
+            self.intracl = kwargs['intracl']
+            self.incl1 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
+            self.incl2 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
+            self.incl3 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
+            self.incl4 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
 
         for i in range(len(in_channels)):
             self.ins_conv.append(
@@ -228,6 +236,12 @@ class RSEFPN(nn.Module):
         p4 = self.inp_conv[2](out4)
         p3 = self.inp_conv[1](out3)
         p2 = self.inp_conv[0](out2)
+
+        if self.intracl is True:
+            p5 = self.incl4(p5)
+            p4 = self.incl3(p4)
+            p3 = self.incl2(p3)
+            p2 = self.incl1(p2)
 
         p5 = F.upsample(p5, scale_factor=8, mode="nearest")
         p4 = F.upsample(p4, scale_factor=4, mode="nearest")
@@ -289,6 +303,13 @@ class LKPAN(nn.Module):
                     kernel_size=9,
                     padding=4,
                     bias=False))
+            self.intracl = False
+            if 'intracl' in kwargs.keys() and kwargs['intracl'] is True:
+                self.intracl = kwargs['intracl']
+                self.incl1 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
+                self.incl2 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
+                self.incl3 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
+                self.incl4 = IntraCLBlock(self.out_channels // 4, reduce_factor=2)
 
     def forward(self, x):
         c2, c3, c4, c5 = x
@@ -318,6 +339,12 @@ class LKPAN(nn.Module):
         p3 = self.pan_lat_conv[1](pan3)
         p4 = self.pan_lat_conv[2](pan4)
         p5 = self.pan_lat_conv[3](pan5)
+
+        if self.intracl is True:
+            p5 = self.incl4(p5)
+            p4 = self.incl3(p4)
+            p3 = self.incl2(p3)
+            p2 = self.incl1(p2)
 
         p5 = F.upsample(p5, scale_factor=8, mode="nearest")
         p4 = F.upsample(p4, scale_factor=4, mode="nearest")

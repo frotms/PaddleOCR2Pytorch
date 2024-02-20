@@ -57,8 +57,8 @@ class Activation(nn.Module):
         elif act_type == 'sigmoid':
             raise NotImplementedError
         elif act_type == 'hard_sigmoid':
-            self.act = Hsigmoid(inplace)
-        elif act_type == 'hard_swish':
+            self.act = Hsigmoid(inplace)#nn.Hardsigmoid(inplace=inplace)#Hsigmoid(inplace)#
+        elif act_type == 'hard_swish' or act_type == 'hswish':
             self.act = Hswish(inplace=inplace)
         elif act_type == 'leakyrelu':
             self.act = nn.LeakyReLU(inplace=inplace)

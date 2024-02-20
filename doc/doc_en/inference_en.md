@@ -58,6 +58,20 @@ python ./converter/ch_ppocr_v2_rec_converter.py --src_model_path ./paddle_ch_PP-
 python ./converter/ch_ppocr_v3_det_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
 
 python ./converter/ch_ppocr_v3_rec_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
+
+#ppocr v4
+
+# det v4
+# ch_PP-OCRv4_det
+python ./converter/ch_ppocr_v4_det_converter.py --yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_student.yml --src_model_path ch_PP-OCRv4_det_train_dir
+# ch_PP-OCRv4_server_det
+python ./converter/ch_ppocr_v4_det_server_converter.py --yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_teacher.yml --src_model_path ./models_v2.7/ppocrv4/ch_PP-OCRv4_det_server_train_dir
+
+# rec v4
+# ch_PP-OCRv4_rec
+python ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml --src_model_path ch_PP-OCRv4_rec_train_dir
+# ch_PP-OCRv4_server_rec
+python ./converter/ch_ppocr_v4_rec_server_converter.py --yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec_hgnet.yml --src_model_path ch_PP-OCRv4_rec_server_train_dir
 ```
 
 <a name="MULTILINGUAL"></a>
@@ -70,6 +84,10 @@ python3 ./converter/multilingual_mobile_v2.0_rec_converter.py --src_model_path p
 # v3
 # en_PP-OCRv3_rec, multilingual_PP-OCRv3_rec
 python ./converter/multilingual_ppocr_v3_rec_converter.py --src_model_path paddle_multilingual_PP-OCRv3_rec_train_dir
+
+# v4
+# en_PP-OCRv4_rec
+python ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/PP-OCRv4/en_PP-OCRv4_rec.yml --src_model_path en_PP-OCRv4_rec_train_dir
 ```
 
 <a name="E2E_MODELS"></a>
@@ -191,6 +209,12 @@ python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs --model_path your_de
 
 # v3
 python ./tools/infer/predict_det.py --det_model_path your_ch_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
+
+# ppocrv4_det
+python ./tools/infer/predict_det.py --image_dir ./doc/imgs/00009282.jpg --det_model_path your_ch_ptocr_v4_det_infer_path.pth --det_yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_student.yml
+
+# ppocrv4_det server
+python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs/00009282.jpg --det_model_path your_ch_ptocr_v4_det_server_infer_path.pth --det_yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_teacher.yml
 ```
 
 ![](../../doc/imgs_results/det_res_img_10_db.jpg)
@@ -203,6 +227,10 @@ python ./tools/infer/predict_det.py --det_model_path your_ch_ptocr_v3_det_infer_
 # v3
 # en_ptocr_v3_det_infer.pth, multilingual_ptocr_v3_det_infer.pth
 python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path ./configs/det/det_ppocr_v3.yml --det_model_path your_multilingual_ptocr_v3_det_infer_path.pth --image_dir ./doc/imgs/1.jpg
+
+# v4
+# en_PP-OCRv4_rec
+python ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/en/word_1.png --rec_model_path your_en_ptocr_v4_rec_infer_path.pth --rec_yaml_path ./configs/rec/PP-OCRv4/en_PP-OCRv4_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/en_dict.txt
 ```
 
 <a name="RECOGNITION"></a>
@@ -216,6 +244,12 @@ python3 ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words --model_path y
 
 # v3
 python ./tools/infer/predict_rec.py --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth --rec_image_shape 3,48,320 --image_dir ./doc/imgs_words/en/word_1.png
+
+# ppocrv4_rec
+python ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/ch/word_1.jpg --rec_model_path your_ch_ptocr_v4_rec_infer_path.pth --rec_yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml --rec_image_shape='3,48,320'
+
+# ppocrv4_rec server
+python ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/ch/word_1.jpg --rec_model_path your_ch_ptocr_v4_rec_server_infer_path.pth --rec_yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec_hgnet.yml --rec_image_shape='3,48,320'
 ```
 
 ![](../../doc/imgs_words/ch/word_4.jpg)
@@ -234,7 +268,6 @@ You need to specify the visual font path through `--vis_font_path`. There are sm
 
 python3 ./tools/infer/predict_rec.py --rec_model_path your_japan_mobile_v2.0_rec_infer_path.pth --rec_char_type japan --rec_char_dict_path ./pytorchocr/utils/dict/japan_dict.txt --image_dir ./doc/imgs_words/japan/1.jpg
 
-# rec_char_type
 # rec_char_type
 # support_character_type = [ 
 #             # release/2.0
@@ -291,6 +324,11 @@ python3 ./tools/infer/predict_system.py --image_dir ./doc/imgs --det_model_path 
 # v3
 # other rec-models: use --rec_char_dict_path and --rec_yaml_path
 python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_path your_ch_ptocr_v3_det_infer_path.pth --rec_image_shape 3,48,320 --rec_model_path your_ch_ptocr_v3_rec_infer_path.pth
+
+# v4
+# other det-models: use --det_yaml_path
+# other rec-models: use --rec_char_dict_path, --rec_yaml_path and --rec_yaml_path
+python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_path your_ch_ptocr_v4_det_infer_path.pth --det_yaml_path ./configs/det/ch_PP-OCRv4/ch_PP-OCRv4_det_student.yml --rec_image_shape 3,48,320 --rec_model_path your_ch_ptocr_v4_rec_infer_path.pth --rec_yaml_path ./configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml
 ```
 
 After executing the command, the recognition result image is as follows:
@@ -424,9 +462,6 @@ def init_args():
     parser = argparse.ArgumentParser()
     # params for prediction engine
     parser.add_argument("--use_gpu", type=str2bool, default=True)
-    # parser.add_argument("--ir_optim", type=str2bool, default=True)
-    # parser.add_argument("--use_tensorrt", type=str2bool, default=False)
-    # parser.add_argument("--use_fp16", type=str2bool, default=False)
     parser.add_argument("--gpu_mem", type=int, default=500)
     parser.add_argument("--warmup", type=str2bool, default=False)
 
@@ -472,6 +507,7 @@ def init_args():
     # params for text recognizer
     parser.add_argument("--rec_algorithm", type=str, default='CRNN')
     parser.add_argument("--rec_model_path", type=str)
+    parser.add_argument("--rec_image_inverse", type=str2bool, default=True)
     parser.add_argument("--rec_image_shape", type=str, default="3, 32, 320")
     parser.add_argument("--rec_char_type", type=str, default='ch')
     parser.add_argument("--rec_batch_num", type=int, default=6)
@@ -511,7 +547,9 @@ def init_args():
     # PGNet parmas
     parser.add_argument("--e2e_pgnet_score_thresh", type=float, default=0.5)
     parser.add_argument(
-        "--e2e_char_dict_path", type=str, default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'pytorchocr/utils/ic15_dict.txt'))
+        "--e2e_char_dict_path", type=str,
+        default=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                             'pytorchocr/utils/ic15_dict.txt'))
     parser.add_argument("--e2e_pgnet_valid_set", type=str, default='totaltext')
     parser.add_argument("--e2e_pgnet_polygon", type=bool, default=True)
     parser.add_argument("--e2e_pgnet_mode", type=str, default='fast')
@@ -549,4 +587,5 @@ def init_args():
 - [PaddleOCR release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/inference_en.md)
 - [PaddleOCR release/2.5](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/doc/doc_en/inference_en.md)
 - [PaddleOCR release/2.6](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/inference_en.md)
+- [PaddleOCR release/2.7](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/inference_ppocr_en.md)
 

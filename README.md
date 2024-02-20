@@ -31,6 +31,9 @@
 
 **近期更新**
 
+- 2024.02.20 [PP-OCRv4](./doc/doc_ch/PP-OCRv4_introduction.md)，提供mobile和server两种模型
+  - PP-OCRv4-mobile：速度可比情况下，中文场景效果相比于PP-OCRv3再提升4.5%，英文场景提升10%，80语种多语言模型平均识别准确率提升8%以上
+  - PP-OCRv4-server：发布了目前精度最高的OCR模型，中英文场景上检测模型精度提升4.9%， 识别模型精度提升2%
 - 2023.04.16 公式识别[CAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_rec_can.md)
 - 2023.04.07 文本超分[Text Telescope](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_sr_telescope.md)
 - 2022.10.17 文本识别：[ViTSTR](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_rec_vitstr.md)
@@ -116,14 +119,13 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
     <img src="./doc/imgs_results/french_0.jpg" width="800">
     <img src="./doc/imgs_results/korean.jpg" width="800">
 </div>
-
 <a name="参考"></a>
 
 ## 参考
 
-- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- [PytorchOCR](https://github.com/WenmuZhou/PytorchOCR)
+- [https://github.com/PaddlePaddle/PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- [https://github.com/WenmuZhou/PytorchOCR](https://github.com/WenmuZhou/PytorchOCR)
 - [Paddle](https://github.com/PaddlePaddle)
 - [Pytorch](https://pytorch.org/)
 - [https://github.com/frotms/image_classification_pytorch](https://github.com/frotms/image_classification_pytorch)
-- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/models_list.md)
+- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/models_list.md)

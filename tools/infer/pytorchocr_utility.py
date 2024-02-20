@@ -139,7 +139,7 @@ def get_default_config(args):
     return vars(args)
 
 
-def read_network_config_from_yaml(yaml_path):
+def read_network_config_from_yaml(yaml_path, char_num=None):
     if not os.path.exists(yaml_path):
         raise FileNotFoundError('{} is not existed.'.format(yaml_path))
     import yaml
@@ -147,14 +147,20 @@ def read_network_config_from_yaml(yaml_path):
         res = yaml.safe_load(f)
     if res.get('Architecture') is None:
         raise ValueError('{} has no Architecture'.format(yaml_path))
+    if res['Architecture']['Head']['name'] == 'MultiHead' and char_num is not None:
+        res['Architecture']['Head']['out_channels_list'] = {
+            'CTCLabelDecode': char_num,
+            'SARLabelDecode': char_num + 2,
+            'NRTRLabelDecode': char_num + 3
+        }
     return res['Architecture']
 
-def AnalysisConfig(weights_path, yaml_path=None):
+def AnalysisConfig(weights_path, yaml_path=None, char_num=None):
     if not os.path.exists(os.path.abspath(weights_path)):
         raise FileNotFoundError('{} is not found.'.format(weights_path))
 
     if yaml_path is not None:
-        return read_network_config_from_yaml(yaml_path)
+        return read_network_config_from_yaml(yaml_path, char_num=char_num)
 
     weights_basename = os.path.basename(weights_path)
     weights_name = weights_basename.lower()

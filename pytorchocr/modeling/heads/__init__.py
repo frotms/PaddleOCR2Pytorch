@@ -17,7 +17,7 @@ __all__ = ['build_head']
 
 def build_head(config, **kwargs):
     # det head
-    from .det_db_head import DBHead
+    from .det_db_head import DBHead, PFHeadLocal
     from .det_east_head import EASTHead
     from .det_sast_head import SASTHead
     from .det_pse_head import PSEHead
@@ -31,13 +31,14 @@ def build_head(config, **kwargs):
     from .rec_nrtr_head import Transformer
     from .rec_sar_head import SARHead
     from .rec_can_head import CANHead
+    from .rec_multi_head import MultiHead
 
     # cls head
     from .cls_head import ClsHead
     support_dict = [
         'DBHead', 'PSEHead', 'EASTHead', 'SASTHead', 'CTCHead', 'ClsHead', 'AttentionHead',
         'SRNHead', 'PGHead', 'Transformer', 'TableAttentionHead','SARHead', 'FCEHead',
-        'CANHead'
+        'CANHead', 'MultiHead', 'PFHeadLocal',
 
     ]
 
@@ -46,6 +47,5 @@ def build_head(config, **kwargs):
     module_name = config.pop('name')
     assert module_name in support_dict, Exception('head only support {}'.format(
         support_dict))
-    print(config)
     module_class = eval(module_name)(**config, **kwargs)
     return module_class
