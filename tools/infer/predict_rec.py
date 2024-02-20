@@ -75,7 +75,7 @@ class TextRecognizer(BaseOCRV20):
                 "use_space_char": args.use_space_char
             }
         self.postprocess_op = build_post_process(postprocess_params)
-        print(postprocess_params)
+
         use_gpu = args.use_gpu
         self.use_gpu = torch.cuda.is_available() and use_gpu
 
