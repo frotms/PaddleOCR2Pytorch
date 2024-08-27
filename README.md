@@ -131,5 +131,4 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
 - [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/models_list.md)
 
 
-
-<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://star-history.com/embed?secret=Z2hwX1JVQ21Gckx5Ym93NlpkRWk5NGtiYzhad3lMbEV1dTFzcGFzRg==#frotms/PaddleOCR2Pytorch&Date" frameBorder="0"></iframe>
+<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://star-history.com/embed?secret=Z2hwX2tRUHYxZDB3U3NOZEEyOUZhdnczQmQ3dU1sN3NjYTFwZ1gyWg==#frotms/PaddleOCR2Pytorch&Date" frameBorder="0"></iframe>
