@@ -127,3 +127,8 @@ If you want to get more models including multilingual models，please refer to [
 - [Pytorch](https://pytorch.org/)
 - [https://github.com/frotms/image_classification_pytorch](https://github.com/frotms/image_classification_pytorch)
 - [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md)
+
+
+
+<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://star-history.com/embed?secret=Z2hwX1JVQ21Gckx5Ym93NlpkRWk5NGtiYzhad3lMbEV1dTFzcGFzRg==#frotms/PaddleOCR2Pytorch&Date" frameBorder="0"></iframe>
+

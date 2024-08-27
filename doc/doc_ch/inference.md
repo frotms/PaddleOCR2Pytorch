@@ -54,7 +54,7 @@ python ./converter/ch_ppocr_v2_rec_converter.py --src_model_path ./paddle_ch_PP-
 #ppocr v3
 # det v3
 # ch_PP-OCRv3_rec_train, en_PP-OCRv3_det_distill_train, Multilingual_PP-OCRv3_det_distill_train
-python ./converter/ch_ppocr_v3_det_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
+python ./converter/ch_ppocr_v3_det_converter.py --src_model_path paddle_ch_PP-OCRv3_det_train_dir
 
 python ./converter/ch_ppocr_v3_rec_converter.py --src_model_path paddle_ch_PP-OCRv3_rec_train_dir
 
