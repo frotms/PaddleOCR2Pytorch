@@ -129,3 +129,7 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
 - [Pytorch](https://pytorch.org/)
 - [https://github.com/frotms/image_classification_pytorch](https://github.com/frotms/image_classification_pytorch)
 - [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/models_list.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_ch/models_list.md)
+
+
+
+<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://api.star-history.com/svg?repos=frotms/PaddleOCR2Pytorch&type=Date" frameBorder="0"></iframe>
