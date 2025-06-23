@@ -136,6 +136,10 @@ dmypy.json
 
 # idea
 *.idea
+.vscode/
+*.swp
+*.swo
+*~
 
 # inference_result
 inference_results*
@@ -147,3 +151,55 @@ det_models*
 rec_models*
 *副本*
 *测试数据*
+
+# Claude
+.claude/*
+
+# Poetry
+poetry.lock
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+pytest_cache/
+.tox/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+pip-wheel-metadata/
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+virtualenv/
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+*.bak
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
