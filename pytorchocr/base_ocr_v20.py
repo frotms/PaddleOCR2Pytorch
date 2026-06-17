@@ -98,6 +98,31 @@ class BaseOCRV20:
                 para_state_dict, opti_state_dict = fluid.load_dygraph(weights_path)
         except:
             import paddle
+            import sys
+            import numpy
+            # Workaround for Paddle 3.0 pickle format requiring numpy 2.x APIs
+            # Paddle 3.0+ stores tensors using numpy._core namespace (numpy >= 2.0)
+            # but we have numpy < 2.0 with numpy.core namespace
+            if 'numpy._core' not in sys.modules:
+                # Create a proxy module that redirects numpy._core.* to numpy.core.*
+                import types
+                _core = types.ModuleType('numpy._core')
+                # Redirect common numpy._core submodules to their numpy equivalents
+                _core.multiarray = numpy.core.multiarray
+                _core._multiarray_umath = numpy.core._multiarray_umath
+                _core.numerictypes = numpy.core.numerictypes
+                _core.umath = numpy.core.umath
+                _core._methods = numpy.core._methods
+                _core.fromnumeric = numpy.core.fromnumeric
+                _core.shape_base = numpy.core.shape_base
+                _core.records = numpy.core.records
+                sys.modules['numpy._core'] = _core
+                sys.modules['numpy._core.multiarray'] = numpy.core.multiarray
+                sys.modules['numpy._core._multiarray_umath'] = numpy.core._multiarray_umath
+                sys.modules['numpy._core.numerictypes'] = numpy.core.numerictypes
+                sys.modules['numpy._core.umath'] = numpy.core.umath
+                sys.modules['numpy._core._methods'] = numpy.core._methods
+                sys.modules['numpy._core.fromnumeric'] = numpy.core.fromnumeric
             para_state_dict = paddle.load(weights_path)
             opti_state_dict = None
         return para_state_dict, opti_state_dict

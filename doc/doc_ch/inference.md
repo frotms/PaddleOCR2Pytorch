@@ -81,6 +81,16 @@ python ./converter/ppocr_v5_det_converter.py --yaml_path configs/det/PP-OCRv5/PP
 python ./converter/ppocr_v5_rec_converter.py --yaml_path configs/rec/PP-OCRv5/PP-OCRv5_mobile_rec.yml --src_model_path PP-OCRv5_mobile_rec_pretrained.pdparams
 # PP-OCRv5_server_rec
 python ./converter/ppocr_v5_rec_converter.py --yaml_path configs/rec/PP-OCRv5/PP-OCRv5_server_rec.yml --src_model_path PP-OCRv5_server_rec_pretrained.pdparams
+
+# PP-OCRv6
+# 检测模型（tiny / small / medium 三档）
+python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP-OCRv6_tiny_det.yml --src_model_path PP-OCRv6_tiny_det_pretrained.pdparams
+python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP-OCRv6_small_det.yml --src_model_path PP-OCRv6_small_det_pretrained.pdparams
+python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP-OCRv6_medium_det.yml --src_model_path PP-OCRv6_medium_det_pretrained.pdparams
+# 识别模型（tiny / small / medium 三档）
+python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --src_model_path PP-OCRv6_tiny_rec_pretrained.pdparams
+python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --src_model_path PP-OCRv6_small_rec_pretrained.pdparams
+python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --src_model_path PP-OCRv6_medium_rec_pretrained.pdparams
 ```
 
 <a name="多语言识别模型"></a>
@@ -230,6 +240,14 @@ python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs/00009282.jpg --det_m
 python ./tools/infer/predict_det.py --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_mobile_det.yml --det_model_path ./ptocr_v5_mobile_det.pth --image_dir ./doc/imgs/00009282.jpg
 # PP-OCRv5_server_det
 python ./tools/infer/predict_det.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_server_det.yml --det_model_path ./ptocr_v5_server_det.pth --image_dir ./doc/imgs/00009282.jpg
+
+# PP-OCRv6
+# PP-OCRv6_tiny_det
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_tiny_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_tiny_det_pretrained.pth --image_dir ./doc/imgs/1.jpg
+# PP-OCRv6_small_det
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_small_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth --image_dir ./doc/imgs/1.jpg
+# PP-OCRv6_medium_det
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_medium_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_medium_det_pretrained.pth --image_dir ./doc/imgs/1.jpg
 ```
 
 ![](../imgs_results/det_res_img_10_db.jpg)
@@ -271,6 +289,14 @@ python ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/ch/word_1.jpg -
 python ./tools/infer/predict_rec.py --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_mobile_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt --rec_model_path ./ptocr_v5_mobile_rec.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
 # PP-OCRv5/PP-OCRv5_server_rec
 python ./tools/infer/predict_rec.py --use_gpu false --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_server_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt --rec_model_path ./ptocr_v5_server_rec.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
+
+# PP-OCRv6
+# PP-OCRv6_tiny_rec（使用tiny字典，49语言）
+python ./tools/infer/predict_rec.py --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_tiny_dict.txt --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_tiny_rec_pretrained.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
+# PP-OCRv6_small_rec（使用v6标准字典，50语言）
+python ./tools/infer/predict_rec.py --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
+# PP-OCRv6_medium_rec（使用v6标准字典，50语言）
+python ./tools/infer/predict_rec.py --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_medium_rec_pretrained.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
 ```
 
 ![](../imgs_words/ch/word_4.jpg)
@@ -356,6 +382,14 @@ python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_
 python ./tools/infer/predict_system.py --use_gpu false --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_mobile_det.yml --det_model_path ./ptocr_v5_mobile_det.pth --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_mobile_rec.yml --rec_model_path ./ptocr_v5_mobile_rec.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt  --image_dir ./doc/imgs/1.jpg
 # server
 python ./tools/infer/predict_system.py --use_gpu false --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_server_det.yml --det_model_path ./ptocr_v5_server_det.pth --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_server_rec.yml --rec_model_path ./ptocr_v5_server_rec.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt  --image_dir ./doc/imgs/1.jpg
+
+# PP-OCRv6（检测+识别串联）
+# tiny（端侧，~1.5M参数，极速推理）
+python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_tiny_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_tiny_det_pretrained.pth --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_tiny_rec_pretrained.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_tiny_dict.txt --image_dir ./doc/imgs/1.jpg
+# small（移动端/桌面，~7.8M参数，平衡精度与速度）
+python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_small_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --image_dir ./doc/imgs/1.jpg
+# medium（服务端，~35M参数，最高精度）
+python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_medium_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_medium_det_pretrained.pth --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_medium_rec_pretrained.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --image_dir ./doc/imgs/1.jpg
 ```
 
 执行命令后，识别结果图像如下：

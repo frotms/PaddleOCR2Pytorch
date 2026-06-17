@@ -82,6 +82,16 @@ python ./converter/ppocr_v5_det_converter.py --yaml_path configs/det/PP-OCRv5/PP
 python ./converter/ppocr_v5_rec_converter.py --yaml_path configs/rec/PP-OCRv5/PP-OCRv5_mobile_rec.yml --src_model_path PP-OCRv5_mobile_rec_pretrained.pdparams
 # PP-OCRv5_server_rec
 python ./converter/ppocr_v5_rec_converter.py --yaml_path configs/rec/PP-OCRv5/PP-OCRv5_server_rec.yml --src_model_path PP-OCRv5_server_rec_pretrained.pdparams
+
+# PP-OCRv6
+# Detection models (tiny / small / medium)
+python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP-OCRv6_tiny_det.yml --src_model_path PP-OCRv6_tiny_det_pretrained.pdparams
+python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP-OCRv6_small_det.yml --src_model_path PP-OCRv6_small_det_pretrained.pdparams
+python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP-OCRv6_medium_det.yml --src_model_path PP-OCRv6_medium_det_pretrained.pdparams
+# Recognition models (tiny / small / medium)
+python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --src_model_path PP-OCRv6_tiny_rec_pretrained.pdparams
+python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --src_model_path PP-OCRv6_small_rec_pretrained.pdparams
+python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --src_model_path PP-OCRv6_medium_rec_pretrained.pdparams
 ```
 
 <a name="MULTILINGUAL"></a>
@@ -231,6 +241,14 @@ python3 ./tools/infer/predict_det.py --image_dir ./doc/imgs/00009282.jpg --det_m
 python ./tools/infer/predict_det.py --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_mobile_det.yml --det_model_path ./ptocr_v5_mobile_det.pth --image_dir ./doc/imgs/00009282.jpg
 # PP-OCRv5_server_det
 python ./tools/infer/predict_det.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_server_det.yml --det_model_path ./ptocr_v5_server_det.pth --image_dir ./doc/imgs/00009282.jpg
+
+# PP-OCRv6
+# PP-OCRv6_tiny_det
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_tiny_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_tiny_det_pretrained.pth --image_dir ./doc/imgs/1.jpg
+# PP-OCRv6_small_det
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_small_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth --image_dir ./doc/imgs/1.jpg
+# PP-OCRv6_medium_det
+python ./tools/infer/predict_det.py --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_medium_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_medium_det_pretrained.pth --image_dir ./doc/imgs/1.jpg
 ```
 
 ![](../../doc/imgs_results/det_res_img_10_db.jpg)
@@ -272,6 +290,14 @@ python ./tools/infer/predict_rec.py --image_dir ./doc/imgs_words/ch/word_1.jpg -
 python ./tools/infer/predict_rec.py --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_mobile_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt --rec_model_path ./ptocr_v5_mobile_rec.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
 # PP-OCRv5/PP-OCRv5_server_rec
 python ./tools/infer/predict_rec.py --use_gpu false --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_server_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt --rec_model_path ./ptocr_v5_server_rec.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
+
+# PP-OCRv6
+# PP-OCRv6_tiny_rec (tiny dict, 49 languages)
+python ./tools/infer/predict_rec.py --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_tiny_dict.txt --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_tiny_rec_pretrained.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
+# PP-OCRv6_small_rec (v6 standard dict, 50 languages)
+python ./tools/infer/predict_rec.py --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
+# PP-OCRv6_medium_rec (v6 standard dict, 50 languages)
+python ./tools/infer/predict_rec.py --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_medium_rec_pretrained.pth --image_dir ./doc/imgs_words/ch/word_1.jpg
 ```
 
 ![](../../doc/imgs_words/ch/word_4.jpg)
@@ -357,6 +383,14 @@ python ./tools/infer/predict_system.py --image_dir ./doc/imgs/1.jpg --det_model_
 python ./tools/infer/predict_system.py --use_gpu false --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_mobile_det.yml --det_model_path ./ptocr_v5_mobile_det.pth --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_mobile_rec.yml --rec_model_path ./ptocr_v5_mobile_rec.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt  --image_dir ./doc/imgs/1.jpg
 # server
 python ./tools/infer/predict_system.py --use_gpu false --det_yaml_path configs/det/PP-OCRv5/PP-OCRv5_server_det.yml --det_model_path ./ptocr_v5_server_det.pth --rec_yaml_path configs/rec/PP-OCRv5/PP-OCRv5_server_rec.yml --rec_model_path ./ptocr_v5_server_rec.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv5_dict.txt  --image_dir ./doc/imgs/1.jpg
+
+# PP-OCRv6 (detection + recognition pipeline)
+# tiny (~1.5M params, edge/IoT, ultra-fast)
+python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_tiny_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_tiny_det_pretrained.pth --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_tiny_rec_pretrained.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_tiny_dict.txt --image_dir ./doc/imgs/1.jpg
+# small (~7.8M params, mobile/desktop, balanced speed & accuracy)
+python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_small_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --image_dir ./doc/imgs/1.jpg
+# medium (~35M params, server, highest accuracy)
+python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_yaml_path configs/det/PP-OCRv6/PP-OCRv6_medium_det.yml --det_model_path ./models/v6/ptocr_v6_det_PP-OCRv6_medium_det_pretrained.pth --rec_algorithm CRNN --rec_yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --rec_model_path ./models/v6/ptocr_v6_rec_PP-OCRv6_medium_rec_pretrained.pth --rec_image_shape='3,48,320' --rec_char_dict_path ./pytorchocr/utils/dict/ppocrv6_dict.txt --image_dir ./doc/imgs/1.jpg
 ```
 
 After executing the command, the recognition result image is as follows:

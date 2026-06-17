@@ -24,7 +24,10 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
-|ch_PP-OCRv4_det|【最新】原始超轻量模型，支持中英文、多语种文本检测|4.70M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_train.tar)|
+|PP-OCRv6_medium_det|【最新】中等模型，PPLCNetV4 + RepLKPAN，支持50种语言检测|61M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_medium_det_pretrained.pdparams) / [转换脚本](../../converter/ppocr_v6_det_converter.py)|
+|PP-OCRv6_small_det|【最新】轻量模型，PPLCNetV4 + RepLKFPN，支持50种语言检测|9.8M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_small_det_pretrained.pdparams) / [转换脚本](../../converter/ppocr_v6_det_converter.py)|
+|PP-OCRv6_tiny_det|【最新】极致轻量模型，PPLCNetV4 + RepLKFPN(k=5)，支持49种语言检测|1.9M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_tiny_det_pretrained.pdparams) / [转换脚本](../../converter/ppocr_v6_det_converter.py)|
+|ch_PP-OCRv4_det|原始超轻量模型，支持中英文、多语种文本检测|4.70M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_train.tar)|
 |ch_PP-OCRv4_server_det|【最新】原始高精度模型，支持中英文、多语种文本检测|110M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_server_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_server_train.tar)|
 |ch_PP-OCRv3_det|原始超轻量模型，支持中英文、多语种文本检测|3.8M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_distill_train.tar)|
 |ch_ppocr_mobile_v2.0_det|原始超轻量模型，支持中英文、多语种文本检测|3M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_train.tar)|
@@ -52,7 +55,10 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
-|ch_PP-OCRv4_rec|【最新】超轻量模型，支持中英文、数字识别|10M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_train.tar)|
+|PP-OCRv6_medium_rec|【最新】中等模型，PPLCNetV4 + LightSVTR，支持50种语言识别|74M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_medium_rec_pretrained.pdparams) / [转换脚本](../../converter/ppocr_v6_rec_converter.py)|
+|PP-OCRv6_small_rec|【最新】轻量模型，PPLCNetV4 + LightSVTR，支持50种语言识别|21M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_small_rec_pretrained.pdparams) / [转换脚本](../../converter/ppocr_v6_rec_converter.py)|
+|PP-OCRv6_tiny_rec|【最新】极致轻量模型，PPLCNetV4 + reshape，支持49种语言识别|4.4M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_tiny_rec_pretrained.pdparams) / [转换脚本](../../converter/ppocr_v6_rec_converter.py)|
+|ch_PP-OCRv4_rec|超轻量模型，支持中英文、数字识别|10M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_train.tar)|
 |ch_PP-OCRv4_server_rec|【最新】高精度模型，支持中英文、数字识别|88M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_server_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_server_train.tar)|
 |ch_PP-OCRv3_rec|原始超轻量模型，支持中英文、数字识别|12.4M|[推理模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_train.tar)|
 |ch_ppocr_mobile_v2.0_rec|原始超轻量模型，支持中英文、数字识别|3.71M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_train.tar) / [预训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_pre.tar) |
