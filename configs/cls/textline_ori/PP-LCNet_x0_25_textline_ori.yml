@@ -1,0 +1,16 @@
+Global:
+  model_name: PP-LCNet_x0_25_textline_ori
+  use_gpu: true
+
+Architecture:
+  model_type: cls
+  algorithm: CLS
+  Transform: null
+  Backbone:
+    name: PPLCNet
+    scale: 0.25
+  Neck: null
+  Head:
+    name: ClsHead
+    class_dim: 2
+    in_channels: 1280

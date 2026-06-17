@@ -6,6 +6,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
 - [CONVERT PADDLE-OCR MODEL TO PYTORCH MODEL](#CONVERT)
     - [CHINESE AND ENGLISH GENERAL OCR MODELS](#GENERAL)
     - [MULTILINGUAL MODELS](#MULTILINGUAL)
+    - [DOCUMENT PREPROCESSING MODELS](#DOC_PREPROCESS)
     - [END2END MODELS](#E2E_MODELS)
     - [SUPER RESOLUTION MODELS](#SR_MODELS)
     - [OTHER DETECTION MODELS](#CVT_DETECTION)
@@ -16,6 +17,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
     - [TEXT DETECTION MODEL INFERENCE](#DETECTION)
     - [TEXT RECOGNITION MODEL INFERENCE](#RECOGNITION)
     - [TEXT DIRECTION CLASSIFICATION MODEL INFERENCE](#CLASSIFICATION)
+    - [DOCUMENT PREPROCESSING MODEL INFERENCE](#DOC_PREPROCESS_INFERENCE)
     - [TEXT DETECTION ANGLE CLASSIFICATION AND RECOGNITION INFERENCE CONCATENATION](#CONCATENATION)
     - [END2END MODEL INFERENCE](#E2E_INFERENCE)
     - [SUPER RESOLUTION MODEL INFERENCE](#SR_INFERENCE)
@@ -92,6 +94,24 @@ python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP
 python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --src_model_path PP-OCRv6_tiny_rec_pretrained.pdparams
 python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --src_model_path PP-OCRv6_small_rec_pretrained.pdparams
 python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --src_model_path PP-OCRv6_medium_rec_pretrained.pdparams
+```
+
+<a name="DOC_PREPROCESS"></a>
+
+### DOCUMENT PREPROCESSING MODELS
+
+```bash
+# Document Orientation Classification (doc_ori): detect 0°/90°/180°/270° rotation
+python ./converter/pplcnet_cls_converter.py --yaml_path configs/cls/doc_ori/PP-LCNet_x1_0_doc_ori.yml --src_model_path PP-LCNet_x1_0_doc_ori_pretrained.pdparams
+
+# Text Line Orientation Classification (textline_ori): detect 0°/180° flip
+# Lightweight version (0.96MB)
+python ./converter/pplcnet_cls_converter.py --yaml_path configs/cls/textline_ori/PP-LCNet_x0_25_textline_ori.yml --src_model_path PP-LCNet_x0_25_textline_ori_pretrained.pdparams
+# Standard version (6.5MB)
+python ./converter/pplcnet_cls_converter.py --yaml_path configs/cls/textline_ori/PP-LCNet_x1_0_textline_ori.yml --src_model_path PP-LCNet_x1_0_textline_ori_pretrained.pdparams
+
+# UVDoc Document Unwarping: correct curved/perspective-distorted documents
+python ./converter/uvdoc_converter.py --src_model_path UVDoc_pretrained.pdparams
 ```
 
 <a name="MULTILINGUAL"></a>
@@ -354,6 +374,69 @@ python3 ./tools/infer/predict_cls.py --image_dir ./doc/imgs_words --model_path y
 
 ```
 Predicts of ./doc/imgs_words/ch/word_4.jpg:['0', 0.9999982]
+```
+
+<a name="DOC_PREPROCESS_INFERENCE"></a>
+
+### DOCUMENT PREPROCESSING MODEL INFERENCE
+
+#### Document Orientation Classification (doc_ori)
+
+Detect document rotation angle (0°/90°/180°/270°):
+
+```bash
+# doc_ori with predict_cls.py, labels: 0, 90, 180, 270
+python ./tools/infer/predict_cls.py \
+    --cls_yaml_path configs/cls/doc_ori/PP-LCNet_x1_0_doc_ori.yml \
+    --cls_model_path pretrained/PP-LCNet_x1_0_doc_ori_infer.pth \
+    --cls_image_shape 3,224,224 \
+    --label_list "0" "90" "180" "270" \
+    --image_dir ./doc/imgs_words/ch/word_1.jpg
+```
+
+#### Text Line Orientation Classification (textline_ori)
+
+Detect if a text line is flipped (0°/180°):
+
+```bash
+# Lightweight version (0.96MB), labels: 0, 180
+python ./tools/infer/predict_cls.py \
+    --cls_yaml_path configs/cls/textline_ori/PP-LCNet_x0_25_textline_ori.yml \
+    --cls_model_path pretrained/PP-LCNet_x0_25_textline_ori_infer.pth \
+    --cls_image_shape 3,224,224 \
+    --label_list "0" "180" \
+    --image_dir ./doc/imgs_words/ch/word_1.jpg
+
+# Standard version (6.5MB)
+python ./tools/infer/predict_cls.py \
+    --cls_yaml_path configs/cls/textline_ori/PP-LCNet_x1_0_textline_ori.yml \
+    --cls_model_path pretrained/PP-LCNet_x1_0_textline_ori_infer.pth \
+    --cls_image_shape 3,224,224 \
+    --label_list "0" "180" \
+    --image_dir ./doc/imgs_words/ch/word_1.jpg
+```
+
+#### UVDoc Document Unwarping
+
+Correct curved and perspective-distorted document images. UVDoc is a standalone model, use `test_new_models.py` or Python API:
+
+```bash
+# Run test script
+python ./tools/test_new_models.py
+```
+
+```python
+# Or via Python API
+from pytorchocr.modeling.architectures.uvdoc_model import UVDocModel
+import torch, cv2
+model = UVDocModel()
+model.load_state_dict(torch.load('pretrained/UVDoc_infer.pth', weights_only=False))
+model.eval()
+img = cv2.cvtColor(cv2.imread('warped_doc.jpg'), cv2.COLOR_BGR2RGB)
+img = cv2.resize(img, (712, 488))
+x = torch.from_numpy(img.transpose(2,0,1).astype(np.float32)).unsqueeze(0)
+unwarped, _ = model.unwarp(x)
+cv2.imwrite('output.jpg', cv2.cvtColor(unwarped[0].permute(1,2,0).numpy().clip(0,255).astype(np.uint8), cv2.COLOR_RGB2BGR))
 ```
 
 <a name="CONCATENATION"></a>

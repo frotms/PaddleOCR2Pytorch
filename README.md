@@ -17,6 +17,8 @@
 
 **近期更新**
 
+- 2025.06.17 **文档预处理模型移植**：新增 [UVDoc](./configs/unwarp/) 文档矫正模型、[PP-LCNet_x1_0_doc_ori](./configs/cls/doc_ori/) 文档方向分类模型、[PP-LCNet_textline_ori](./configs/cls/textline_ori/) 文本行方向分类模型
+
 - 2025.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**：新一代超高精度 OCR
   1. 📐 **三档模型规格**：Tiny(1.5M) / Small(7.8M) / Medium(35M)，覆盖端侧到服务端全算力平台
   2. 🏗️ **全新架构**：PPLCNetV4 骨干 + RepLKFPN/RepLKPAN 检测颈 + EncoderWithLightSVTR 识别颈
@@ -83,7 +85,7 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
 ## TODO
 
 - [x] PP-OCRv6：Tiny/Small/Medium 三档检测+识别模型转换完成，详见 [PP-OCRv6移植指南](./docs/PP-OCRv6_porting_guide.md)
-- [ ] PP-OCRv5：[文档图像方向分类模块PP-LCNet_x1_0_doc_ori](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/doc_img_orientation_classification.html)，[文本图像矫正模块UVDoc](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/text_image_unwarping.html)，[文本行方向分类模块PP-LCNet_x0_25_textline_ori](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/text_line_orientation_classification.html)
+- [x] PP-OCRv5：[文档图像方向分类模块PP-LCNet_x1_0_doc_ori](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/doc_img_orientation_classification.html)，[文本图像矫正模块UVDoc](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/text_image_unwarping.html)，[文本行方向分类模块PP-LCNet_x0_25_textline_ori](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/text_line_orientation_classification.html)
 - [ ] [通用文档解析方案](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/pipeline_usage/PP-StructureV3.html)-[PP-StructureV3](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-StructureV3/PP-StructureV3.md)：支持多场景、多版式 PDF 高精度解析，在公开评测集中**领先众多开源和闭源方案**。
 - [ ] [智能文档理解方案](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/pipeline_usage/PP-ChatOCRv4.html)-[PP-ChatOCRv4](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-ChatOCRv4/PP-ChatOCRv4.md)：原生支持文心大模型4.5 Turbo，精度相比上一代**提升15个百分点**。
 - [ ] 前沿算法：文本检测 [DRRG](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_det_drrg.md)，文本识别 [RFL](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/algorithm_rec_rfl.md)

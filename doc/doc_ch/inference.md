@@ -6,6 +6,7 @@
 - [一、PaddleOCR训练模型转PyTorch模型](#PaddleOCR训练模型转PyTorch模型)
     - [中英文通用OCR](#中英文通用OCR)
     - [多语言识别模型](#多语言识别模型)
+    - [文档预处理模型](#文档预处理模型)
     - [端到端模型](#端到端模型)
     - [超分辨率模型](#超分辨率模型)
     - [其他检测模型](#其他检测模型)
@@ -14,6 +15,7 @@
     - [文本检测模型推理](#文本检测模型推理)
     - [文本识别模型推理](#文本识别模型推理)
     - [文本方向分类模型推理](#文本方向分类模型推理)
+    - [文档预处理模型推理](#文档预处理模型推理)
     - [文本检测、方向分类和文字识别串联推理](#文本检测、方向分类和文字识别串联推理)
     - [端到端模型推理](#端到端模型推理)
     - [超分辨率模型推理](#超分辨率模型推理)
@@ -91,6 +93,22 @@ python ./converter/ppocr_v6_det_converter.py --yaml_path configs/det/PP-OCRv6/PP
 python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_tiny_rec.yml --src_model_path PP-OCRv6_tiny_rec_pretrained.pdparams
 python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml --src_model_path PP-OCRv6_small_rec_pretrained.pdparams
 python ./converter/ppocr_v6_rec_converter.py --yaml_path configs/rec/PP-OCRv6/PP-OCRv6_medium_rec.yml --src_model_path PP-OCRv6_medium_rec_pretrained.pdparams
+```
+
+### 文档预处理模型
+
+```bash
+# 文档方向分类模型 (doc_ori)：判断文档的0°/90°/180°/270°旋转
+python ./converter/pplcnet_cls_converter.py --yaml_path configs/cls/doc_ori/PP-LCNet_x1_0_doc_ori.yml --src_model_path PP-LCNet_x1_0_doc_ori_pretrained.pdparams
+
+# 文本行方向分类模型 (textline_ori)：判断文本行0°/180°倒置
+# 轻量版 (0.96MB)
+python ./converter/pplcnet_cls_converter.py --yaml_path configs/cls/textline_ori/PP-LCNet_x0_25_textline_ori.yml --src_model_path PP-LCNet_x0_25_textline_ori_pretrained.pdparams
+# 标准版 (6.5MB)
+python ./converter/pplcnet_cls_converter.py --yaml_path configs/cls/textline_ori/PP-LCNet_x1_0_textline_ori.yml --src_model_path PP-LCNet_x1_0_textline_ori_pretrained.pdparams
+
+# UVDoc 文档图像矫正模型：去弯曲/透视校正
+python ./converter/uvdoc_converter.py --src_model_path UVDoc_pretrained.pdparams
 ```
 
 <a name="多语言识别模型"></a>
@@ -353,6 +371,69 @@ python3 ./tools/infer/predict_cls.py --image_dir ./doc/imgs_words --model_path y
 
 ```
 Predicts of ./doc/imgs_words/ch/word_4.jpg:['0', 0.9999982]
+```
+
+<a name="文档预处理模型推理"></a>
+
+### 文档预处理模型推理
+
+#### 文档方向分类模型推理 (doc_ori)
+
+判断整张文档图像的旋转角度（0°/90°/180°/270°），用于旋转校正：
+
+```bash
+# doc_ori 使用 predict_cls.py，标签为 0, 90, 180, 270
+python ./tools/infer/predict_cls.py \
+    --cls_yaml_path configs/cls/doc_ori/PP-LCNet_x1_0_doc_ori.yml \
+    --cls_model_path pretrained/PP-LCNet_x1_0_doc_ori_infer.pth \
+    --cls_image_shape 3,224,224 \
+    --label_list "0" "90" "180" "270" \
+    --image_dir ./doc/imgs_words/ch/word_1.jpg
+```
+
+#### 文本行方向分类模型推理 (textline_ori)
+
+判断单个文本行是否倒置（0°/180°），用于翻转校正：
+
+```bash
+# textline_ori 轻量版（0.96MB），标签为 0, 180
+python ./tools/infer/predict_cls.py \
+    --cls_yaml_path configs/cls/textline_ori/PP-LCNet_x0_25_textline_ori.yml \
+    --cls_model_path pretrained/PP-LCNet_x0_25_textline_ori_infer.pth \
+    --cls_image_shape 3,224,224 \
+    --label_list "0" "180" \
+    --image_dir ./doc/imgs_words/ch/word_1.jpg
+
+# textline_ori 标准版（6.5MB）
+python ./tools/infer/predict_cls.py \
+    --cls_yaml_path configs/cls/textline_ori/PP-LCNet_x1_0_textline_ori.yml \
+    --cls_model_path pretrained/PP-LCNet_x1_0_textline_ori_infer.pth \
+    --cls_image_shape 3,224,224 \
+    --label_list "0" "180" \
+    --image_dir ./doc/imgs_words/ch/word_1.jpg
+```
+
+#### UVDoc 文档图像矫正模型推理
+
+矫正弯曲/透视变形的文档图像。UVDoc 为独立模型，可通过 `test_new_models.py` 测试或参考以下代码使用：
+
+```bash
+# 运行测试脚本
+python ./tools/test_new_models.py
+```
+
+```python
+# 或通过 Python API 使用
+from pytorchocr.modeling.architectures.uvdoc_model import UVDocModel
+import torch, cv2
+model = UVDocModel()
+model.load_state_dict(torch.load('pretrained/UVDoc_infer.pth', weights_only=False))
+model.eval()
+img = cv2.cvtColor(cv2.imread('warped_doc.jpg'), cv2.COLOR_BGR2RGB)
+img = cv2.resize(img, (712, 488))
+x = torch.from_numpy(img.transpose(2,0,1).astype(np.float32)).unsqueeze(0)
+unwarped, _ = model.unwarp(x)
+cv2.imwrite('output.jpg', cv2.cvtColor(unwarped[0].permute(1,2,0).numpy().clip(0,255).astype(np.uint8), cv2.COLOR_RGB2BGR))
 ```
 
 <a name="文本检测、方向分类和文字识别串联推理"></a>

@@ -9,6 +9,7 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
     - [2. 英文识别模型](#英文识别模型)
     - [3. 多语言识别模型](#多语言识别模型)
 - [三、文本方向分类模型](#文本方向分类模型)
+- [四、文档预处理模型](#文档预处理模型)
 
 PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训练模型`、`slim模型`，<u>**PyTorch模型只支持非slim模型**</u>，模型区别说明如下：
 
@@ -157,3 +158,26 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
 |ch_ppocr_mobile_v2.0_cls|原始模型|1.38M|[推理模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar) / [训练模型](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_train.tar) |
+
+<a name="文档预处理模型"></a>
+
+## 四、文档预处理模型
+
+### 1. 文档方向分类模型 (doc_ori)
+
+|模型名称|模型简介|推理模型大小|下载地址|
+| --- | --- | --- | --- |
+|PP-LCNet_x1_0_doc_ori|文档图像方向分类，判断0°/90°/180°/270°旋转，Top-1准确率99.06%|7M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-LCNet_x1_0_doc_ori_pretrained.pdparams) / [转换脚本](../../converter/pplcnet_cls_converter.py)|
+
+### 2. 文本行方向分类模型 (textline_ori)
+
+|模型名称|模型简介|推理模型大小|下载地址|
+| --- | --- | --- | --- |
+|PP-LCNet_x0_25_textline_ori|文本行方向分类，判断0°/180°倒置，Top-1准确率98.85%，极致轻量|0.96M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-LCNet_x0_25_textline_ori_pretrained.pdparams) / [转换脚本](../../converter/pplcnet_cls_converter.py)|
+|PP-LCNet_x1_0_textline_ori|文本行方向分类，判断0°/180°倒置，Top-1准确率99.42%|6.5M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-LCNet_x1_0_textline_ori_pretrained.pdparams) / [转换脚本](../../converter/pplcnet_cls_converter.py)|
+
+### 3. 文本图像矫正模型 (UVDoc)
+
+|模型名称|模型简介|推理模型大小|下载地址|
+| --- | --- | --- | --- |
+|UVDoc|文档图像去扭曲矫正(CGU-Net)，基于SIGGRAPH Asia 2023，DocUNet CER=0.179|30.3M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/UVDoc_pretrained.pdparams) / [转换脚本](../../converter/uvdoc_converter.py)|
