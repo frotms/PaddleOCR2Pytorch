@@ -10,6 +10,7 @@ PaddleOCR模型百度网盘链接：https://pan.baidu.com/s/1getAprT2l_JqwhjwML0
     - [3. 多语言识别模型](#多语言识别模型)
 - [三、文本方向分类模型](#文本方向分类模型)
 - [四、文档预处理模型](#文档预处理模型)
+- [五、文档结构化解析模型（PP-StructureV3）](#文档结构化解析模型)
 
 PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训练模型`、`slim模型`，<u>**PyTorch模型只支持非slim模型**</u>，模型区别说明如下：
 
@@ -181,3 +182,34 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 |模型名称|模型简介|推理模型大小|下载地址|
 | --- | --- | --- | --- |
 |UVDoc|文档图像去扭曲矫正(CGU-Net)，基于SIGGRAPH Asia 2023，DocUNet CER=0.179|30.3M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/UVDoc_pretrained.pdparams) / [转换脚本](../../converter/uvdoc_converter.py)|
+
+<a name="文档结构化解析模型"></a>
+
+## 五、文档结构化解析模型（PP-StructureV3）
+
+### 1. 布局检测模型
+
+|模型名称|模型简介|参数量|下载地址|
+| --- | --- | --- | --- |
+|PP-DocLayout-M|【推荐】PicoDet 布局检测，LCNet(scale=2.0)+LCPAN+PicoHeadV2，23类文档区域|5.8M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-DocLayout-M_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_layout_converter.py)|
+|PP-DocLayout-S|轻量布局检测，LCNet(scale=0.75)+LCPAN+PicoHeadV2，23类文档区域|1.2M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-DocLayout-S_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_layout_converter.py)|
+
+### 2. 表格结构识别模型
+
+|模型名称|模型简介|参数量|下载地址|
+| --- | --- | --- | --- |
+|SLANeXt_wired|有线表格结构识别，ViT Encoder + GRU Attention Decoder，输出HTML|~90M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/SLANeXt_wired_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_slanext_converter.py)|
+
+### 3. 管道使用
+
+完整的文档结构化解析管道（布局检测→OCR→表格识别→阅读顺序恢复→输出）
+
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./doc/table/ \
+    --output_dir=./output/ \
+    --layout_variant=M \
+    --layout_score_thresh=0.2
+```
+
+详见 [PP-StructureV3 移植指南](../../skills/ppstructurev3_porting_guide.md)

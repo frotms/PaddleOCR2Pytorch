@@ -7,6 +7,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
     - [CHINESE AND ENGLISH GENERAL OCR MODELS](#GENERAL)
     - [MULTILINGUAL MODELS](#MULTILINGUAL)
     - [DOCUMENT PREPROCESSING MODELS](#DOC_PREPROCESS)
+    - [DOCUMENT STRUCTURE ANALYSIS (PP-StructureV3)](#PP_STRUCTUREV3_CONVERT)
     - [END2END MODELS](#E2E_MODELS)
     - [SUPER RESOLUTION MODELS](#SR_MODELS)
     - [OTHER DETECTION MODELS](#CVT_DETECTION)
@@ -18,6 +19,7 @@ We first introduce how to convert a `paddle` trained model into a `pytorch` mode
     - [TEXT RECOGNITION MODEL INFERENCE](#RECOGNITION)
     - [TEXT DIRECTION CLASSIFICATION MODEL INFERENCE](#CLASSIFICATION)
     - [DOCUMENT PREPROCESSING MODEL INFERENCE](#DOC_PREPROCESS_INFERENCE)
+    - [DOCUMENT STRUCTURE ANALYSIS INFERENCE (PP-StructureV3)](#PP_STRUCTUREV3_INFERENCE)
     - [TEXT DETECTION ANGLE CLASSIFICATION AND RECOGNITION INFERENCE CONCATENATION](#CONCATENATION)
     - [END2END MODEL INFERENCE](#E2E_INFERENCE)
     - [SUPER RESOLUTION MODEL INFERENCE](#SR_INFERENCE)
@@ -128,6 +130,36 @@ python ./converter/multilingual_ppocr_v3_rec_converter.py --src_model_path paddl
 # v4
 # en_PP-OCRv4_rec
 python ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/PP-OCRv4/en_PP-OCRv4_rec.yml --src_model_path en_PP-OCRv4_rec_train_dir
+```
+
+<a name="PP_STRUCTUREV3_CONVERT"></a>
+
+### DOCUMENT STRUCTURE ANALYSIS (PP-StructureV3)
+
+PP-StructureV3 is a document structure analysis pipeline consisting of layout detection, OCR, and table recognition models.
+
+**1. Layout Detection Model Conversion**
+
+```bash
+# PP-DocLayout-S (lightweight, 1.2M params)
+python converter/ppstructure_layout_converter.py \
+    --src_model_path=PP-DocLayout-S_pretrained.pdparams \
+    --dst_model_path=ptocr_ppdoclayout_s.pth \
+    --variant=S
+
+# PP-DocLayout-M (recommended, 5.8M params)
+python converter/ppstructure_layout_converter.py \
+    --src_model_path=PP-DocLayout-M_pretrained.pdparams \
+    --dst_model_path=ptocr_ppdoclayout_m.pth \
+    --variant=M
+```
+
+**2. Table Structure Recognition Model Conversion**
+
+```bash
+python converter/ppstructure_slanext_converter.py \
+    --src_model_path=SLANeXt_wired_pretrained.pdparams \
+    --dst_model_path=ptocr_slanext_wired.pth
 ```
 
 <a name="E2E_MODELS"></a>
@@ -438,6 +470,34 @@ x = torch.from_numpy(img.transpose(2,0,1).astype(np.float32)).unsqueeze(0)
 unwarped, _ = model.unwarp(x)
 cv2.imwrite('output.jpg', cv2.cvtColor(unwarped[0].permute(1,2,0).numpy().clip(0,255).astype(np.uint8), cv2.COLOR_RGB2BGR))
 ```
+
+<a name="PP_STRUCTUREV3_INFERENCE"></a>
+
+### DOCUMENT STRUCTURE ANALYSIS INFERENCE (PP-StructureV3)
+
+Full document structure analysis pipeline: input a document image, output structured Markdown/JSON.
+
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./doc/table/ \
+    --output_dir=./output/ \
+    --layout_variant=M \
+    --layout_score_thresh=0.2 \
+    --layout_nms_thresh=0.5 \
+    --det_model_path=./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth \
+    --det_yaml_path=configs/det/PP-OCRv6/PP-OCRv6_small_det.yml \
+    --rec_model_path=./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth \
+    --rec_yaml_path=configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml \
+    --rec_char_dict_path=pytorchocr/utils/dict/ppocrv6_dict.txt \
+    --table_model_path=./models/structurev3/ptocr_slanext_wired.pth
+```
+
+**Pipeline**: Input Image → Layout Detection (PPDocLayout) → Text OCR (PP-OCRv6) → Table Recognition (SLANeXt) → Reading Order → Markdown/JSON
+
+**Key Parameters**:
+- `--layout_variant`: Layout model variant S(1.2M) / M(5.8M)
+- `--layout_score_thresh`: Layout detection confidence threshold (default 0.2)
+- `--layout_nms_thresh`: NMS IoU threshold (default 0.5)
 
 <a name="CONCATENATION"></a>
 

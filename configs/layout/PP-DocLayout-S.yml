@@ -1,0 +1,45 @@
+# PP-DocLayout-S Layout Detection Model Configuration
+# Lightweight document layout detection based on PicoDet-LCNet architecture.
+# 23-class document layout labels.
+
+Architecture:
+  model_type: layout_detection
+  num_classes: 23
+  backbone_type: lcnet
+  backbone_scale: 0.75
+  fpn_out_channels: 96
+  head_conv_feat: 96
+  input_size: [800, 800]
+
+# Layout labels (23 classes)
+label_list:
+  - doc_title
+  - paragraph_title
+  - sub_title
+  - text
+  - abstract
+  - content
+  - header
+  - footer
+  - page_number
+  - figure
+  - figure_title
+  - table
+  - table_title
+  - formula
+  - seal
+  - chart
+  - reference
+  - footnote
+  - code
+  - number
+  - list
+  - image
+  - other
+
+# Post-processing
+PostProcess:
+  threshold: 0.5
+  layout_nms: true
+  nms_threshold: 0.5
+  unclip_ratio: [1.0, 1.0]

@@ -1,143 +1,83 @@
-## OCR model list
-**Note** : **PyTorch models in BaiduPan: https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg code：6clx**
+## OCR Model List
 
-PaddleOCR models in BaiduPan:  https://pan.baidu.com/s/1getAprT2l_JqwhjwML0g9g code：lmv7 
+**Note**: PyTorch `.pth` model download link: https://pan.baidu.com/s/1r1DELT8BlgxeOP2RqREJEg passcode: 6clx
 
-- [1. Text Detection Model](#Detection)
-- [2. Text Recognition Model](#Recognition)
-    - [Chinese Recognition Model](#Chinese)
-    - [English Recognition Model](#English)
-    - [Multilingual Recognition Model](#Multilingual)
-- [3. Text Angle Classification Model](#Angle)
+PaddleOCR model download link: https://pan.baidu.com/s/1getAprT2l_JqwhjwML0g9g passcode: lmv7
 
-The downloadable models provided by PaddleOCR include `inference model`, `trained model`, `pre-trained model` and `slim model`. **`slim models` are not supported here**. The differences between the models are as follows:
+- [1. Text Detection Models](#text-detection-models)
+- [2. Text Recognition Models](#text-recognition-models)
+- [3. Text Direction Classification Models](#text-direction-classification-models)
+- [4. Document Preprocessing Models](#document-preprocessing-models)
+- [5. Document Structure Analysis Models (PP-StructureV3)](#document-structure-analysis-models)
 
-|model type|model format|description|
-|--- | --- | --- |
-|inference model|inference.pdmodel、inference.pdiparams|Used for reasoning based on Python prediction engine，[detail](./inference_en.md)|
-|trained model, pre-trained model|\*.pdparams、\*.pdopt、\*.states |The checkpoints model saved in the training process, which stores the parameters of the model, mostly used for model evaluation and continuous training.|
+<a name="text-detection-models"></a>
+## 1. Text Detection Models
 
-<a name="Detection"></a>
-## 1. Text Detection Model
-
-### Chinese Detection Model
-
-|model name|description|model size|download|
+| Model | Description | Size | Download |
 | --- | --- | --- | --- |
-|PP-OCRv6_medium_det|[New] Medium model, PPLCNetV4 + RepLKPAN, 50-language detection|61M|[trained model](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_medium_det_pretrained.pdparams) / [converter](../../converter/ppocr_v6_det_converter.py)|
-|PP-OCRv6_small_det|[New] Small model, PPLCNetV4 + RepLKFPN, 50-language detection|9.8M|[trained model](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_small_det_pretrained.pdparams) / [converter](../../converter/ppocr_v6_det_converter.py)|
-|PP-OCRv6_tiny_det|[New] Ultra-lightweight, PPLCNetV4 + RepLKFPN(k=5), 49-language detection|1.9M|[trained model](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_tiny_det_pretrained.pdparams) / [converter](../../converter/ppocr_v6_det_converter.py)|
-|ch_PP-OCRv4_det|Original lightweight model, supporting Chinese, English, multilingual text detection|4.70M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_train.tar)|
-|ch_PP-OCRv4_server_det|[New] Original general model, supporting Chinese, English, multilingual text detection|110M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_server_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_server_train.tar)|
-|ch_PP-OCRv3_det|Original lightweight model, supporting Chinese, English, multilingual text detection|3.8M|inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_distill_train.tar)|
-|ch_ppocr_mobile_v2.0_det|Original lightweight model, supporting Chinese, English, multilingual text detection|3M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_det_train.tar)|
-|ch_ppocr_server_v2.0_det|General model, which is larger than the lightweight model, but achieved better performance|47M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_det_train.tar)|
-|ch_PP-OCRv2_det|Original lightweight model, supporting Chinese, English, multilingual text detection|3M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_det_distill_train.tar)|
+| PP-OCRv6_medium_det | Medium model, PPLCNetV4 + RepLKPAN, 50 languages | 61M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_medium_det_pretrained.pdparams) / [Converter](../../converter/ppocr_v6_det_converter.py) |
+| PP-OCRv6_small_det | Small model, PPLCNetV4 + RepLKFPN, 50 languages | 9.8M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_small_det_pretrained.pdparams) / [Converter](../../converter/ppocr_v6_det_converter.py) |
+| PP-OCRv6_tiny_det | Tiny model, PPLCNetV4 + RepLKFPN(k=5), 49 languages | 1.9M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_tiny_det_pretrained.pdparams) / [Converter](../../converter/ppocr_v6_det_converter.py) |
+| PP-OCRv5_server_det | Server model, PPLCNetV4 + RepLKPAN | 110M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv5_server_det_pretrained.pdparams) / [Converter](../../converter/ppocr_v5_det_converter.py) |
+| PP-OCRv5_mobile_det | Mobile model | 4.7M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv5_mobile_det_pretrained.pdparams) / [Converter](../../converter/ppocr_v5_det_converter.py) |
+| ch_PP-OCRv4_det | Ultra-lightweight | 4.7M | [Training](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_train.tar) |
+| ch_PP-OCRv4_server_det | High-precision | 110M | [Training](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_server_train.tar) |
+| ch_PP-OCRv3_det | Original lightweight | 3.8M | [Training](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_distill_train.tar) |
 
-### English Detection Model
+<a name="text-recognition-models"></a>
+## 2. Text Recognition Models
 
-| model name      | description                                                  | model size | download                                                     |
-| --------------- | ------------------------------------------------------------ | ---------- | ------------------------------------------------------------ |
-| en_PP-OCRv3_det | [New] Original lightweight detection model, supporting English | 3.8M       | [inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_det_distill_train.tar) |
-
-### Multilingual Detection Model
-
-| model name      | description                                                  | model size | download                                                     |
-| --------------- | ------------------------------------------------------------ | ---------- | ------------------------------------------------------------ |
-| ml_PP-OCRv3_det | [New] Original lightweight detection model, supporting English | 3.8M       | [inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/Multilingual_PP-OCRv3_det_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/multilingual/Multilingual_PP-OCRv3_det_distill_train.tar) |
-
-<a name="Recognition"></a>
-
-## 2. Text Recognition Model
-
-<a name="Chinese"></a>
-### Chinese Recognition Model
-
-|model name|description|model size|download|
+| Model | Description | Size | Download |
 | --- | --- | --- | --- |
-|PP-OCRv6_medium_rec|[New] Medium model, PPLCNetV4 + LightSVTR, 50-language recognition|74M|[trained model](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_medium_rec_pretrained.pdparams) / [converter](../../converter/ppocr_v6_rec_converter.py)|
-|PP-OCRv6_small_rec|[New] Small model, PPLCNetV4 + LightSVTR, 50-language recognition|21M|[trained model](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_small_rec_pretrained.pdparams) / [converter](../../converter/ppocr_v6_rec_converter.py)|
-|PP-OCRv6_tiny_rec|[New] Ultra-lightweight, PPLCNetV4 + reshape, 49-language recognition|4.4M|[trained model](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_tiny_rec_pretrained.pdparams) / [converter](../../converter/ppocr_v6_rec_converter.py)|
-|ch_PP-OCRv4_rec|Original lightweight model, supporting Chinese, English, multilingual text recognition|10M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_train.tar)|
-|ch_PP-OCRv4_server_rec|[New] Original general model, supporting Chinese, English, multilingual text recognition|88M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_server_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_server_train.tar)|
-|ch_PP-OCRv3_rec|Original lightweight model, supporting Chinese, English, multilingual text recognition|12.4M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_train.tar)|
-|ch_ppocr_mobile_v2.0_rec|Original lightweight model, supporting Chinese, English and number recognition|3.71M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_train.tar) / [pre-trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_rec_pre.tar) |
-|ch_ppocr_server_v2.0_rec|General model, supporting Chinese, English and number recognition|94.8M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_train.tar) / [pre-trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_server_v2.0_rec_pre.tar) |
-|ch_PP-OCRv2_rec|Original lightweight model, supporting Chinese, English, multilingual text detection|8.5M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv2/chinese/ch_PP-OCRv2_rec_train.tar) |
+| PP-OCRv6_medium_rec | Medium model, 50 languages | 73M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_medium_rec_pretrained.pdparams) / [Converter](../../converter/ppocr_v6_rec_converter.py) |
+| PP-OCRv6_small_rec | Small model, 50 languages | 20M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_small_rec_pretrained.pdparams) / [Converter](../../converter/ppocr_v6_rec_converter.py) |
+| PP-OCRv6_tiny_rec | Tiny model, 49 languages | 4.3M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv6_tiny_rec_pretrained.pdparams) / [Converter](../../converter/ppocr_v6_rec_converter.py) |
+| PP-OCRv5_server_rec | Server model, SVTR_HGNet | 99M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv5_server_rec_pretrained.pdparams) / [Converter](../../converter/ppocr_v5_rec_converter.py) |
+| PP-OCRv5_mobile_rec | Mobile model, SVTR_LCNet | 15M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv5_mobile_rec_pretrained.pdparams) / [Converter](../../converter/ppocr_v5_rec_converter.py) |
+| ch_PP-OCRv4_rec | Ultra-lightweight | 8.5M | [Training](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_train.tar) |
+| ch_PP-OCRv4_server_rec | High-precision | 88M | [Training](https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_server_train.tar) |
 
-**Note:** The `trained model` is finetuned on the `pre-trained model` with real data and synthsized vertical text data, which achieved better performance in real scene. The `pre-trained model` is directly trained on the full amount of real data and synthsized data, which is more suitable for finetune on your own dataset.
+<a name="text-direction-classification-models"></a>
+## 3. Text Direction Classification Models
 
-<a name="English"></a>
-
-### English Recognition Model
-
-|model name|description|model size|download|
+| Model | Description | Size | Download |
 | --- | --- | --- | --- |
-|en_PP-OCRv4_rec|[New] Original lightweight model, supporting english, English, multilingual text recognition|9.7M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv4/english/en_PP-OCRv4_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv4/english/en_PP-OCRv4_rec_train.tar)|
-|en_PP-OCRv3_rec|Original lightweight model, supporting english, English, multilingual text recognition|9.6M|[inference model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/PP-OCRv3/english/en_PP-OCRv3_rec_train.tar)|
-|en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition(v2.0)|2.56M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
-|en_number_mobile_v2.0_rec|Original lightweight model, supporting English and number recognition(v2.1 the performance is optimized)|2.6M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/en_number_mobile_v2.0_rec_train.tar) |
+| ch_ppocr_mobile_v2.0_cls | Original model | 1.38M | [Training](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_train.tar) |
 
-<a name="Multilingual"></a>
+<a name="document-preprocessing-models"></a>
+## 4. Document Preprocessing Models
 
-### Multilingual Recognition Model（Updating...）
-
-#### [release/2.0](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_en/models_list_en.md#2-generate-italian-configuration-file-to-train-your-own-data)
-
-|model name|description|model size|download|
+| Model | Description | Size | Download |
 | --- | --- | --- | --- |
-| french_mobile_v2.0_rec |Lightweight model for French recognition|2.65M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_train.tar) |
-| german_mobile_v2.0_rec |Lightweight model for German recognition|2.65M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_train.tar) |
-| korean_mobile_v2.0_rec |Lightweight model for Korean recognition|3.9M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_train.tar) |
-| japan_mobile_v2.0_rec |Lightweight model for Japanese recognition|4.23M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_train.tar) |
-| it_mobile_v2.0_rec |Lightweight model for Italian recognition|2.53M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/it_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/it_mobile_v2.0_rec_train.tar) |
-| es_mobile_v2.0_rec |Lightweight model for Spanish recognition|2.53M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/es_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/es_mobile_v2.0_rec_train.tar) |
-| pt_mobile_v2.0_rec |Lightweight model for Portuguese recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/pt_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/pt_mobile_v2.0_rec_train.tar) |
-| ru_mobile_v2.0_rec |Lightweight model for Russia recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ru_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ru_mobile_v2.0_rec_train.tar) |
-| ar_mobile_v2.0_rec |Lightweight model for Arabic recognition|2.53M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ar_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ar_mobile_v2.0_rec_train.tar) |
-| hi_mobile_v2.0_rec |Lightweight model for Hindi recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/hi_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/hi_mobile_v2.0_rec_train.tar) |
-| ch_tra_mobile_v2.0_rec |Lightweight model for chinese traditional recognition|5.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ch_tra_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ch_tra_mobile_v2.0_rec_train.tar) |
-| ug_mobile_v2.0_rec |Lightweight model for Uyghur recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ug_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ug_mobile_v2.0_rec_train.tar) |
-| fa_mobile_v2.0_rec |Lightweight model for Persian recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/fa_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/fa_mobile_v2.0_rec_train.tar) |
-| ur_mobile_v2.0_rec |Lightweight model for Urdu recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ur_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ur_mobile_v2.0_rec_train.tar) |
-| rs_latin_mobile_v2.0_rec |Lightweight model for Serbian(latin) recognition|2.53M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/rs_latin_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/rs_latin_mobile_v2.0_rec_train.tar) |
-| oc_mobile_v2.0_rec |Lightweight model for Occitan recognition|2.53M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/oc_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/oc_mobile_v2.0_rec_train.tar) |
-| mr_mobile_v2.0_rec |Lightweight model for Marathi recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/mr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/mr_mobile_v2.0_rec_train.tar) |
-| ne_mobile_v2.0_rec |Lightweight model for Nepali recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ne_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ne_mobile_v2.0_rec_train.tar) |
-| rs_cyrillic_mobile_v2.0_rec |Lightweight model for Serbian(cyrillic) recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/rs_cyrillic_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/rs_cyrillic_mobile_v2.0_rec_train.tar) |
-| bg_mobile_v2.0_rec |Lightweight model for Bulgarian recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/bg_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/bg_mobile_v2.0_rec_train.tar) |
-| uk_mobile_v2.0_rec |Lightweight model for Ukranian recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/uk_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/uk_mobile_v2.0_rec_train.tar) |
-| be_mobile_v2.0_rec |Lightweight model for Belarusian recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/be_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/be_mobile_v2.0_rec_train.tar) |
-| te_mobile_v2.0_rec |Lightweight model for Telugu recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_train.tar) |
-| kn_mobile_v2.0_rec |Lightweight model for Kannada recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/kn_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/kn_mobile_v2.0_rec_train.tar) |
-| ta_mobile_v2.0_rec |Lightweight model for Tamil recognition|2.63M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_train.tar) |
+| PP-LCNet_x1_0_doc_ori | Document orientation (0°/90°/180°/270°) | 7M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-LCNet_x1_0_doc_ori_pretrained.pdparams) / [Converter](../../converter/pplcnet_cls_converter.py) |
+| PP-LCNet_x0_25_textline_ori | Text line orientation (0°/180°), ultra-lightweight | 0.96M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-LCNet_x0_25_textline_ori_pretrained.pdparams) / [Converter](../../converter/pplcnet_cls_converter.py) |
+| PP-LCNet_x1_0_textline_ori | Text line orientation (0°/180°) | 6.5M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-LCNet_x1_0_textline_ori_pretrained.pdparams) / [Converter](../../converter/pplcnet_cls_converter.py) |
+| UVDoc | Document unwarping (CGU-Net), SIGGRAPH Asia 2023 | 30.3M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/UVDoc_pretrained.pdparams) / [Converter](../../converter/uvdoc_converter.py) |
 
-#### [release/2.1](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/models_list_en.md#2-generate-italian-configuration-file-to-train-your-own-data)
+<a name="document-structure-analysis-models"></a>
+## 5. Document Structure Analysis Models (PP-StructureV3)
 
-| model name                  | description                                   | model size | download                                                     |
-| --------------------------- | --------------------------------------------- | ---------- | ------------------------------------------------------------ |
-| french_mobile_v2.0_rec      | Lightweight model for French recognition      | 2.65M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/french_mobile_v2.0_rec_train.tar) |
-| german_mobile_v2.0_rec      | Lightweight model for German recognition      | 2.65M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/german_mobile_v2.0_rec_train.tar) |
-| korean_mobile_v2.0_rec      | Lightweight model for Korean recognition      | 3.9M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/korean_mobile_v2.0_rec_train.tar) |
-| japan_mobile_v2.0_rec       | Lightweight model for Japanese recognition    | 4.23M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/japan_mobile_v2.0_rec_train.tar) |
-| chinese_cht_mobile_v2.0_rec | Lightweight model for chinese cht recognition | 5.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/chinese_cht_mobile_v2.0_rec_train.tar) |
-| te_mobile_v2.0_rec          | Lightweight model for Telugu recognition      | 2.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/te_mobile_v2.0_rec_train.tar) |
-| ka_mobile_v2.0_rec          | Lightweight model for Kannada recognition     | 2.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ka_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ka_mobile_v2.0_rec_train.tar) |
-| ta_mobile_v2.0_rec          | Lightweight model for Tamil recognition       | 2.63M      | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/ta_mobile_v2.0_rec_train.tar) |
-| latin_mobile_v2.0_rec       | Lightweight model for latin recognition       | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/latin_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/latin_ppocr_mobile_v2.0_rec_train.tar) |
-| arabic_mobile_v2.0_rec      | Lightweight model for arabic recognition      | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/arabic_ppocr_mobile_v2.0_rec_train.tar) |
-| cyrillic_mobile_v2.0_rec    | Lightweight model for cyrillic recognition    | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/cyrillic_ppocr_mobile_v2.0_rec_train.tar) |
-| devanagari_mobile_v2.0_rec  | Lightweight model for devanagari recognition  | 2.6M       | [inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/multilingual/devanagari_ppocr_mobile_v2.0_rec_train.tar) |
+### 5.1 Layout Detection Models
 
-For more supported languages, please refer to : 
-
-- [Multi-language model](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/doc/doc_en/multi_languages_en.md)
-- [lang](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.1/paddleocr.py#L283)
-
-<a name="Angle"></a>
-
-## 3. Text Angle Classification Model
-
-|model name|description|model size|download|
+| Model | Description | Params | Download |
 | --- | --- | --- | --- |
-|ch_ppocr_mobile_v2.0_cls|Original model|1.38M|[inference model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar) / [trained model](https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_train.tar) |
+| PP-DocLayout-M | **[Recommended]** PicoDet, LCNet(scale=2.0)+LCPAN+PicoHeadV2, 23 layout classes | 5.8M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-DocLayout-M_pretrained.pdparams) / [Converter](../../converter/ppstructure_layout_converter.py) |
+| PP-DocLayout-S | Lightweight PicoDet, LCNet(scale=0.75)+LCPAN+PicoHeadV2, 23 layout classes | 1.2M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-DocLayout-S_pretrained.pdparams) / [Converter](../../converter/ppstructure_layout_converter.py) |
+
+### 5.2 Table Structure Recognition Models
+
+| Model | Description | Params | Download |
+| --- | --- | --- | --- |
+| SLANeXt_wired | ViT Encoder + GRU Attention Decoder, HTML output | ~90M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/SLANeXt_wired_pretrained.pdparams) / [Converter](../../converter/ppstructure_slanext_converter.py) |
+
+### 5.3 Pipeline Usage
+
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./doc/table/ \
+    --output_dir=./output/ \
+    --layout_variant=M \
+    --layout_score_thresh=0.2
+```
+
+See [PP-StructureV3 Porting Guide](../../skills/ppstructurev3_porting_guide.md) for details.

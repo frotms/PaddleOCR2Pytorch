@@ -7,6 +7,7 @@
     - [中英文通用OCR](#中英文通用OCR)
     - [多语言识别模型](#多语言识别模型)
     - [文档预处理模型](#文档预处理模型)
+    - [文档结构化解析模型（PP-StructureV3）](#文档结构化解析模型pp-structurev3)
     - [端到端模型](#端到端模型)
     - [超分辨率模型](#超分辨率模型)
     - [其他检测模型](#其他检测模型)
@@ -16,6 +17,7 @@
     - [文本识别模型推理](#文本识别模型推理)
     - [文本方向分类模型推理](#文本方向分类模型推理)
     - [文档预处理模型推理](#文档预处理模型推理)
+    - [文档结构化解析推理（PP-StructureV3）](#文档结构化解析推理pp-structurev3)
     - [文本检测、方向分类和文字识别串联推理](#文本检测、方向分类和文字识别串联推理)
     - [端到端模型推理](#端到端模型推理)
     - [超分辨率模型推理](#超分辨率模型推理)
@@ -125,6 +127,36 @@ python ./converter/multilingual_ppocr_v3_rec_converter.py --src_model_path paddl
 # v4
 # en_PP-OCRv4_rec
 python ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/PP-OCRv4/en_PP-OCRv4_rec.yml --src_model_path en_PP-OCRv4_rec_train_dir
+```
+
+<a name="文档结构化解析模型pp-structurev3"></a>
+
+### 文档结构化解析模型（PP-StructureV3）
+
+PP-StructureV3 是文档结构化解析系统，包含布局检测、OCR、表格识别三个模型。
+
+**1. 布局检测模型转换**
+
+```bash
+# PP-DocLayout-S (轻量，1.2M)
+python converter/ppstructure_layout_converter.py \
+    --src_model_path=PP-DocLayout-S_pretrained.pdparams \
+    --dst_model_path=ptocr_ppdoclayout_s.pth \
+    --variant=S
+
+# PP-DocLayout-M (推荐，5.8M)
+python converter/ppstructure_layout_converter.py \
+    --src_model_path=PP-DocLayout-M_pretrained.pdparams \
+    --dst_model_path=ptocr_ppdoclayout_m.pth \
+    --variant=M
+```
+
+**2. 表格结构识别模型转换**
+
+```bash
+python converter/ppstructure_slanext_converter.py \
+    --src_model_path=SLANeXt_wired_pretrained.pdparams \
+    --dst_model_path=ptocr_slanext_wired.pth
 ```
 
 <a name="端到端模型"></a>
@@ -476,6 +508,34 @@ python ./tools/infer/predict_system.py --use_gpu false --det_algorithm DB --det_
 执行命令后，识别结果图像如下：
 
 ![](../../doc/imgs_results/system_res_00018069.jpg)
+
+<a name="文档结构化解析推理pp-structurev3"></a>
+
+### 文档结构化解析推理（PP-StructureV3）
+
+完整的文档结构化解析管道，输入一张文档图片，输出 Markdown/JSON 结构化文档。
+
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./doc/table/ \
+    --output_dir=./output/ \
+    --layout_variant=M \
+    --layout_score_thresh=0.2 \
+    --layout_nms_thresh=0.5 \
+    --det_model_path=./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth \
+    --det_yaml_path=configs/det/PP-OCRv6/PP-OCRv6_small_det.yml \
+    --rec_model_path=./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth \
+    --rec_yaml_path=configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml \
+    --rec_char_dict_path=pytorchocr/utils/dict/ppocrv6_dict.txt \
+    --table_model_path=./models/structurev3/ptocr_slanext_wired.pth
+```
+
+**管道流程**：输入图片 → 布局检测(PPDocLayout) → 文本OCR(PP-OCRv6) → 表格识别(SLANeXt) → 阅读顺序恢复 → Markdown/JSON
+
+**参数说明**：
+- `--layout_variant`: 布局模型变体 S(1.2M) / M(5.8M)
+- `--layout_score_thresh`: 布局检测置信度阈值（默认0.2）
+- `--layout_nms_thresh`: NMS IoU 阈值（默认0.5）
 
 <a name="端到端模型推理"></a>
 

@@ -17,6 +17,15 @@ This repository aims to
 
 **Recent updates**
 
+- 2025.06.18 **[PP-StructureV3](./ptstructure/)** Document Structure Analysis System:
+  1. 📄 **Layout Detection**: 23 document layout categories (title, text, table, figure, formula, seal, etc.)
+  2. 📊 **Table Recognition**: SLANeXt-based architecture for wired/wireless table structure recognition
+  3. 📝 **Multi-format Output**: Structured output in Markdown, JSON, HTML
+  4. 🔄 **Reading Order Recovery**: XY-Cut algorithm for automatic block ordering
+  5. 🎨 **Visualization**: Layout detection and final result visualization
+
+- 2025.06.17 **DocPreprocessor Models**: [UVDoc](./configs/unwarp/) unwarping, [PP-LCNet_x1_0_doc_ori](./configs/cls/doc_ori/) orientation classification, [PP-LCNet_textline_ori](./configs/cls/textline_ori/) textline orientation
+
 - 2025.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**: Next-Gen Ultra-High Accuracy OCR
   1. 📐 **Three-tier model lineup**: Tiny(1.5M) / Small(7.8M) / Medium(35M), covering edge to server
   2. 🏗️ **All-new architecture**: PPLCNetV4 backbone + RepLKFPN/RepLKPAN detection neck + EncoderWithLightSVTR recognition neck
@@ -78,7 +87,7 @@ If you want to get more models including multilingual models，please refer to [
 ## TODO
 
 - [x] PP-OCRv5：[Document Image Orientation Classification Module: PP-LCNet_x1_0_doc_ori](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/doc_img_orientation_classification.html)，[Text Image Rectification Module: UVDoc](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/text_image_unwarping.html)，[Text Line Orientation Classification Module: PP-LCNet_x0_25_textline_ori](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/module_usage/text_line_orientation_classification.html)
-- [ ] [General Document-Parsing Solution](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/pipeline_usage/PP-StructureV3.html) [PP-StructureV3](./docs/version3.x/algorithm/PP-StructureV3/PP-StructureV3.en.md): Delivers high-precision parsing of multi-layout, multi-scene PDFs, outperforming many open- and closed-source solutions on public benchmarks. 
+- [x] [General Document-Parsing Solution](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/pipeline_usage/PP-StructureV3.html) [PP-StructureV3](./docs/version3.x/algorithm/PP-StructureV3/PP-StructureV3.en.md): Delivers high-precision parsing of multi-layout, multi-scene PDFs. Pure PyTorch, zero PaddlePaddle runtime. Layout detection: **S(1.2M) / M(5.8M) / L(20M)**. See [Porting Guide](./skills/ppstructurev3_porting_guide.md)
 - [ ] [Intelligent Document-Understanding Solution](https://paddlepaddle.github.io/PaddleOCR/latest/version3.x/pipeline_usage/PP-ChatOCRv4.html) [PP-ChatOCRv4](./docs/version3.x/algorithm/PP-ChatOCRv4/PP-ChatOCRv4.en.md): Natively powered by the WenXin large model 4.5T, achieving 15 percentage points higher accuracy than its predecessor.
 - [ ] Add implementation of [cutting-edge algorithms](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md)：Text Detection [DRRG](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_overview_en.md),  Text Recognition [RFL](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_rfl_en.md)
 - [ ] Text Recognition: [ABINet](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_abinet_en.md), [VisionLAN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_visionlan_en.md), [SPIN](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_spin_en.md), [RobustScanner](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_en/algorithm_rec_robustscanner_en.md)
@@ -134,9 +143,11 @@ If you want to get more models including multilingual models，please refer to [
 
 ## References
 
-- [https://github.com/PaddlePaddle/PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- [https://github.com/WenmuZhou/PytorchOCR](https://github.com/WenmuZhou/PytorchOCR)
-- [Paddle](https://github.com/PaddlePaddle)
-- [Pytorch](https://pytorch.org/)
+- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)
+- [PaddleX](https://github.com/PaddlePaddle/PaddleX)
+- [PytorchOCR](https://github.com/WenmuZhou/PytorchOCR)
+- [PaddlePaddle](https://github.com/PaddlePaddle)
+- [PyTorch](https://pytorch.org/)
 - [https://github.com/frotms/image_classification_pytorch](https://github.com/frotms/image_classification_pytorch)
-- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md)
+- [PaddleOCR Model List](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/doc/doc_en/models_list_en.md)
