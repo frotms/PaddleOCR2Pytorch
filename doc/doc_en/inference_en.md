@@ -136,30 +136,59 @@ python ./converter/ch_ppocr_v4_rec_converter.py --yaml_path ./configs/rec/PP-OCR
 
 ### DOCUMENT STRUCTURE ANALYSIS (PP-StructureV3)
 
-PP-StructureV3 is a document structure analysis pipeline consisting of layout detection, OCR, and table recognition models.
+PP-StructureV3 is a document structure analysis pipeline with 8 models: layout detection, OCR, table recognition, formula recognition, seal detection, and 3 doc preprocessing models.
 
-**1. Layout Detection Model Conversion**
+**1. Layout Detection**
 
 ```bash
-# PP-DocLayout-S (lightweight, 1.2M params)
-python converter/ppstructure_layout_converter.py \
-    --src_model_path=PP-DocLayout-S_pretrained.pdparams \
-    --dst_model_path=ptocr_ppdoclayout_s.pth \
-    --variant=S
-
-# PP-DocLayout-M (recommended, 5.8M params)
 python converter/ppstructure_layout_converter.py \
     --src_model_path=PP-DocLayout-M_pretrained.pdparams \
-    --dst_model_path=ptocr_ppdoclayout_m.pth \
-    --variant=M
+    --dst_model_path=ptocr_ppdoclayout_m.pth --variant=M
 ```
 
-**2. Table Structure Recognition Model Conversion**
+**2. Table Structure Recognition**
 
 ```bash
 python converter/ppstructure_slanext_converter.py \
     --src_model_path=SLANeXt_wired_pretrained.pdparams \
     --dst_model_path=ptocr_slanext_wired.pth
+```
+
+**3. Formula Recognition**
+
+```bash
+python converter/ppstructure_formula_converter.py \
+    --src_model_path=PP-FormulaNet_plus-M_pretrained.pdparams \
+    --dst_model_path=ptocr_formulanet_m.pth --variant=M
+```
+
+**4. Seal Detection**
+
+```bash
+python converter/ppstructure_seal_converter.py \
+    --src_model_path=PP-OCRv4_mobile_seal_det_pretrained.pdparams \
+    --dst_model_path=ptocr_seal_det.pth
+```
+
+**5. Doc Preprocessing**
+
+```bash
+# Doc Orientation
+python converter/pplcnet_cls_converter.py \
+    --yaml_path=configs/cls/doc_ori/PP-LCNet_x1_0_doc_ori.yml \
+    --src_model_path=PP-LCNet_x1_0_doc_ori_pretrained.pdparams \
+    --output_path=ptocr_doc_ori.pth
+
+# Text Line Orientation
+python converter/pplcnet_cls_converter.py \
+    --yaml_path=configs/cls/textline_ori/PP-LCNet_x1_0_textline_ori.yml \
+    --src_model_path=PP-LCNet_x1_0_textline_ori_pretrained.pdparams \
+    --output_path=ptocr_textline_ori.pth
+
+# Document Unwarping
+python converter/uvdoc_converter.py \
+    --src_model_path=UVDoc_pretrained.pdparams \
+    --output_path=ptocr_uvdoc.pth
 ```
 
 <a name="E2E_MODELS"></a>
@@ -477,27 +506,65 @@ cv2.imwrite('output.jpg', cv2.cvtColor(unwarped[0].permute(1,2,0).numpy().clip(0
 
 Full document structure analysis pipeline: input a document image, output structured Markdown/JSON.
 
+**Full Pipeline (all modules)**
+
 ```bash
 python ptstructure/predict_structure.py \
-    --image_dir=./doc/table/ \
+    --image_dir=./doc/imgs/ \
     --output_dir=./output/ \
     --layout_variant=M \
-    --layout_score_thresh=0.2 \
-    --layout_nms_thresh=0.5 \
-    --det_model_path=./models/v6/ptocr_v6_det_PP-OCRv6_small_det_pretrained.pth \
-    --det_yaml_path=configs/det/PP-OCRv6/PP-OCRv6_small_det.yml \
-    --rec_model_path=./models/v6/ptocr_v6_rec_PP-OCRv6_small_rec_pretrained.pth \
-    --rec_yaml_path=configs/rec/PP-OCRv6/PP-OCRv6_small_rec.yml \
-    --rec_char_dict_path=pytorchocr/utils/dict/ppocrv6_dict.txt \
-    --table_model_path=./models/structurev3/ptocr_slanext_wired.pth
+    --use_doc_orientation --use_doc_unwarping \
+    --use_angle_cls \
+    --use_formula --formula_variant=M \
+    --use_seal
 ```
 
-**Pipeline**: Input Image → Layout Detection (PPDocLayout) → Text OCR (PP-OCRv6) → Table Recognition (SLANeXt) → Reading Order → Markdown/JSON
+**Basic Pipeline (layout + OCR + table)**
 
-**Key Parameters**:
-- `--layout_variant`: Layout model variant S(1.2M) / M(5.8M)
-- `--layout_score_thresh`: Layout detection confidence threshold (default 0.2)
-- `--layout_nms_thresh`: NMS IoU threshold (default 0.5)
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./doc/imgs/ \
+    --output_dir=./output/ \
+    --layout_variant=M
+```
+
+**Layout Detection Only**
+
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./doc/imgs/ --output_dir=./output/ \
+    --layout_variant=M \
+    --det_model_path=none --rec_model_path=none --table_model_path=none
+```
+
+**Pipeline**: Input → [doc_ori] → [UVDoc] → Layout + Global OCR → [Table/Formula/Seal] → Reading Order → Markdown/JSON
+
+**Python API**
+
+```python
+# Formula Recognition
+from ptstructure.formula.ppformulanet import FormulaRecognizer
+rec = FormulaRecognizer(variant='M')
+rec.load_weights('models/structurev3/ptocr_formulanet_m.pth')
+latex = rec.recognize(cv2.imread('formula.png'))
+
+# Seal Detection
+from ptstructure.seal.seal_det import SealDetector
+det = SealDetector()
+det.load_weights('models/structurev3/ptocr_seal_det.pth')
+boxes, scores = det.detect(cv2.imread('seal.png'))
+
+# Doc Preprocessing
+from ptstructure.doc_preprocess import DocOrientationClassifier, UVDocUnwarper
+ori = DocOrientationClassifier()
+ori.load_weights('models/structurev3/ptocr_doc_ori.pth')
+ori.correct_orientation(img)
+uw = UVDocUnwarper()
+uw.load_weights('models/structurev3/ptocr_uvdoc.pth')
+uw.unwarp(img)
+```
+
+See [PP-StructureV3 Porting Guide](../../skills/ppstructurev3_porting_guide.md)
 
 <a name="CONCATENATION"></a>
 

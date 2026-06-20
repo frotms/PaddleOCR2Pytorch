@@ -70,14 +70,27 @@ PaddleOCR model download link: https://pan.baidu.com/s/1getAprT2l_JqwhjwML0g9g p
 | --- | --- | --- | --- |
 | SLANeXt_wired | ViT Encoder + GRU Attention Decoder, HTML output | ~90M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/SLANeXt_wired_pretrained.pdparams) / [Converter](../../converter/ppstructure_slanext_converter.py) |
 
-### 5.3 Pipeline Usage
+### 5.3 Formula Recognition Models
+
+| Model | Description | Params | Download |
+| --- | --- | --- | --- |
+| PP-FormulaNet_plus-M | **[Recommended]** PPHGNetV2_B6 + MBart Decoder (6 layers), LaTeX output | ~250M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-FormulaNet_plus-M_pretrained.pdparams) / [Converter](../../converter/ppstructure_formula_converter.py) |
+| PP-FormulaNet-S | Lightweight, PPHGNetV2_B4 + MBart Decoder (2 layers), LaTeX output | ~100M | [Training](https://paddleocr.bj.bcebos.com/pretrained/PP-FormulaNet-S_pretrained.pdparams) / [Converter](../../converter/ppstructure_formula_converter.py) |
+
+### 5.4 Seal Text Detection Models
+
+| Model | Description | Params | Download |
+| --- | --- | --- | --- |
+| PP-OCRv4_mobile_seal_det | Seal text detection, PPLCNetV3+RSEFPN+DBHead | ~1.5M | [Training](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv4_mobile_seal_det_pretrained.pdparams) / [Converter](../../converter/ppstructure_seal_converter.py) |
+
+### 5.5 Pipeline Usage
 
 ```bash
 python ptstructure/predict_structure.py \
     --image_dir=./doc/table/ \
     --output_dir=./output/ \
     --layout_variant=M \
-    --layout_score_thresh=0.2
+    --use_formula --use_seal
 ```
 
 See [PP-StructureV3 Porting Guide](../../skills/ppstructurev3_porting_guide.md) for details.

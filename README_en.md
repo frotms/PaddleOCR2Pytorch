@@ -17,14 +17,16 @@ This repository aims to
 
 **Recent updates**
 
-- 2025.06.18 **[PP-StructureV3](./ptstructure/)** Document Structure Analysis System:
-  1. 📄 **Layout Detection**: 23 document layout categories (title, text, table, figure, formula, seal, etc.)
-  2. 📊 **Table Recognition**: SLANeXt-based architecture for wired/wireless table structure recognition
-  3. 📝 **Multi-format Output**: Structured output in Markdown, JSON, HTML
-  4. 🔄 **Reading Order Recovery**: XY-Cut algorithm for automatic block ordering
-  5. 🎨 **Visualization**: Layout detection and final result visualization
+- 2025.06.20 **[PP-StructureV3](./ptstructure/)** Document Structure Analysis System (full pipeline complete):
+  1. 📄 **Layout Detection**: 23 categories (title, text, table, figure, formula, seal, etc.), S/M/L variants
+  2. 📊 **Table Recognition**: SLANeXt ViT+GRU architecture, wired/wireless HTML output
+  3. 📝 **Formula Recognition**: PP-FormulaNet (PPHGNetV2+MBart), S/M variants, LaTeX output
+  4. 🔖 **Seal Detection**: DB seal detector + OCR, with global OCR fallback
+  5. 🔧 **Doc Preprocessing**: doc_ori orientation + UVDoc unwarping + textline_ori textline correction
+  6. ⚡ **Global OCR**: Single-pass full-image detection+recognition, aligned with PaddleX
+  7. 📋 **Output**: Markdown / JSON / visualization
 
-- 2025.06.17 **DocPreprocessor Models**: [UVDoc](./configs/unwarp/) unwarping, [PP-LCNet_x1_0_doc_ori](./configs/cls/doc_ori/) orientation classification, [PP-LCNet_textline_ori](./configs/cls/textline_ori/) textline orientation
+See [PP-StructureV3 Porting Guide](./skills/ppstructurev3_porting_guide.md) for details
 
 - 2025.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**: Next-Gen Ultra-High Accuracy OCR
   1. 📐 **Three-tier model lineup**: Tiny(1.5M) / Small(7.8M) / Medium(35M), covering edge to server

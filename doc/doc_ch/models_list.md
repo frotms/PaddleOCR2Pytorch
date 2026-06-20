@@ -200,16 +200,29 @@ PaddleOCR提供的可下载模型包括`推理模型`、`训练模型`、`预训
 | --- | --- | --- | --- |
 |SLANeXt_wired|有线表格结构识别，ViT Encoder + GRU Attention Decoder，输出HTML|~90M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/SLANeXt_wired_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_slanext_converter.py)|
 
-### 3. 管道使用
+### 3. 公式识别模型
 
-完整的文档结构化解析管道（布局检测→OCR→表格识别→阅读顺序恢复→输出）
+|模型名称|模型简介|参数量|下载地址|
+| --- | --- | --- | --- |
+|PP-FormulaNet_plus-M|【推荐】公式识别，PPHGNetV2_B6 + MBart Decoder(6层)，LaTeX输出|~250M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-FormulaNet_plus-M_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_formula_converter.py)|
+|PP-FormulaNet-S|轻量公式识别，PPHGNetV2_B4 + MBart Decoder(2层)，LaTeX输出|~100M|[训练模型](https://paddleocr.bj.bcebos.com/pretrained/PP-FormulaNet-S_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_formula_converter.py)|
+
+### 4. 印章文本检测模型
+
+|模型名称|模型简介|参数量|下载地址|
+| --- | --- | --- | --- |
+|PP-OCRv4_mobile_seal_det|印章文本检测，PPLCNetV3+RSEFPN+DBHead|~1.5M|[训练模型](https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-OCRv4_mobile_seal_det_pretrained.pdparams) / [转换脚本](../../converter/ppstructure_seal_converter.py)|
+
+### 5. 管道使用
+
+完整的文档结构化解析管道（预处理→布局→全局OCR→表格/公式/印章→输出）
 
 ```bash
 python ptstructure/predict_structure.py \
     --image_dir=./doc/table/ \
     --output_dir=./output/ \
     --layout_variant=M \
-    --layout_score_thresh=0.2
+    --use_formula --use_seal
 ```
 
 详见 [PP-StructureV3 移植指南](../../skills/ppstructurev3_porting_guide.md)

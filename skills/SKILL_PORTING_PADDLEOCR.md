@@ -86,30 +86,29 @@ python converter/<converter_script>.py \
 
 移植完成后，必须更新以下文档：
 
-#### 6.1 `doc/doc_ch/inference.md`
-在三个位置添加新模型的命令示例：
-- **第一节 "PaddleOCR训练模型转PyTorch模型"**：添加模型转换命令（`converter/xxx.py --yaml_path ... --src_model_path ...`）
-- **第二节 "文本检测模型推理"**：添加检测推理命令
-- **第二节 "文本识别模型推理"**：添加识别推理命令
-- **第二节 "文本检测、方向分类和文字识别串联推理"**：添加端到端推理命令
+#### 6.1 文档更新清单
 
-#### 6.2 `doc/doc_en/inference_en.md`
-同步更新英文版，内容与中文版一致。
+| 文件 | 更新内容 |
+|------|---------|
+| `doc/doc_ch/models_list.md` | 添加新模型条目（含训练模型下载链接、转换脚本） |
+| `doc/doc_en/models_list_en.md` | 英文版同步 |
+| `inference.md` | 添加模型转换命令 + 推理命令 + Python API |
+| `inference_en.md` | 英文版同步 |
+| `README.md` | "近期更新" 顶部添加新模型条目 |
+| `README_en.md` | 英文版同步 |
+| `skills/<模型名>_porting_guide.md` | 独立移植指南（重大版本推荐） |
 
-#### 6.3 `README.md`
-- 在 **"近期更新"** 顶部添加新模型条目，注明关键指标（参数量、精度、速度）
-- 在 **"TODO"** 列表中将新模型标记为 `[x]` 已完成
+#### 6.2 ptstructure 模块（PP-StructureV3）
 
-#### 6.4 `README_en.md`
-同步更新英文版 README。
+如果移植的是 PP-StructureV3 相关模型，更新以下文件：
 
-#### 6.5 `docs/<模型名>_porting_guide.md`（可选，重大版本推荐）
-如果有新增组件或特殊处理流程，编写独立的移植指南，包含：
-- 模型简介和架构表
-- 新增组件说明
-- 模型转换步骤
-- 推理使用方法
-- 测试结果
+| 文件 | 更新内容 |
+|------|---------|
+| `ptstructure/predict_structure.py` | 添加 CLI 参数和模型加载逻辑 |
+| `ptstructure/<模块名>/` | 模型代码（自包含，参考 formula/、seal/、doc_preprocess/） |
+| `ptstructure/README.md` | 更新功能列表 |
+| `converter/ppstructure_<模型名>_converter.py` | 权重转换脚本 |
+| `skills/ppstructurev3_porting_guide.md` | 更新移植指南
 
 ---
 

@@ -61,6 +61,16 @@ class DBPostProcess(object):
         scores = []
         for index in range(num_contours):
             contour = contours[index]
+            # Sanitize contour format (OpenCV 4.x may return degenerate contours)
+            if contour is None or len(contour) < 3:
+                continue
+            if contour.ndim == 2 and contour.shape[1] == 4:
+                # Reshape from (n,4) to (n,1,2) format
+                contour = contour[:, :2].reshape(-1, 1, 2)
+            if contour.ndim == 3:
+                contour = contour.reshape(-1, 2)
+            if len(contour) < 3:
+                continue
             points, sside = self.get_mini_boxes(contour)
             if sside < self.min_size:
                 continue
@@ -96,8 +106,19 @@ class DBPostProcess(object):
         return expanded
 
     def get_mini_boxes(self, contour):
-        bounding_box = cv2.minAreaRect(contour)
-        points = sorted(list(cv2.boxPoints(bounding_box)), key=lambda x: x[0])
+        # Handle degenerate contours (OpenCV 4.x minAreaRect requires >=5 points
+        # and may fail on collinear/duplicate points)
+        try:
+            if len(contour) < 5:
+                raise ValueError('too few points')
+            bounding_box = cv2.minAreaRect(contour)
+            points = sorted(list(cv2.boxPoints(bounding_box)), key=lambda x: x[0])
+        except Exception:
+            x, y, w, h = cv2.boundingRect(contour)
+            if w <= 0 or h <= 0:
+                return np.array([[x, y], [x+1, y], [x+1, y+1], [x, y+1]], dtype=np.float32), 0.0
+            points = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
+            return np.array(points, dtype=np.float32), min(w, h)
 
         index_1, index_2, index_3, index_4 = 0, 1, 2, 3
         if points[1][1] > points[0][1]:

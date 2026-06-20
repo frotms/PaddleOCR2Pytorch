@@ -17,14 +17,16 @@
 
 **近期更新**
 
-- 2025.06.18 **[PP-StructureV3](./ptstructure/)** 文档结构化解析系统移植：
-  1. 📄 **布局检测**：支持 23 类文档区域（标题、正文、表格、图片、公式、印章等）
-  2. 📊 **表格结构识别**：基于 SLANeXt 架构，支持有线/无线表格 HTML 输出
-  3. 📝 **多格式输出**：Markdown、JSON、HTML 格式结构化输出
-  4. 🔄 **阅读顺序恢复**：XY-Cut 算法自动排序文档块
-  5. 🎨 **结果可视化**：支持布局检测和最终结果的可视化绘制
+- 2025.06.20 **[PP-StructureV3](./ptstructure/)** 文档结构化解析系统移植（全功能完成）：
+  1. 📄 **布局检测**：23类文档区域（标题、正文、表格、图片、公式、印章等），S/M/L 三档
+  2. 📊 **表格结构识别**：SLANeXt ViT+GRU 架构，有线/无线表格 HTML 输出
+  3. 📝 **公式识别**：PP-FormulaNet (PPHGNetV2+MBart)，S/M 双模型，LaTeX 输出
+  4. 🔖 **印章检测**：DB 印章文本检测 + OCR，fallback 全局 OCR
+  5. 🔧 **文档预处理**：doc_ori 方向分类 + UVDoc 去扭曲 + textline_ori 文本行方向
+  6. ⚡ **全局OCR**：全图一次检测+识别，对齐 PaddleX 架构
+  7. 📋 **多格式输出**：Markdown / JSON / 可视化
 
-- 2025.06.17 **文档预处理模型移植**：新增 [UVDoc](./configs/unwarp/) 文档矫正模型、[PP-LCNet_x1_0_doc_ori](./configs/cls/doc_ori/) 文档方向分类模型、[PP-LCNet_textline_ori](./configs/cls/textline_ori/) 文本行方向分类模型
+详见 [PP-StructureV3 移植指南](./skills/ppstructurev3_porting_guide.md)
 
 - 2025.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**：新一代超高精度 OCR
   1. 📐 **三档模型规格**：Tiny(1.5M) / Small(7.8M) / Medium(35M)，覆盖端侧到服务端全算力平台

@@ -16,10 +16,18 @@
 PP-StructureV3: Document Structure Analysis Pipeline
 
 A PyTorch implementation of PaddleOCR's PP-StructureV3 system for
-document layout parsing, table recognition, and structured output generation.
+document layout parsing, table recognition, formula recognition,
+seal detection, and structured output generation.
 
 Pipeline:
-    Input Image → Layout Detection → [OCR + Table Recognition] → Markdown/JSON/HTML
+    Input Image → Layout Detection → [OCR + Table + Formula + Seal] → Markdown/JSON
+
+Features:
+    - Layout detection: PPDocLayout (PicoDet), 23 classes
+    - OCR: PP-OCRv6 (DB + SVTR)
+    - Table structure: SLANeXt (ViT + GRU)
+    - Formula recognition: PP-FormulaNet (PPHGNetV2 + MBart)
+    - Seal detection: DB-based seal text detector
 
 Usage:
     python ptstructure/predict_structure.py --image_dir=./data/ --output_dir=./output/

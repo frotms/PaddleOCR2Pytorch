@@ -4,13 +4,16 @@ PaddleOCR PP-StructureV3 文档结构化解析系统的 PyTorch 实现。
 
 ## 概述
 
-PP-StructureV3 是 PaddleOCR 的文档结构化解析系统，支持以下功能：
+PP-StructureV3 是 PaddleOCR 的文档结构化解析系统，纯 PyTorch 实现，零 Paddle 依赖。支持以下功能：
 
-- **布局检测 (Layout Detection)**: 检测文档中的标题、段落、表格、图片、公式、印章等 23 类区域
-- **OCR 文字识别**: 对文本区域进行文字检测和识别
-- **表格结构识别 (Table Recognition)**: 识别有线/无线表格结构，输出 HTML
-- **阅读顺序恢复**: 使用 XY-Cut 算法恢复文档的阅读顺序
-- **多格式输出**: 支持 Markdown、JSON、HTML 格式输出
+- **文档预处理**: 文档方向分类 (doc_ori) + 文档去扭曲 (UVDoc) + 文本行方向分类 (textline_ori)
+- **布局检测**: 检测文档中的标题、段落、表格、图片、公式、印章等 23 类区域
+- **全局 OCR**: 全图一次文字检测+识别（对齐 PaddleX 架构），按布局区域 bbox 交集筛选
+- **表格结构识别**: SLANeXt ViT+GRU 架构，输出 HTML
+- **公式识别**: PP-FormulaNet (PPHGNetV2+MBart)，输出 LaTeX（S/M 双模型）
+- **印章检测**: DB 印章文本检测 + OCR，fallback 全局 OCR
+- **阅读顺序恢复**: XY-Cut 算法
+- **多格式输出**: Markdown、JSON、可视化
 
 ## 架构
 
@@ -19,6 +22,8 @@ PP-StructureV3 是 PaddleOCR 的文档结构化解析系统，支持以下功能
   ├── 布局检测 (PP-DocLayout / PicoDet)
   ├── OCR 文字识别 (PP-OCRv5/v6)
   ├── 表格结构识别 (SLANeXt)
+  ├── 公式识别 (PP-FormulaNet)
+  ├── 印章检测 (SealDetector + OCR)
   ├── 阅读顺序恢复 (XY-Cut)
   └── 输出: Markdown / JSON / HTML / 可视化
 ```
@@ -28,7 +33,6 @@ PP-StructureV3 是 PaddleOCR 的文档结构化解析系统，支持以下功能
 ```
 ptstructure/
 ├── __init__.py              # 模块入口
-├── pipeline.py              # PPStructureV3 主管道
 ├── predict_structure.py     # CLI 推理脚本
 ├── README.md                # 本文件
 ├── layout/                  # 布局检测模块
@@ -39,6 +43,12 @@ ptstructure/
 │   ├── __init__.py
 │   ├── slanext.py           # SLANeXt 表格结构识别模型
 │   └── table_utils.py       # HTML 生成工具
+├── formula/                 # 公式识别模块（新增）
+│   ├── __init__.py
+│   └── ppformulanet.py      # PP-FormulaNet 公式识别模型
+├── seal/                    # 印章识别模块（新增）
+│   ├── __init__.py
+│   └── seal_det.py          # 印章文本检测
 ├── utils/                   # 工具模块
 │   ├── __init__.py
 │   ├── reading_order.py     # 阅读顺序恢复 (XY-Cut)
@@ -51,9 +61,12 @@ ptstructure/
 
 | 模型 | 架构 | 参数量 | 功能 |
 |------|------|--------|------|
-| PP-DocLayout-S | PicoDet-LCNet | ~0.6M | 布局检测 (23类) |
+| PP-DocLayout-S | PicoDet-LCNet | ~1.2M | 布局检测 (23类) |
+| PP-DocLayout-M | PicoDet-LCNet | ~5.8M | 布局检测 (23类) |
 | SLANeXt_wired | ViT + GRU Decoder | ~90M | 有线表格结构识别 |
-| SLANeXt_wireless | ViT + GRU Decoder | ~90M | 无线表格结构识别 |
+| PP-FormulaNet-S | PPHGNetV2 + MBart Decoder | ~100M | 公式识别 (LaTeX) |
+| PP-FormulaNet_plus-M | PPHGNetV2 + MBart Decoder | ~250M | 公式识别 (LaTeX) |
+| PP-OCRv4_mobile_seal_det | DB (PPLCNetV3) | ~1.5M | 印章文本检测 |
 
 ## 快速开始
 
@@ -125,6 +138,36 @@ vis = draw_layout_boxes(img, layout_boxes)
 cv2.imwrite('layout_result.jpg', vis)
 ```
 
+### 5. 启用公式识别
+
+```python
+from ptstructure.formula.ppformulanet import FormulaRecognizer
+
+recognizer = FormulaRecognizer(variant='M')
+recognizer.load_weights('models/structurev3/ptocr_formulanet_m.pth')
+latex = recognizer.recognize(formula_crop)  # → '\\frac{a}{b}'
+```
+
+### 6. 启用印章识别
+
+```python
+from ptstructure.seal.seal_det import SealDetector
+
+detector = SealDetector()
+detector.load_weights('models/structurev3/ptocr_seal_det.pth')
+boxes, scores = detector.detect(seal_crop)  # → 印章文本区域
+```
+
+### 7. 全功能命令行
+
+```bash
+python ptstructure/predict_structure.py \
+    --image_dir=./data/ \
+    --output_dir=./output/ \
+    --layout_variant=M \
+    --use_formula --use_seal
+```
+
 ## 模型转换
 
 从 PaddlePaddle 权重转换为 PyTorch：
@@ -133,18 +176,32 @@ cv2.imwrite('layout_result.jpg', vis)
 
 ```bash
 python converter/ppstructure_layout_converter.py \
-    --yaml_path=configs/layout/PP-DocLayout-S.yml \
-    --src_model_path=./models/PP-DocLayout-S_pretrained.pdparams \
-    --dst_model_path=./models/ptocr_ppdoclayout_s.pth
+    --src_model_path=./models/PP-DocLayout-M_pretrained.pdparams \
+    --dst_model_path=./models/ptocr_ppdoclayout_m.pth --variant=M
 ```
 
 ### 表格结构识别模型
 
 ```bash
 python converter/ppstructure_slanext_converter.py \
-    --yaml_path=configs/tablev3/SLANeXt_wired.yml \
     --src_model_path=./models/SLANeXt_wired_pretrained.pdparams \
     --dst_model_path=./models/ptocr_slanext_wired.pth
+```
+
+### 公式识别模型
+
+```bash
+python converter/ppstructure_formula_converter.py \
+    --src_model_path=PP-FormulaNet_plus-M_pretrained.pdparams \
+    --dst_model_path=ptocr_formulanet_m.pth --variant=M
+```
+
+### 印章检测模型
+
+```bash
+python converter/ppstructure_seal_converter.py \
+    --src_model_path=PP-OCRv4_mobile_seal_det_pretrained.pdparams \
+    --dst_model_path=ptocr_seal_det.pth
 ```
 
 ## 输出格式
