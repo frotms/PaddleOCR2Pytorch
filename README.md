@@ -17,8 +17,8 @@
 
 **近期更新**
 
-- 2025.06.20 **[PP-StructureV3](./ptstructure/)** 文档结构化解析系统移植（全功能完成）：
-  1. 📄 **布局检测**：23类文档区域（标题、正文、表格、图片、公式、印章等），S/M/L 三档
+- 2026.06.20 **[PP-StructureV3](./ptstructure/)** 文档结构化解析系统移植（全功能完成）：
+  1. 📄 **布局检测**：23类文档区域（标题、正文、表格、图片、公式、印章等）
   2. 📊 **表格结构识别**：SLANeXt ViT+GRU 架构，有线/无线表格 HTML 输出
   3. 📝 **公式识别**：PP-FormulaNet (PPHGNetV2+MBart)，S/M 双模型，LaTeX 输出
   4. 🔖 **印章检测**：DB 印章文本检测 + OCR，fallback 全局 OCR
@@ -28,7 +28,7 @@
 
 详见 [PP-StructureV3 移植指南](./skills/ppstructurev3_porting_guide.md)
 
-- 2025.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**：新一代超高精度 OCR
+- 2026.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**：新一代超高精度 OCR
   1. 📐 **三档模型规格**：Tiny(1.5M) / Small(7.8M) / Medium(35M)，覆盖端侧到服务端全算力平台
   2. 🏗️ **全新架构**：PPLCNetV4 骨干 + RepLKFPN/RepLKPAN 检测颈 + EncoderWithLightSVTR 识别颈
   3. 🌍 **50种语言**统一支持（medium/small），Tiny支持49种语言
