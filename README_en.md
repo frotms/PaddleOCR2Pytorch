@@ -17,8 +17,8 @@ This repository aims to
 
 **Recent updates**
 
-- 2025.06.20 **[PP-StructureV3](./ptstructure/)** Document Structure Analysis System (full pipeline complete):
-  1. 📄 **Layout Detection**: 23 categories (title, text, table, figure, formula, seal, etc.), S/M/L variants
+- 2026.06.20 **[PP-StructureV3](./ptstructure/)** Document Structure Analysis System (full pipeline complete):
+  1. 📄 **Layout Detection**: 23 categories (title, text, table, figure, formula, seal, etc.)
   2. 📊 **Table Recognition**: SLANeXt ViT+GRU architecture, wired/wireless HTML output
   3. 📝 **Formula Recognition**: PP-FormulaNet (PPHGNetV2+MBart), S/M variants, LaTeX output
   4. 🔖 **Seal Detection**: DB seal detector + OCR, with global OCR fallback
@@ -28,7 +28,7 @@ This repository aims to
 
 See [PP-StructureV3 Porting Guide](./skills/ppstructurev3_porting_guide.md) for details
 
-- 2025.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**: Next-Gen Ultra-High Accuracy OCR
+- 2026.06.17 **[PP-OCRv6](https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.md)**: Next-Gen Ultra-High Accuracy OCR
   1. 📐 **Three-tier model lineup**: Tiny(1.5M) / Small(7.8M) / Medium(35M), covering edge to server
   2. 🏗️ **All-new architecture**: PPLCNetV4 backbone + RepLKFPN/RepLKPAN detection neck + EncoderWithLightSVTR recognition neck
   3. 🌍 Unified support for **50 languages** (medium/small), 49 languages (tiny)
