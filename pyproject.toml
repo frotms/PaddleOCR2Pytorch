@@ -1,0 +1,195 @@
+[tool.poetry]
+name = "paddleocr2pytorch"
+version = "0.1.0"
+description = "PaddleOCR to PyTorch conversion and implementation"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+license = "Apache-2.0"
+homepage = "https://github.com/frotms/PaddleOCR2Pytorch"
+repository = "https://github.com/frotms/PaddleOCR2Pytorch"
+documentation = "https://github.com/frotms/PaddleOCR2Pytorch"
+keywords = ["ocr", "pytorch", "paddleocr", "text-detection", "text-recognition"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+packages = [
+    { include = "pytorchocr" },
+    { include = "ptstructure" },
+    { include = "converter" },
+    { include = "misc" },
+    { include = "tools" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+torch = ">=1.12.0"
+torchvision = ">=0.13.0"
+numpy = "^1.21.0"
+opencv-python = "^4.5.0"
+pillow = "^9.0.0"
+pyyaml = "^6.0"
+tqdm = "^4.64.0"
+scipy = "^1.9.0"
+shapely = "^2.0.0"
+scikit-image = "^0.19.0"
+pyclipper = "^1.3.0"
+lmdb = "^1.3.0"
+rapidfuzz = "^3.0.0"
+openpyxl = "^3.0.0"
+attrdict = "^2.0.0"
+Polygon3 = "^3.0.0"
+lanms-neo = "^1.0.0"
+visualdl = "^2.5.0"
+flask = "^2.2.0"
+flask-cors = "^3.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.11.0"
+pytest-xdist = "^3.3.0"
+pytest-timeout = "^2.1.0"
+black = "^23.3.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+mypy = "^1.4.0"
+pre-commit = "^3.3.0"
+
+[tool.poetry.scripts]
+test = "pytest:main"
+tests = "pytest:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=pytorchocr",
+    "--cov=ptstructure",
+    "--cov=converter",
+    "--cov=misc",
+    "--cov=tools",
+    "--cov-branch",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+    "--cov-fail-under=80",
+    "-vv",
+    "--tb=short",
+    "--maxfail=1",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+branch = true
+source = ["pytorchocr", "ptstructure", "converter", "misc", "tools"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+    "*/dist-packages/*",
+    "*/.venv/*",
+    "*/venv/*",
+    "*/.tox/*",
+    "*/.coverage/*",
+    "*/htmlcov/*",
+    "*/.pytest_cache/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    "except ImportError:",
+    "except KeyError:",
+    "except AttributeError:",
+    "pass",
+]
+precision = 2
+show_missing = true
+skip_covered = false
+fail_under = 80
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.isort]
+profile = "black"
+line_length = 120
+skip_gitignore = true
+force_single_line = false
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.black]
+line-length = 120
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | htmlcov
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+exclude = [
+    "tests/",
+    "build/",
+    "dist/",
+    ".venv/",
+    "venv/",
+]
